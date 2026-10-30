@@ -20,7 +20,7 @@
 
   /* 5 · un club de jeux : le prix de n séances et le budget */
   W.c5 = el => {
-    el.innerHTML = box('Combien de séances pour mon budget ?', 'Un club (fictif) demande une inscription puis un prix par séance : P = a × n + b. Change les curseurs : les barres donnent le prix de 1 à 10 séances, la ligne rouge est ton budget.',
+    el.innerHTML = box('Combien de séances pour mon budget ?', 'Un club demande une inscription puis un prix par séance : P = a × n + b. Change les curseurs : les barres donnent le prix de 1 à 10 séances, la ligne rouge est ton budget.',
       `<div class="wg-grid">${slider('c5-a', 'Prix par séance', 1, 5, .5, 2.5, '€')}${slider('c5-b', 'Inscription', 0, 15, 1, 5, '€')}${slider('c5-c', 'Budget', 10, 80, 1, 40, '€')}</div><div class="wg-svg" id="c5-g"></div><div class="wg-kpis" id="c5-k"></div><p class="wg-v" id="c5-v"></p>${defi('c5-d', 'Avec un prix de <b>2,50 €</b> par séance et <b>5 €</b> d’inscription, règle le budget pour payer <b>exactement 10 séances</b>.')}`);
     const up = () => {
       out(el, ['c5-a', 'c5-b', 'c5-c']);
@@ -35,7 +35,7 @@
 
   /* 6 · le saut d’un personnage : image, antécédent, maximum */
   W.c6 = el => {
-    el.innerHTML = box('Le saut d’un personnage de jeu vidéo (fictif)', 'La hauteur est h = 4 × t − 2 × t × t. Déplace le curseur du temps : le point suit la courbe, et les lignes de lecture donnent l’image. Active ensuite la hauteur à retrouver pour lire un antécédent.',
+    el.innerHTML = box('Le saut d’un personnage de jeu vidéo', 'La hauteur est h = 4 × t − 2 × t × t. Déplace le curseur du temps : le point suit la courbe, et les lignes de lecture donnent l’image. Active ensuite la hauteur à retrouver pour lire un antécédent.',
       `<div class="wg-grid">${slider('c6-t', 'Temps t', 0, 2, .05, 0.5, 's')}${slider('c6-h', 'Hauteur à retrouver', 0, 2, .05, 1.5, 'm')}</div><div class="wg-svg" id="c6-g"></div><div class="wg-kpis" id="c6-k"></div><p class="wg-v" id="c6-v"></p>${defi('c6-d', 'Place le curseur du temps sur l’instant où la hauteur est <b>maximale</b> (2 m).')}`);
     const G = window.MCVP, f = t => 4 * t - 2 * t * t;
     const up = () => {
@@ -57,7 +57,7 @@
 
   /* 7 · deux formules de séances : où les droites se croisent-elles ? */
   W.c7 = el => {
-    el.innerHTML = box('Deux formules de séances de cinéma (fictives)', 'La formule A coûte A(x) = p × x. La formule B coûte B(x) = q × x + r. Change les prix : les droites se déplacent, et le croisement indique quand les deux formules coûtent pareil.',
+    el.innerHTML = box('Deux formules de séances de cinéma', 'La formule A coûte A(x) = p × x. La formule B coûte B(x) = q × x + r. Change les prix : les droites se déplacent, et le croisement indique quand les deux formules coûtent pareil.',
       `<div class="wg-grid">${slider('c7-p', 'Formule A : prix par séance (p)', 5, 12, 1, 9, '€')}${slider('c7-q', 'Formule B : prix par séance (q)', 3, 9, 1, 7, '€')}${slider('c7-r', 'Formule B : prix de la carte (r)', 0, 30, 1, 12, '€')}${slider('c7-n', 'Nombre de séances x', 0, 10, 1, 4, '')}</div><div class="wg-svg" id="c7-g"></div><div class="wg-kpis" id="c7-k"></div><p class="wg-v" id="c7-v"></p>${defi('c7-d', 'Avec A à <b>9 €</b>, B à <b>7 €</b> et une carte à <b>12 €</b>, place le curseur sur le nombre de séances où les deux formules coûtent <b>pareil</b>.')}`);
     const G = window.MCVP;
     const up = () => {
@@ -80,7 +80,7 @@
 
   /* 8 · de la remise au prix TTC */
   W.c8 = el => {
-    el.innerHTML = box('De la remise au total TTC', 'Une facture (fictive) : prix brut HT, remise, net commercial HT, TVA, total TTC. Change les trois curseurs : les lignes de la facture et les barres se recalculent. Taux de TVA usuels : 5,5 %, 10 % et 20 %.',
+    el.innerHTML = box('De la remise au total TTC', 'Une facture : prix brut HT, remise, net commercial HT, TVA, total TTC. Change les trois curseurs : les lignes de la facture et les barres se recalculent. Taux de TVA usuels : 5,5 %, 10 % et 20 %.',
       `<div class="wg-grid">${slider('c8-a', 'Prix brut HT', 10, 200, 5, 80, '€')}${slider('c8-r', 'Remise', 0, 40, 5, 15, '%')}${slider('c8-t', 'Taux de TVA', 0, 20, .5, 20, '%')}</div><div class="wg-svg" id="c8-g"></div><div class="wg-kpis" id="c8-k"></div><p class="wg-v" id="c8-v"></p>${defi('c8-d', 'Avec un prix brut de <b>80 € HT</b> et <b>20 %</b> de TVA, règle la remise pour obtenir un total TTC de <b>76,80 €</b>.')}`);
     const up = () => {
       out(el, ['c8-a', 'c8-r', 'c8-t']);
@@ -94,7 +94,7 @@
   };
   /* 9 · le gobelet : rayon, hauteur, volume */
   W.c9 = el => {
-    el.innerHTML = box('La contenance d’un gobelet', 'Un gobelet (fictif) est un cylindre. Change le rayon et la hauteur : le dessin, la règle graduée et le volume se recalculent. 1 cm³ = 1 mL et 1 000 cm³ = 1 L.',
+    el.innerHTML = box('La contenance d’un gobelet', 'Un gobelet est un cylindre. Change le rayon et la hauteur : le dessin, la règle graduée et le volume se recalculent. 1 cm³ = 1 mL et 1 000 cm³ = 1 L.',
       `<div class="wg-grid">${slider('c9-r', 'Rayon r', 2, 6, .5, 4, 'cm')}${slider('c9-h', 'Hauteur h', 4, 20, 1, 12, 'cm')}</div><div class="wg-svg" id="c9-g"></div><div class="wg-kpis" id="c9-k"></div><p class="wg-v" id="c9-v"></p>${defi('c9-d', 'Règle le rayon et la hauteur pour obtenir un gobelet d’environ <b>500 mL</b> (entre 495 et 505 mL).')}`);
     const up = () => {
       out(el, ['c9-r', 'c9-h']);
@@ -106,6 +106,34 @@
       el.querySelector('#c9-k').innerHTML = kpi('Volume', fr(rnd(V, 1)) + ' cm³', 'hot') + kpi('Contenance', fr(rnd(V, 0)) + ' mL') + kpi('En litres', fr(rnd(V / 1000, 2)) + ' L');
       el.querySelector('#c9-v').innerHTML = `V = π × r² × h = π × ${fr(r)}² × ${fr(h)} = π × ${fr(rnd(r * r * h, 2))} ≈ <b>${fr(rnd(V, 1))} cm³</b>, soit environ <b>${fr(rnd(V, 0))} mL</b>. Le rayon est <b>au carré</b> : si tu doubles le rayon, le volume est multiplié par 4.`;
       setDefi(el, 'c9-d', V >= 495 && V <= 505);
+    };
+    el.addEventListener('input', up); up();
+  };
+    W.c10 = el => {
+    el.innerHTML = box('Le triangle est-il rectangle ?', 'Choisis trois longueurs a, b et c : le triangle se dessine avec ces trois côtés. Il est rectangle seulement si le carré du plus grand côté est égal à la somme des carrés des deux autres.',
+      `<div class="wg-grid">${slider('c10-a', 'Côté a', 3, 12, 1, 5, 'cm')}${slider('c10-b', 'Côté b', 3, 12, 1, 12, 'cm')}${slider('c10-c', 'Côté c', 3, 20, .5, 13, 'cm')}</div><div class="wg-svg" id="c10-g"></div><div class="wg-kpis" id="c10-k"></div><p class="wg-v" id="c10-v"></p>${defi('c10-d', 'Trouve un triangle rectangle dont les côtés <b>a</b> et <b>b</b> valent au moins <b>5 cm</b>.')}`);
+    const up = () => {
+      out(el, ['c10-a', 'c10-b', 'c10-c']);
+      const a = val(el, 'c10-a'), b = val(el, 'c10-b'), c = val(el, 'c10-c'), s = 9, X0 = 100, Y0 = 168;
+      const x = (a * a + b * b - c * c) / (2 * a), y2 = b * b - x * x, tri = y2 > 1e-9;
+      const L = [a, b, c].slice().sort((p, q) => q - p), g2 = L[0] * L[0], p2 = L[1] * L[1] + L[2] * L[2], ok = tri && Math.abs(g2 - p2) < 1e-9;
+      let svg = '';
+      if (tri) {
+        const P0 = [X0, Y0], P1 = [X0 + a * s, Y0], P2 = [X0 + x * s, Y0 - Math.sqrt(y2) * s], Ps = [P0, P1, P2];
+        const lab = (A, B, O, txt, col) => { const mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2, vx = B[0] - A[0], vy = B[1] - A[1], n = Math.hypot(vx, vy); let nx = -vy / n, ny = vx / n; if (nx * (O[0] - mx) + ny * (O[1] - my) > 0) { nx = -nx; ny = -ny; } const an = nx < -.35 ? 'end' : nx > .35 ? 'start' : 'middle'; return `<text x="${(mx + nx * 14).toFixed(1)}" y="${(my + ny * 14 + 4).toFixed(1)}" font-size="12.5" font-weight="800" text-anchor="${an}" fill="${col || '#1D2240'}" font-family="Inter">${txt}</text>`; };
+        svg = `<path d="M${P0}L${P1}L${P2}Z" class="k2 ks" stroke-width="2.2" stroke-linejoin="round"/>` + lab(P0, P1, P2, `a = ${fr(a)} cm`) + lab(P0, P2, P1, `b = ${fr(b)} cm`) + lab(P1, P2, P0, `c = ${fr(c)} cm`, '#C2332A');
+        if (ok) {
+          const iMax = [a, b, c].indexOf(L[0]), V = Ps[[2, 1, 0][iMax]];
+          const nb = Ps.filter(p => p !== V), u = nb.map(p => { const d = Math.hypot(p[0] - V[0], p[1] - V[1]); return [(p[0] - V[0]) / d * 10, (p[1] - V[1]) / d * 10]; });
+          svg += `<path d="M${(V[0] + u[0][0]).toFixed(1)} ${(V[1] + u[0][1]).toFixed(1)}L${(V[0] + u[0][0] + u[1][0]).toFixed(1)} ${(V[1] + u[0][1] + u[1][1]).toFixed(1)}L${(V[0] + u[1][0]).toFixed(1)} ${(V[1] + u[1][1]).toFixed(1)}" fill="none" stroke="#1D2240" stroke-width="2"/>`;
+        }
+      }
+      el.querySelector('#c10-g').innerHTML = `<svg viewBox="0 0 330 190" class="pic" role="img" aria-label="Un triangle de côtés ${fr(a)}, ${fr(b)} et ${fr(c)} centimètres">${svg}</svg>`;
+      el.querySelector('#c10-k').innerHTML = kpi('Grand côté au carré', fr(rnd(g2, 2)), ok ? 'hot' : '') + kpi('Somme des deux autres carrés', fr(rnd(p2, 2)), ok ? 'hot' : '') + kpi('Verdict', !tri ? 'pas un triangle' : ok ? 'rectangle' : 'pas rectangle');
+      el.querySelector('#c10-v').innerHTML = !tri ? 'Avec ces trois longueurs, on ne peut pas construire de triangle : le plus grand côté doit être plus petit que la somme des deux autres.'
+        : ok ? `${fr(rnd(L[0], 1))}² = ${fr(rnd(g2, 2))} et ${fr(rnd(L[1], 1))}² + ${fr(rnd(L[2], 1))}² = ${fr(rnd(p2, 2))} : les deux nombres sont <b>égaux</b>, le triangle est <b>rectangle</b> (réciproque de Pythagore). L’angle droit est le petit carré du dessin.`
+        : `${fr(rnd(L[0], 1))}² = ${fr(rnd(g2, 2))} mais ${fr(rnd(L[1], 1))}² + ${fr(rnd(L[2], 1))}² = ${fr(rnd(p2, 2))} : les deux nombres sont <b>différents</b>, le triangle n’est <b>pas rectangle</b>.`;
+      setDefi(el, 'c10-d', ok && a >= 5 && b >= 5);
     };
     el.addEventListener('input', up); up();
   };

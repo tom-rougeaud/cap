@@ -52,14 +52,14 @@ module.exports = function (chk) {
   'Une règle de 6 centimètres sur le plan et la règle correspondante en vrai graduée de 50 à 300 centimètres : 3 mètres');
 
   c.notions = [
-    { titre: 'Calculer un pourcentage d’une quantité', decouvre: { txt: `Une boutique (fictive) vend un jeu vidéo ${H('80 €')}. Pendant les soldes, la remise est de ${H('30 %')}. Quelle est la remise en euros ?`, img: SK.pct() },
+    { titre: 'Calculer un pourcentage d’une quantité', decouvre: { txt: `Une boutique vend un jeu vidéo ${H('80 €')}. Pendant les soldes, la remise est de ${H('30 %')}. Quelle est la remise en euros ?`, img: SK.pct() },
       methode: ['J’écris la quantité de départ : 80 € représentent 100 %.', 'Je calcule 10 % : 80 ÷ 10 = 8 €.', 'Je compte les dizaines de pour cent : 30 % = 3 × 10 %, donc 3 × 8 = 24 €.', 'Je contrôle avec la formule : 80 × 30 ÷ 100 = 24 €.'],
       vois: pcs,
       solution: `<p>10 % de 80 € font 8 €. Comme 30 % = 3 × 10 %, la remise est de 3 × 8 = <b>24 €</b>.</p><p>Contrôle : ${FM(R`80\times\dfrac{30}{100}=24`)}.</p>`,
       retiens: `<p>Prendre <b>p %</b> d’une quantité, c’est la multiplier par ${FM(R`\dfrac{p}{100}`)}.</p><p>Pour exprimer une <b>part</b> en pourcentage : ${FM(R`\dfrac{\text{partie}}{\text{total}}\times100`)}</p>`,
       attention: 'Le pourcentage s’applique à la quantité de départ. Vérifie que le résultat est plus petit que cette quantité quand le pourcentage est inférieur à 100 %.',
-      amoi: [['Calcule 25 % de 60 €.', '25 % = 1/4 ; 60 ÷ 4 = 15 €'], ['Dans une classe de 25 élèves (fictive), 10 jouent au basket. Quel pourcentage ?', '10 ÷ 25 = 0,4, soit 40 %']] },
-    { titre: 'Hausse, baisse et coefficient multiplicateur', decouvre: { txt: `Un casque audio (fictif) coûte ${H('60 €')}. Il est soldé de ${H('25 %')}. Un accessoire de ${H('40 €')} augmente de ${H('25 %')}. Quels sont les nouveaux prix ?`, img: SK.coefm() },
+      amoi: [['Calcule 25 % de 60 €.', '25 % = 1/4 ; 60 ÷ 4 = 15 €'], ['Dans une classe de 25 élèves, 10 jouent au basket. Quel pourcentage ?', '10 ÷ 25 = 0,4, soit 40 %']] },
+    { titre: 'Hausse, baisse et coefficient multiplicateur', decouvre: { txt: `Un casque audio coûte ${H('60 €')}. Il est soldé de ${H('25 %')}. Un accessoire de ${H('40 €')} augmente de ${H('25 %')}. Quels sont les nouveaux prix ?`, img: SK.coefm() },
       methode: ['Pour une baisse de 25 %, je garde 100 % − 25 % = 75 % du prix : le coefficient est 0,75.', 'Je multiplie le prix de départ par le coefficient : 60 × 0,75 = 45 €.', 'Pour une hausse de 25 %, je paie 100 % + 25 % = 125 % : le coefficient est 1,25, et 40 × 1,25 = 50 €.', 'Je contrôle le sens : une baisse donne un prix plus petit, une hausse un prix plus grand.'],
       vois: coe,
       solution: `<p>Baisse de 25 % : ${FM(R`60\times0{,}75=45`)} €. Hausse de 25 % : ${FM(R`40\times1{,}25=50`)} €.</p><p>Le casque coûte maintenant <b>45 €</b> et l’accessoire <b>50 €</b>.</p>`,
@@ -73,7 +73,7 @@ module.exports = function (chk) {
       retiens: `<p>${FM(R`\text{taux d'évolution}=\dfrac{\text{valeur d'arrivée}-\text{valeur de départ}}{\text{valeur de départ}}`)}</p><p>Un résultat positif est une <b>hausse</b>, un résultat négatif est une <b>baisse</b>. On multiplie par 100 pour l’écrire en pourcentage.</p>`,
       attention: 'On divise toujours par la valeur de départ, pas par la valeur d’arrivée : 2,00 ÷ 7,99 donnerait 25,0 %, ce qui est faux.',
       amoi: [['Un abonnement passe de 10 € à 12 €. Quelle est la hausse en pourcentage ?', '(12 − 10) ÷ 10 = 0,2, soit 20 %'], ['Un jeu passe de 50 € à 40 €. Quel est le taux d’évolution ?', '(40 − 50) ÷ 50 = −0,2 : une baisse de 20 %']] },
-    { titre: 'Les échelles', decouvre: { txt: `Sur le plan d’une salle de jeux (fictive) à l’échelle ${H('1/50')}, un mur mesure ${H('6 cm')}. Quelle est sa longueur réelle ? Et la statue de l’Unicorn Gundam (${H('19,7 m')}) dessinée au 1/100 ?`, img: SK.echelle() },
+    { titre: 'Les échelles', decouvre: { txt: `Sur le plan d’une salle de jeux à l’échelle ${H('1/50')}, un mur mesure ${H('6 cm')}. Quelle est sa longueur réelle ? Et la statue de l’Unicorn Gundam (${H('19,7 m')}) dessinée au 1/100 ?`, img: SK.echelle() },
       methode: ['Je lis l’échelle : 1/50 veut dire que 1 cm sur le plan représente 50 cm en vrai.', 'Je multiplie la longueur du plan par 50 : 6 × 50 = 300 cm.', 'Je convertis dans l’unité utile : 300 cm = 3 m.', 'Je contrôle le sens : le plan est plus petit que la réalité, donc la longueur réelle est plus grande.'],
       vois: ech,
       solution: `<p>6 × 50 = 300 cm, soit <b>3 m</b>.</p><p>Statue : 19,7 m = 1 970 cm ; 1 970 ÷ 100 = <b>19,7 cm</b> sur l’affiche.</p><p class="srcl">${D.srcGundam}</p>`,
@@ -91,7 +91,7 @@ module.exports = function (chk) {
 
   /* ---------- exercices résolus ---------- */
   c.resolus = [
-    { titre: 'Calculer un prix après une remise', outil: '🧮 calculatrice', enonce: `Une boutique (fictive) solde un casque audio à ${H('60 €')} de ${H('25 %')}. Calcule la remise en euros, puis le nouveau prix.`,
+    { titre: 'Calculer un prix après une remise', outil: '🧮 calculatrice', enonce: `Une boutique solde un casque audio à ${H('60 €')} de ${H('25 %')}. Calcule la remise en euros, puis le nouveau prix.`,
       rows: [['25 % de 60 = 60 × 25 ÷ 100 = <b>15</b> €', 'Je calcule la remise en euros.'], ['60 − 15 = <b>45</b> €', 'Je retire la remise du prix de départ.'], ['Autre méthode : 60 × 0,75 = <b>45</b> €', 'Le coefficient 0,75 donne directement le prix soldé.']], verif: '45 ÷ 60 = 0,75 : on paie bien 75 % du prix ✓', rep: 'La remise est de 15 € et le nouveau prix est de 45 €.', go: ['e1', 'e2'] },
     { titre: 'À toi : retrouver un taux d’évolution', outil: '🧮 calculatrice', enonce: `L’abonnement Netflix « Premium » passe de ${H('19,99 €')} à ${H('21,99 €')} par mois. Calcule le taux d’évolution, arrondi à 0,1 %.`, trous: [0, 1, 2, 3],
       rows: [['21,99 − 19,99 = ⟦2⟧ €', 'Je calcule l’écart.'], ['2 ÷ 19,99 ≈ ⟦0,1⟧', 'Je divise l’écart par la valeur de départ.'], ['0,1 × 100 = ⟦10⟧ %', 'Je passe en pourcentage.'], ['Le résultat est positif : c’est une ⟦hausse⟧', 'Le signe donne le sens de l’évolution.']], verif: '19,99 × 1,10 = 21,989 ≈ 21,99 ✓', rep: 'Le prix de l’offre Premium a augmenté d’environ 10,0 %.', go: ['e2'] }];
@@ -100,17 +100,17 @@ module.exports = function (chk) {
   c.entraine = ENT('c4', [1, 2, 4]);
 
   /* ---------- je résous ---------- */
-  const tabSolde = rows => tab(['Article (fictif)', 'Prix de départ', 'Remise'], rows);
+  const tabSolde = rows => tab(['Article', 'Prix de départ', 'Remise'], rows);
   const tabNf = () => tab(['Offre', 'Avant (€/mois)', 'Après (€/mois)'], NF.map(([n, a, b]) => [n, fr(b, 2), fr(a, 2)]));
   c.probs = [
     PB({ id: 'pa', niv: -1, base: 'p1', etape: 2, lc: 1, comps: ['app', 'rea'], titre: 'Une remise, pas à pas',
-      intro: `<p>Une boutique (fictive) solde un casque de jeu vidéo : prix de départ ${H('80 €')}, remise de ${H('30 %')}.</p>`,
+      intro: `<p>Une boutique solde un casque de jeu vidéo : prix de départ ${H('80 €')}, remise de ${H('30 %')}.</p>`,
       qs: [Q('a.', 'Calcule 10 % de 80 €.', '80 ÷ 10 = 8 €', 8, { w: 18 }), Q('b.', 'Calcule la remise de 30 %, en euros.', '3 × 8 = 24 €', 24, { w: 18 }), Q('c.', 'Calcule le prix soldé.', '80 − 24 = 56 €', 56, { w: 18 }), Q('d.', 'Vérifie avec le coefficient 0,70 : 80 × 0,70.', '80 × 0,70 = 56 €', 56, { w: 18 })],
       err: { 1: [{ v: 8, m: 'C’est 10 %. Pour 30 %, multiplie par 3.' }], 2: [{ v: 24, m: 'C’est la remise. Retire-la du prix de départ.' }] },
       hints: ['10 % d’une quantité : on divise par 10.', '30 % = 3 × 10 %.', 'Prix soldé = prix de départ − remise.', 'Une remise de 30 % laisse 70 % du prix : coefficient 0,70.'], pouce: '80 ÷ 10 ; 3 × 8 ; 80 − 24 ; 80 × 0,70.',
       det: ['10 % = 1/10, donc 80 ÷ 10 = 8 €.', '30 % = 3 × 10 % : 3 × 8 = 24 €.', '80 − 24 = 56 €.', '100 % − 30 % = 70 % = 0,70 ; 80 × 0,70 = 56 €, le même résultat ✓.'], corr: 'a. 8 €. b. 24 €. c. 56 €. d. 56 €.' }),
     PB({ id: 'p1', etape: 2, lc: 2, comps: ['app', 'ana', 'rea', 'val'], titre: 'Les soldes de la boutique de goodies',
-      intro: `<p>Une boutique (fictive) de goodies affiche ses soldes.</p>${tabSolde([['Manette', '45 €', '20 %'], ['Casque', '80 €', '30 %'], ['Jeu', '60 €', '25 %']])}`,
+      intro: `<p>Une boutique de goodies affiche ses soldes.</p>${tabSolde([['Manette', '45 €', '20 %'], ['Casque', '80 €', '30 %'], ['Jeu', '60 €', '25 %']])}`,
       qs: [Q('a.', 'Calcule la remise sur la manette, en euros.', '45 × 20 ÷ 100 = 9 €', 9, { w: 18 }), Q('b.', 'Calcule le prix soldé du casque.', '80 × 0,70 = 56 €', 56, { w: 18 }), Q('c.', 'Calcule le prix soldé du jeu.', '60 × 0,75 = 45 €', 45, { w: 18 }), Q('d.', 'Combien paie-t-on les trois articles soldés ? (manette soldée : 36 €)', '36 + 56 + 45 = 137 €', 137, { w: 18 }), Q('e.', 'Quelle économie cela représente-t-il par rapport au prix de départ ? (185 € au total)', '185 − 137 = 48 €', 48, { w: 18 })],
       err: { 1: [{ v: 24, m: 'C’est la remise. Il faut le prix soldé : 80 − 24, ou 80 × 0,70.' }], 2: [{ v: 15, m: 'C’est la remise. Retire-la du prix de départ.' }], 4: [{ v: 137, m: 'C’est le prix payé. L’économie est la différence avec le prix de départ.' }] },
       hints: ['Remise = prix × pourcentage ÷ 100.', 'Prix soldé = prix × (1 − pourcentage ÷ 100).', 'Même méthode : 60 × 0,75.', 'Additionne les trois prix soldés.', 'Économie = prix de départ total − prix payé.'], pouce: '45 × 20 ÷ 100 ; 80 × 0,70 ; 60 × 0,75 ; 36 + 56 + 45.',
@@ -128,7 +128,7 @@ module.exports = function (chk) {
       hints: ['Écart = valeur de 2025 − valeur de 2024.', 'Taux = écart ÷ valeur de 2024, puis × 100.', 'Même méthode pour août : (9,94 − 14,13) ÷ 14,13.', 'Décembre : un très petit écart donne un taux proche de 0.', 'Compare le taux d’août avec −30 %.'], pouce: '(14,29 − 17,90) ÷ 17,90 ; (9,94 − 14,13) ÷ 14,13.',
       det: ['14,29 − 17,90 = −3,61 millions d’entrées.', '−3,61 ÷ 17,90 ≈ −0,2017, soit −20,2 % : une baisse.', '9,94 − 14,13 = −4,19 ; −4,19 ÷ 14,13 ≈ −0,2965, soit −29,7 %.', '20,73 − 20,54 = 0,19 ; 0,19 ÷ 20,54 ≈ 0,0093, soit +0,9 % : une très légère hausse.', 'La baisse d’août est de 29,7 %, donc inférieure à 30 % : le journaliste exagère un peu.'], corr: '1. −3,61. 2. −20,2 %. 3. −29,7 %. 4. +0,9 %. 5. Non, 29,7 % de baisse.' }),
     PB({ id: 'pd', niv: 1, base: 'p3', etape: 3, lc: 4, autravail: { comp: 'rea', txt: 'lire un plan, passer d’une longueur dessinée à une longueur réelle et choisir une échelle.' }, comps: ['ana', 'rea', 'val', 'com'], titre: 'La statue du Unicorn Gundam sur une affiche',
-      intro: `<p>La statue de l’Unicorn Gundam mesure ${H('19,7 m')} de haut. Un magasin (fictif) veut la dessiner sur une affiche.</p><p class="srcl">${D.srcGundam}</p>`,
+      intro: `<p>La statue de l’Unicorn Gundam mesure ${H('19,7 m')} de haut. Un magasin veut la dessiner sur une affiche.</p><p class="srcl">${D.srcGundam}</p>`,
       qs: [Q('a.', 'Convertis la hauteur de la statue en centimètres.', '19,7 m = 1 970 cm', 1970, { w: 22 }), Q('b.', 'Quelle hauteur a le dessin à l’échelle 1/100, en cm ?', '1 970 ÷ 100 = 19,7 cm', 19.7, { w: 22, tol: .06 }), Q('c.', 'Quelle hauteur a le dessin à l’échelle 1/50, en cm ?', '1 970 ÷ 50 = 39,4 cm', 39.4, { w: 22, tol: .06 }), Q('d.', 'On agrandit l’affiche au 1/100 de 50 %. Quelle est sa nouvelle hauteur, en cm ?', '19,7 × 1,5 = 29,55 cm', 29.55, { w: 22, tol: .006 }), Q('e.', 'On veut une statue de 20 cm de haut sur le dessin. Quelle échelle 1/… faut-il environ ? Justifier.', '1 970 ÷ 20 = 98,5 : environ 1/100.', null, { lines: 2 })],
       err: { 0: [{ v: 197, m: 'Tu as multiplié par 10. 1 m = 100 cm : multiplie par 100.' }], 1: [{ v: 197000, m: 'Tu as multiplié par l’échelle. Pour dessiner, on divise la longueur réelle par 100.' }], 3: [{ v: 9.85, m: 'Tu as pris la moitié. Agrandir de 50 %, c’est multiplier par 1,5.' }] },
       hints: ['1 m = 100 cm : on multiplie par 100.', 'Longueur sur le dessin = longueur réelle ÷ 100.', 'Même méthode avec 50.', 'Hausse de 50 % : coefficient 1,5.', 'Divise la hauteur réelle (1 970 cm) par la hauteur du dessin (20 cm).'], pouce: '19,7 × 100 ; 1 970 ÷ 100 ; 19,7 × 1,5.',

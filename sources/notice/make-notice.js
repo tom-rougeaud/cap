@@ -5,7 +5,7 @@ const HERE = path.join(__dirname, '..');
 const FONTS = fs.readFileSync(path.join(HERE, 'style', 'fonts.css'), 'utf8');
 const RES = k => { try { return JSON.parse(fs.readFileSync(path.join(HERE, 'build', k + '.result.json'), 'utf8')).pages; } catch (e) { return '…'; } };
 const QR = JSON.parse(fs.readFileSync(path.join(HERE, 'lib', 'qr.json'), 'utf8'));
-const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Notice d’installation · 3ème Série Pro</title><style>${FONTS}
+const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Notice d’installation · Maths · CAP</title><style>${FONTS}
 @page{size:A4;margin:13mm 14mm 14mm}
 *{box-sizing:border-box}
 body{font-family:'Andika','Noto Color Emoji','DejaVu Sans',sans-serif;font-size:9.4pt;line-height:1.3;color:#1D2240;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -30,69 +30,76 @@ table{width:100%;border-collapse:collapse;font-size:9.6pt}th,td{border:1px solid
 .small{font-size:8.8pt;color:#545B7A}
 .pb{break-before:page}
 </style></head><body>
-<div cla<div class="hd"><span class="sig">Σ</span><div><p class="k">Notice d’installation · octobre 2026</p><h1>3ème Série Pro</h1><p>L’appli en ligne et le manuel PDF de mathématiques pour la 3e Prépa-Métiers, brevet série professionnelle</p></div><div class="qr">${QR.home.svg}L’appli</div></div>
+<div class="hd"><span class="sig">Σ</span><div><p class="k">Notice d’installation · octobre 2026</p><h1>Maths · CAP</h1><p>L’appli en ligne et le manuel PDF de mathématiques pour le CAP : 10 chapitres, 3 CCF blancs, fiches de révision</p></div><div class="qr">${QR.home.svg}L’appli</div></div>
 
 <h2><b>1</b>Ce qui est en ligne</h2>
 <div class="box"><table><tr><th style="width:30%">Élément</th><th>Adresse</th></tr>
-<tr><td>📱 L’appli (10 chapitres + 3 sujets blancs du brevet)</td><td><code>https://tom-rougeaud.github.io/3eme/</code></td></tr>
-<tr><td>📘 Le manuel élève (PDF, ${RES('eleve')} pages)</td><td><code>…/3eme/pdf/maths-3e-serie-pro.pdf</code> · le bouton « Le manuel PDF » de l’appli y renvoie.</td></tr>
-<tr><td>📄 Un PDF par chapitre, et les sujets blancs</td><td><code>…/3eme/pdf/chapitres/</code> : <code>maths-3e-serie-pro-chapitre-1.pdf</code> à <code>-10.pdf</code>, et <code>maths-3e-serie-pro-sujets-brevet.pdf</code>.</td></tr>
-<tr><td>🎓 Les sujets blancs dans l’appli</td><td><code>…/3eme/#/brevet</code> : 3 sujets sur 20, chrono de 2 heures, correction automatique des réponses chiffrées.</td></tr>
-<tr><td>🔗 Ce que tu sais déjà</td><td><code>…/3eme/#/de-4e</code> : pour chaque chapitre, ce qui a été vu au cycle 4 et ce qui est nouveau en 3e.</td></tr>
-<tr><td>🏠 Site principal, 2de, 1re, terminale (dépôt <code>mcv</code>)</td><td><b>Inchangés</b> : la 3e a son propre dépôt, séparé de <code>mcv</code>.</td></tr></table></div>
+<tr><td>📱 L’appli (10 chapitres + 3 CCF blancs)</td><td><code>https://tom-rougeaud.github.io/cap/</code></td></tr>
+<tr><td>📘 Le manuel élève (PDF, ${RES('eleve')} pages)</td><td><code>…/cap/pdf/maths-cap.pdf</code> · le bouton « Le manuel PDF » de l’appli y renvoie.</td></tr>
+<tr><td>📄 Un PDF par chapitre, et les CCF blancs</td><td><code>…/cap/pdf/chapitres/</code> : <code>maths-cap-chapitre-1.pdf</code> à <code>-10.pdf</code>, et <code>maths-cap-ccf-blancs.pdf</code>.</td></tr>
+<tr><td>📑 Les fiches de révision (une fiche A4 par chapitre)</td><td><code>…/cap/pdf/fiches-de-revision-maths-cap.pdf</code></td></tr>
+<tr><td>🎓 Les CCF blancs dans l’appli</td><td><code>…/cap/#/ccf</code> : 3 sujets sur 10, chrono de 45 minutes, correction automatique des réponses chiffrées.</td></tr>
+<tr><td>🔗 Ce que tu sais déjà</td><td><code>…/cap/#/de-college</code> : pour chaque chapitre, ce qui vient du collège et ce qui est nouveau au CAP.</td></tr>
+<tr><td>🏠 Autres niveaux (dépôts <code>3eme</code> et <code>mcv</code>)</td><td><b>Séparés</b> : le CAP a son propre dépôt <code>cap</code>.</td></tr></table></div>
 
 <h2><b>2</b>Dans le dépôt GitHub</h2>
-<div class="box"><p>Dépôt <b>séparé</b> <code>tom-rougeaud/3eme</code> (GitHub Pages sur la branche <code>main</code>, à la racine), distinct du dépôt <code>mcv</code> :</p>
-<ul><li><code>index.html</code> : l’appli, en un seul fichier (aucune ressource externe, aucune police en ligne, aucun traceur).</li>
-<li><code>pdf/maths-3e-serie-pro.pdf</code> : le manuel, version élève ; <code>pdf/chapitres/</code> : les 10 chapitres et les sujets blancs.</li>
+<div class="box"><p>Dépôt <b>séparé</b> <code>tom-rougeaud/cap</code> (GitHub Pages sur la branche <code>main</code>, à la racine) :</p>
+<ul><li><code>index.html</code> : l’appli, en un seul fichier (aucune ressource externe, aucune police en ligne, aucun traceur) ; <code>manifest.webmanifest</code>, <code>sw.js</code> et les icônes : l’installation sur l’écran d’accueil.</li>
+<li><code>pdf/maths-cap.pdf</code> : le manuel, version élève ; <code>pdf/chapitres/</code> : les 10 chapitres et les CCF blancs ; <code>pdf/fiches-de-revision-maths-cap.pdf</code>.</li>
 <li><code>sources/</code> : les fichiers qui produisent le manuel et l’appli (Node + Playwright).</li></ul>
+<p><b>À faire une seule fois</b> : dans le dépôt, <i>Settings → Pages</i>, choisir la branche <code>main</code>, dossier <code>/ (root)</code>. L’adresse de l’appli apparaît alors au bout d’une minute.</p>
 <p><b>Supabase</b> : rien à changer, l’appli ne s’y connecte pas. <b>Version professeur</b> : jointe à la conversation seulement, <b>ne la déposez pas sur GitHub</b>.</p></div>
 
-<h2><b>3</b>Programme et organisation d’un chapitre</h2>
-<div class="box"><ul>
-<li><b>Programme du cycle 4</b> (arrêté du 17 juillet 2020, BO n° 31 du 30 juillet 2020), attendus de fin de 3e, et épreuve de mathématiques du brevet série professionnelle (note de service du 2 septembre 2025, BO n° 33 du 4 septembre 2025). Les 6 compétences : chercher, modéliser, représenter, raisonner, calculer, communiquer.</li>
-<li><b>Une notion, une page</b> : 🔎 Je découvre (une situation de pop culture) → 🧭 La méthode (3 ou 4 étapes numérotées, reprises sur le dessin) → ✅ La solution de la même situation → 📌 Je retiens et ⚠️ Attention → ✏️ À moi (2 questions). Chaque notion commence en haut de page.</li>
-<li><b>✅ Je fais le point</b> : le bilan « je sais faire » relié aux exercices, puis <b>⚡ 10 automatismes du brevet</b> sans calculatrice. Dans l’appli, ces 10 questions changent à chaque tirage.</li>
-<li><b>🐱 Je programme</b> : des programmes Scratch dessinés (chapitres 1, 3, 7 et 10), à lire et à modifier.</li>
-<li><b>Un métier par chapitre</b> (aucun métier du commerce ou de la vente) avec ses formations : agent logistique, technicien réseaux et fibre, électricien, cuisinier, mécanicien automobile, assistant de gestion, pilote de ligne de production, charpentier, peintre en signalétique, technicien d’usinage.</li></ul></div>
+<h2><b>3</b>Installer l’appli sur l’écran d’accueil</h2>
+<div class="box"><ul><li><b>Android, Chrome ou Edge</b> : une bannière « Installer l’appli » apparaît quelques secondes après l’ouverture (sinon, menu ⋮ → « Installer l’application »).</li>
+<li><b>iPhone et iPad, Safari</b> : appuyer sur <b>Partager</b> (le carré avec une flèche), puis <b>« Sur l’écran d’accueil »</b>. La bannière de l’appli rappelle ces deux gestes.</li>
+<li><b>Ordinateur</b> : icône « Installer » dans la barre d’adresse de Chrome ou d’Edge.</li>
+<li>Une fois installée, l’appli s’ouvre sans réseau. Elle ne collecte rien : la progression reste sur l’appareil.</li></ul></div>
 
-<h2><b>4</b>Le format du brevet</h2>
-<div class="box y"><ul><li>Chaque chapitre se termine par une évaluation <b>sur 20</b>, au format du brevet : 6 automatismes sans calculatrice (6 points), des problèmes avec calculatrice (12 points), 2 points de rédaction.</li>
-<li>Après le chapitre 10, <b>trois sujets blancs complets</b> sur 20 : partie 1, 9 automatismes (6 points, 20 minutes, sans calculatrice) ; partie 2, 4 exercices (2, 4, 4 et 2 points) ; rédaction (2 points). A « La convention manga » · B « Soirée cinéma et séries » · C « Le tournoi de jeux ». Corrigés détaillés et barèmes dans la version professeur.</li>
+<h2><b>4</b>Programme et organisation d’un chapitre</h2>
+<div class="box"><ul>
+<li><b>Programme de mathématiques des classes préparant au CAP</b> (BOEN spécial n° 5 du 11 avril 2019) : statistique et probabilités, algèbre et analyse, nombres et calculs, géométrie, et les compléments propres à un groupement (➕). Les 5 compétences de la démarche scientifique : s’approprier, analyser, réaliser, valider, communiquer.</li>
+<li><b>Une notion, une page</b> : 🔎 Je découvre (une situation de pop culture ou de métier) → 🧭 La méthode (3 ou 4 étapes numérotées, reprises sur le dessin) → ✅ La solution → 📌 Je retiens et ⚠️ Attention → ✏️ À moi (2 questions).</li>
+<li><b>✅ Je fais le point</b> : le bilan « je sais faire » relié aux exercices, puis <b>⚡ 10 automatismes</b> sans calculatrice. Dans l’appli, ces 10 questions changent à chaque tirage.</li>
+<li><b>Exercices en trois niveaux</b> : chaque thème existe en version courante, en 🌱 guidé (début déjà fait, nombres plus simples) et en 🚀 défi (une étape de plus).</li>
+<li><b>🐱 Je programme</b> : des programmes Scratch dessinés, à lire et à modifier. <b>Un métier par chapitre</b>, avec ses formations.</li></ul></div>
+
+<h2><b>5</b>Le format du CCF</h2>
+<div class="box y"><ul><li>Chaque chapitre se termine par une évaluation <b>sur 10</b>, au format du CCF : 3 automatismes sans calculatrice (3 points), 2 exercices de situations professionnelles avec la calculatrice (6 points), 1 point de rédaction.</li>
+<li>Après le chapitre 10, <b>trois CCF blancs complets</b> de 45 minutes : A « La salle d’arcade » · B « Le magasin de jeux » · C « Le skatepark ». Corrigés détaillés et barèmes dans la version professeur.</li>
 <li>Dans l’appli : chrono (compte à rebours), correction automatique des réponses chiffrées, auto-évaluation de la rédaction, meilleure note conservée.</li></ul></div>
 
-<h2><b>5</b>Les 10 chapitres et leurs simulateurs (« Je manipule »)</h2>
+<h2><b>6</b>Les 10 chapitres et leurs simulateurs (« Je manipule »)</h2>
 <div class="box"><table><tr><th style="width:34%">Chapitre</th><th>Simulateur et défi</th></tr>
-<tr><td>1 Nombres entiers et arithmétique</td><td>Diviseurs d’un nombre de cartes · défi : un nombre entre 100 et 120 qui a 12 diviseurs</td></tr>
-<tr><td>2 Fractions, puissances, écriture scientifique</td><td>Débit et données (Mbit/s, Go) · défi : environ 1 Go à 5 Mbit/s</td></tr>
-<tr><td>3 Calcul littéral et équations</td><td>Résolution de ax + b = cx + d pas à pas · défi : solution x = 4</td></tr>
-<tr><td>4 Proportionnalité, pourcentages, grandeurs composées</td><td>Évolution en pourcentage · défi : retrouver la hausse Netflix 5,99 € → 7,99 €</td></tr>
-<tr><td>5 Fonctions linéaires et affines</td><td>Deux formules de cinéma, deux droites · défi : même prix pour 4 séances</td></tr>
-<tr><td>6 Statistiques</td><td>Moyenne, médiane, étendue d’une liste tapée · défi : moyenne 10 et médiane 8</td></tr>
-<tr><td>7 Probabilités</td><td>Simulation de lancers de dé · défi : fréquence à 0,01 près</td></tr>
-<tr><td>8 Pythagore et trigonométrie</td><td>Triangle rectangle de la statue de Gundam · défi : un angle de 45°</td></tr>
-<tr><td>9 Échelles, agrandissements et Thalès</td><td>Rapport k, aires × k², volumes × k³ · défi : volume × 8</td></tr>
-<tr><td>10 Espace, transformations et programmes</td><td>Tortue qui trace un polygone · défi : périmètre 400 pas, 45° à chaque coin</td></tr></table>
-<p class="small">Chaque chapitre a 6 onglets : Départ (scène, document à toucher, « Ce que tu sais déjà »), Leçon (les notions en 5 temps), Méthodes (exercices résolus et simulateur), S’entraîner (10 automatismes, 3 exercices qui changent à chaque essai, indices, erreurs fréquentes expliquées, Scratch), Problèmes (dont « vers le brevet » et le métier), S’évaluer (sur 20).</p></div>
+<tr><td>1 Statistique à une variable</td><td>Du tableau au diagramme · défi : 20 visiteurs et une moyenne de 3 parties</td></tr>
+<tr><td>2 Probabilités</td><td>Simulation d’un dé à 20 faces · défi : fréquence à 0,03 près de la probabilité</td></tr>
+<tr><td>3 Proportionnalité</td><td>Proportionnel ou pas ? · défi : 8 places pour 60 €</td></tr>
+<tr><td>4 Pourcentages et échelles</td><td>Du prix de départ au taux d’évolution · défi : une hausse de 25 %</td></tr>
+<tr><td>5 Équations et formules</td><td>Combien de séances pour mon budget ? · défi : exactement 10 séances</td></tr>
+<tr><td>6 Fonctions et graphiques</td><td>Le saut d’un personnage de jeu vidéo, avec lignes de lecture · défi : la hauteur maximale</td></tr>
+<tr><td>7 Fonctions linéaires et affines</td><td>Deux formules de séances de cinéma · défi : le nombre de séances où les prix sont égaux</td></tr>
+<tr><td>8 Calculs commerciaux</td><td>De la remise au total TTC · défi : un total de 76,80 € TTC</td></tr>
+<tr><td>9 Périmètres, aires et volumes</td><td>La contenance d’un gobelet · défi : environ 500 mL</td></tr>
+<tr><td>10 Pythagore, Thalès et trigonométrie</td><td>Le triangle est-il rectangle ? · défi : un triangle rectangle dont a et b valent au moins 5 cm</td></tr></table>
+<p class="small">Chaque chapitre a 6 onglets : Départ (scène, document à toucher, « Ce que tu sais déjà »), Leçon, Méthodes (exercices résolus et simulateur), S’entraîner (10 automatismes, exercices qui changent à chaque essai, indices, erreurs fréquentes expliquées, Scratch), Problèmes, S’évaluer (sur 10).</p></div>
 
-<h2><b>6</b>Données personnelles et utilisation</h2>
-<div class="box g"><ul><li>Aucun compte, aucun cookie, aucun traceur, aucune police ni script externe. La progression reste dans le navigateur, sous les clés <code>mcv3e.v1.progression</code> et <code>mcv3e.v1.preferences</code>, distinctes des autres niveaux.</li><li>Export, import et effacement depuis « Mes données ». Une fois ouverte, l’appli fonctionne sans réseau ; on peut aussi enregistrer <code>index.html</code> sur un poste.</li></ul></div>
+<h2><b>7</b>Données personnelles et utilisation</h2>
+<div class="box g"><ul><li>Aucun compte, aucun cookie, aucun traceur, aucune police ni script externe. La progression reste dans le navigateur, sous les clés <code>mcvcap.v1.progression</code> et <code>mcvcap.v1.preferences</code>, distinctes des autres niveaux.</li><li>Export, import et effacement depuis « Mes données ». Une fois ouverte, l’appli fonctionne sans réseau.</li></ul></div>
 
-<h2><b>7</b>Les manuels PDF</h2>
-<div class="box"><ul><li><b>Version élève</b> (${RES('eleve')} pages) : couverture, « Comment ça marche », les 6 compétences, sommaire, « Ce que tu sais déjà », 10 chapitres, les 3 sujets blancs, les réponses de « Je m’entraîne », le glossaire visuel.</li>
-<li><b>Version professeur</b> (${RES('prof')} pages) : réponses en rouge, pages de continuité, corrigé complet avec les barèmes des sujets blancs. <b>Ne pas la déposer sur GitHub.</b></li></ul></div>
+<h2><b>8</b>Les manuels PDF</h2>
+<div class="box"><ul><li><b>Version élève</b> (${RES('eleve')} pages) : couverture, « Comment ça marche », les 5 compétences et les consignes (une seule page), sommaire, « Ce que tu sais déjà », 10 chapitres, les 3 CCF blancs, les fiches de révision, les réponses de « Je m’entraîne », le glossaire visuel. Un rappel au début indique que les chiffres sans source sont inventés.</li>
+<li><b>Version professeur</b> (${RES('prof')} pages) : réponses en rouge, pages de continuité collège → CAP, corrigés détaillés sur la même page, barèmes des CCF blancs. <b>Ne pas la déposer sur GitHub.</b></li></ul></div>
 
-<h2><b>8</b>Ce qui a été vérifié, et ce qui ne l’a pas été</h2>
+<h2><b>9</b>Ce qui a été vérifié, et ce qui ne l’a pas été</h2>
 <div class="box"><table><tr><th>Vérification</th><th>Résultat</th></tr>
-<tr><td>Nombres des leçons, exercices, évaluations et sujets blancs recalculés par programme ; barèmes vérifiés (20 points)</td><td><span class="tag">OK</span></td></tr>
-<tr><td>30 générateurs d’exercices et 10 points de départ : 60 000 tirages ; automatismes : 150 000 questions</td><td><span class="tag">0 erreur</span></td></tr>
-<tr><td>Test automatique : 10 chapitres × 6 onglets et 3 sujets blancs, sur ordinateur (1 280 px) et téléphone (375 px)</td><td><span class="tag">OK</span></td></tr>
-<tr><td>Contrôle visuel des pages du manuel élève et professeur</td><td><span class="tag">OK</span></td></tr>
+<tr><td>Nombres des leçons, exercices, évaluations et CCF blancs recalculés par programme ; barèmes vérifiés (10 points)</td><td><span class="tag">OK</span></td></tr>
+<tr><td>90 exercices visuels et 10 points de départ : 150 000 tirages ; automatismes : 150 000 questions ; les erreurs proposées ne sont jamais la bonne réponse</td><td><span class="tag">0 erreur</span></td></tr>
+<tr><td>Test automatique de l’appli : 10 chapitres × 6 onglets et 3 CCF blancs, sur ordinateur (1 280 px) et téléphone (375 px) ; invite d’installation</td><td><span class="tag">OK</span></td></tr>
+<tr><td>Contrôle visuel des pages du manuel : figures, étiquettes, formules non coupées, QR code séparé du texte</td><td><span class="tag">OK</span></td></tr>
 <tr><td>Programmes Scratch : dessinés et calculés, mais pas exécutés dans Scratch</td><td><span class="tag mid">à vérifier</span></td></tr>
-<tr><td>Navigateurs : Chromium seulement ; Safari, Firefox, iPad et tablettes Android non testés ; lecture à voix haute non testée</td><td><span class="tag mid">à vérifier</span></td></tr></table></div>
+<tr><td>Navigateurs : Chromium seulement ; Safari, Firefox, iPad et tablettes Android non testés ; installation sur l’écran d’accueil testée seulement en simulation</td><td><span class="tag mid">à vérifier</span></td></tr></table></div>
 
-<div class="box"><p>Données réelles : Wikipédia (épisodes des Simpson, statue de l’Unicorn Gundam), Shueisha (One Piece, tome 114), The Pokémon Company (chiffres au 31 mars 2026), JeChange et centre d’aide Netflix (tarifs, débits), CNC (fréquentation et top 2025, visa d’Avengers : Endgame), IFAB (lois du jeu). Les entreprises, clubs et jeux des exercices sont fictifs et signalés comme tels.</p>
+<div class="box"><p>Données réelles : Wikipédia (épisodes des Simpson, statue de l’Unicorn Gundam), CNC (fréquentation et top 2025), JeChange et centre d’aide Netflix (tarifs), Fiducial (taux de TVA), IFAB (lois du jeu), et les autres sources indiquées sous chaque document. Les entreprises, clubs et jeux des exercices sont inventés.</p>
 <p>Tom Rougeaud · licence <b>CC BY-NC 4.0</b>.</p></div>
 </body></html>`;
 fs.writeFileSync(path.join(__dirname, 'notice.html'), html);
-

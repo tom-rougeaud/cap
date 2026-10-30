@@ -61,5 +61,15 @@ module.exports = d => ({
     prog: ['Calculer un périmètre', 'Calculer une aire', 'Calculer un volume', 'Convertir des unités et calculer des carreaux'],
     reac: ['Multiplier et diviser des nombres décimaux.', 'Convertir des cm en m.', 'Calculer le carré d’un nombre.'],
     vig: ['Distinguer périmètre (m), aire (m²) et volume (m³).', 'Diviser par 2 pour l’aire d’un triangle.', 'Utiliser le rayon, et non le diamètre, dans π × r².'] },
+    c10: { de: [d('Collège', 'Géométrie', 'tu as calculé un carré et une racine carrée : 5² = 25 et √25 = 5.'), d('Collège', 'Proportionnalité', 'tu as utilisé un coefficient pour passer d’une ombre de 2 m à une ombre de 3 m : 3 ÷ 2 = 1,5.')],
+    fil: 'Pythagore relie les trois côtés d’un triangle rectangle ; Thalès compare des longueurs proportionnelles ; la trigonométrie relie un angle et deux côtés.',
+    ex2: 'Au collège : un triangle rectangle de côtés 3 cm et 4 cm a une hypoténuse de 5 cm, car 3² + 4² = 25 = 5².',
+    ex1: 'Au CAP : on calcule la diagonale d’un écran, la hauteur d’une statue grâce à son ombre et l’angle d’un toit avec la tangente.',
+    reste: ['Calculer un carré et une racine carrée.', 'Utiliser un coefficient de proportionnalité.'],
+    change: ['On calcule un côté de l’angle droit en soustrayant les carrés, et on reconnaît un triangle rectangle avec la réciproque.', 'On utilise une configuration de Thalès avec des longueurs parallèles.', 'On calcule un angle ou une longueur avec le sinus, le cosinus et la tangente.'],
+    pourquoi: 'Poser une échelle, vérifier un angle droit avec une équerre, calculer la longueur d’un chevron ou la hauteur d’un arbre.',
+    prog: ['Calculer une longueur avec le théorème de Pythagore', 'Reconnaître un triangle rectangle (réciproque)', 'Utiliser une configuration de Thalès', 'Calculer un angle ou une longueur avec le sinus, le cosinus et la tangente'],
+    reac: ['Calculer un carré et une racine carrée.', 'Utiliser un coefficient de proportionnalité.', 'Régler la calculatrice en degrés.'],
+    vig: ['L’hypoténuse est le côté opposé à l’angle droit, et le plus grand côté.', 'Pour trouver un côté de l’angle droit, on soustrait les carrés.', 'Calculatrice en mode degrés (DEG), pas en radians.'] },
   /* FIN */
 });

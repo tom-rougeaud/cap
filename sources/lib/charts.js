@@ -76,7 +76,10 @@ function lines(o) {
     if (se.step && se.until != null) d += `H${X(se.until).toFixed(1)}`;
     s += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="${se.width || 3}"${se.dash ? ` stroke-dasharray="${se.dash}"` : ''} stroke-linejoin="round"/>`;
     if (se.dots) se.pts.forEach(p => { s += `<circle cx="${X(p[0]).toFixed(1)}" cy="${Y(p[1]).toFixed(1)}" r="4" fill="#fff" stroke="${se.color}" stroke-width="2.4"/>`; });
-    if (se.labels) se.pts.forEach(p => { s += T(X(p[0]), Y(p[1]) - 9, (o.yfmt || fr)(p[1]), { fs: fs - 2, anchor: 'middle', w: 700 }); });
+    if (se.labels) se.pts.forEach((p, i) => {
+      const n = se.pts.length, edge = i === 0 || i === n - 1, nb = i === 0 ? se.pts[1] : i === n - 1 ? se.pts[n - 2] : null, below = edge && nb && nb[1] > p[1];
+      s += T(X(p[0]) + (edge ? (i === 0 ? 8 : -8) : 0), Y(p[1]) + (below ? fs + 5 : -9), (o.yfmt || fr)(p[1]), { fs: fs - 2, anchor: edge ? (i === 0 ? 'start' : 'end') : 'middle', w: 700 });
+    });
     (se.notes || []).forEach(nt => { s += T(X(nt[0]), Y(nt[1]) - 8, nt[2], { fs: fs - 1, anchor: nt[3] || 'middle', w: 700, fill: se.color }); });
   });
   s += T(14, Tp + ph / 2, o.yLabel, { fs, anchor: 'middle', rot: -90, fill: SOFT, w: 700 });

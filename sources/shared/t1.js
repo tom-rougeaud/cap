@@ -31,7 +31,7 @@
   };
 
   /* e1 · tableau d’effectifs : effectif total, fréquence */
-  const CTX = [['Une boutique de jeux vidéo (fictive) a relevé le nombre de jeux achetés par client.', 'jeux achetés', 'clients'], ['Un club de cinéma (fictif) a relevé le nombre de films vus par membre en un mois.', 'films vus', 'membres'], ['Une salle d’arcade (fictive) a relevé le nombre de parties jouées par visiteur.', 'parties jouées', 'visiteurs']];
+  const CTX = [['Une boutique de jeux vidéo a relevé le nombre de jeux achetés par client.', 'jeux achetés', 'clients'], ['Un club de cinéma a relevé le nombre de films vus par membre en un mois.', 'films vus', 'membres'], ['Une salle d’arcade a relevé le nombre de parties jouées par visiteur.', 'parties jouées', 'visiteurs']];
   lv('c1e1', (R, niv) => {
     const [txt, lab, qui] = pick(R, CTX);
     if (niv === 0) {
@@ -102,7 +102,7 @@
       const V = [10, 11, 12, 13, 14].map(x => x + int(R, 0, 4)), n = compo(R, 5, int(R, 20, 30), 2, 9), N = sum(n), S = sum(V.map((x, i) => x * n[i])), mo = S / N;
       const items = [num('a', N, 0, String(N)), num('b', S, 0, String(S), [{ v: sum(V), m: 'Tu as additionné les valeurs sans les multiplier par leurs effectifs.' }]), num('c', rnd(mo, 1), 1, f1(mo), [{ v: rnd(S / 5, 1), m: 'Tu as divisé par 5 (le nombre de valeurs). Il faut diviser par l’effectif total.' }]), qcm('d', ['oui', 'non'], V.some(x => Math.abs(x - rnd(mo, 1)) < 1e-9) ? 0 : 1, V.some(x => Math.abs(x - rnd(mo, 1)) < 1e-9) ? 'oui' : 'non')];
       xs(items, { a: n.join(' + ') + ' = ' + N, b: V.map((x, i) => `${x} × ${n[i]}`).join(' + ') + ' = ' + S, c: `${S} ÷ ${N} = ${fr(mo, 3)}, soit ${f1(mo)} en arrondissant au dixième`, d: `${f1(mo)} ${V.includes(rnd(mo, 1)) ? 'est' : 'n’est pas'} une des valeurs ${V.join(', ')}` });
-      return { titre: 'Une moyenne avec des effectifs', consigne: `Un jeu en ligne (fictif) a relevé ses ${unit[0]} : chaque valeur est répétée selon son effectif.`, support: `<table class="dt tcx dt-sm"><thead><tr><th>Valeur</th>${V.map(v => `<th>${v}</th>`).join('')}</tr></thead><tbody><tr><th>Effectif</th>${n.map(x => `<td>${x}</td>`).join('')}</tr></tbody></table><p class="tr-l">a. Effectif total : ${tb('a', String(N), 12)}</p><p class="tr-l">b. Somme de (valeur × effectif) : ${tb('b', String(S), 14)}</p><p class="tr-l">c. Moyenne (arrondie au dixième) : ${tb('c', f1(mo), 14)}</p><p class="tr-l">d. La moyenne est-elle l’une des valeurs de la série ?</p>`, items,
+      return { titre: 'Une moyenne avec des effectifs', consigne: `Un jeu en ligne a relevé ses ${unit[0]} : chaque valeur est répétée selon son effectif.`, support: `<table class="dt tcx dt-sm"><thead><tr><th>Valeur</th>${V.map(v => `<th>${v}</th>`).join('')}</tr></thead><tbody><tr><th>Effectif</th>${n.map(x => `<td>${x}</td>`).join('')}</tr></tbody></table><p class="tr-l">a. Effectif total : ${tb('a', String(N), 12)}</p><p class="tr-l">b. Somme de (valeur × effectif) : ${tb('b', String(S), 14)}</p><p class="tr-l">c. Moyenne (arrondie au dixième) : ${tb('c', f1(mo), 14)}</p><p class="tr-l">d. La moyenne est-elle l’une des valeurs de la série ?</p>`, items,
         hints: ['Effectif total : additionne la ligne des effectifs.', 'Multiplie chaque valeur par son effectif, puis additionne.', 'Moyenne = somme ÷ effectif total.'] };
     }
     const k = 5, m = int(R, 9, 14); let v; do { v = Array.from({ length: k - 1 }, () => m + int(R, -5, 5)); } while (m * k - sum(v) < 0 || m * k - sum(v) > 20);

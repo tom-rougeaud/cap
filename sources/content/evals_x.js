@@ -12,7 +12,7 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
       { t: 'Un prix de 50 € baisse de 10 %. Quel est le nouveau prix, en euros ?', comp: 'rea', pts: 1, a: '50 × 0,90 = 45 €', v: 45, tol: .01, w: 20 },
       { t: 'Sur un plan à l’échelle 1/100, un mur mesure 4 cm. Quelle est sa longueur réelle ?', comp: 'ana', pts: 1, choices: ['4 m', '40 cm', '400 m'], ok: 0, a: '4 m (4 × 100 = 400 cm)', v: null }],
     exos: [
-      { t: 'Les soldes de la boutique', intro: `<p>Une boutique (fictive) solde un jeu vidéo de ${H('60 €')} avec une remise de ${H('25 %')}.</p>`, qs: [
+      { t: 'Les soldes de la boutique', intro: `<p>Une boutique solde un jeu vidéo de ${H('60 €')} avec une remise de ${H('25 %')}.</p>`, qs: [
         { t: 'Calculer la remise, en euros.', comp: 'rea', pts: 1, a: '60 × 25 ÷ 100 = 15 €', v: 15, tol: .01, w: 20 },
         { t: 'Calculer le prix soldé, en euros.', comp: 'rea', pts: 1, a: '60 − 15 = 45 €', v: 45, tol: .01, w: 20 },
         { t: 'Un autre jeu, soldé de 25 %, coûte 30 €. Quel était son prix de départ, en euros ?', comp: 'ana', pts: 1, a: '30 ÷ 0,75 = 40 €', v: 40, tol: .01, w: 20 }] },
@@ -30,11 +30,11 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
       { t: 'Calcule 3 × n + 5 pour n = 6.', comp: 'rea', pts: 1, a: '3 × 6 + 5 = 18 + 5 = 23', v: 23, tol: .01, w: 20 },
       { t: 'Pour résoudre 3x = 24, on :', comp: 'ana', pts: 1, choices: ['divise par 3 des deux côtés', 'soustrait 3 des deux côtés', 'multiplie par 3 des deux côtés'], ok: 0, a: 'divise par 3 des deux côtés : x = 24 ÷ 3 = 8', v: null }],
     exos: [
-      { t: 'Le club de jeux', intro: `<p>Un club (fictif) demande ${H('5 €')} d’inscription puis ${H('2,50 €')} par séance. Le prix de n séances est P = 2,5 × n + 5.</p>`, qs: [
+      { t: 'Le club de jeux', intro: `<p>Un club demande ${H('5 €')} d’inscription puis ${H('2,50 €')} par séance. Le prix de n séances est P = 2,5 × n + 5.</p>`, qs: [
         { t: 'Calculer le prix de 6 séances, en euros.', comp: 'rea', pts: 1, a: '2,5 × 6 + 5 = 15 + 5 = 20 €', v: 20, tol: .01, w: 20 },
         { t: 'Léa a payé 30 €. Résoudre 2,5x + 5 = 30 pour trouver son nombre de séances.', comp: 'rea', pts: 1, a: '2,5x = 25 ; x = 25 ÷ 2,5 = 10 séances', v: 10, tol: .01, w: 20 },
         { t: 'Un ami dit : « Avec 28 €, on peut faire 10 séances. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : 10 séances coûtent 30 €, plus que 28 €. Avec 28 € : (28 − 5) ÷ 2,5 = 9,2, soit 9 séances complètes.', v: null, lines: 3 }] },
-      { t: 'La prise de la cuisine', intro: `<p>La tension du secteur est ${H('230 V')}. La puissance est P = U × I (P en watts, U en volts, I en ampères). Un radiateur (fictif) de ${H('1 150 W')} et un aspirateur (fictif) de ${H('1 380 W')} sont branchés sur une prise limitée à ${H('10 A')}.</p>`, qs: [
+      { t: 'La prise de la cuisine', intro: `<p>La tension du secteur est ${H('230 V')}. La puissance est P = U × I (P en watts, U en volts, I en ampères). Un radiateur de ${H('1 150 W')} et un aspirateur de ${H('1 380 W')} sont branchés sur une prise limitée à ${H('10 A')}.</p>`, qs: [
         { t: 'Calculer l’intensité du radiateur, en ampères.', comp: 'rea', pts: 1, a: '1 150 ÷ 230 = 5 A', v: 5, tol: .01, w: 20 },
         { t: 'Calculer l’intensité de l’aspirateur, en ampères.', comp: 'rea', pts: 1, a: '1 380 ÷ 230 = 6 A', v: 6, tol: .01, w: 20 },
         { t: 'Peut-on brancher les deux appareils en même temps sur cette prise ? Justifier.', comp: 'val', pts: 1, a: 'Non : 5 + 6 = 11 A, supérieur à 10 A.', v: null, lines: 2 }] }] };
@@ -53,7 +53,7 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
         { t: 'Lire l’image de 50, en secondes.', comp: 'app', pts: 1, a: 'f(50) = 5,47 s', v: 5.47, tol: .006, w: 20 },
         { t: 'Lire l’antécédent de 7,92, en mètres.', comp: 'rea', pts: 1, a: 'l’antécédent de 7,92 est 80 m', v: 80, tol: .01, w: 20 },
         { t: 'Un élève affirme : « Entre 50 m et 100 m, Bolt a mis plus de 5 s. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : 9,58 − 5,47 = 4,11 s, inférieur à 5 s.', v: null, lines: 2 }] },
-      { t: 'Le saut du personnage', intro: `<p>Un personnage de jeu vidéo (fictif) saute. La courbe donne sa hauteur h, en mètres, selon le temps t, en secondes.</p>${sautC}`, qs: [
+      { t: 'Le saut du personnage', intro: `<p>Un personnage de jeu vidéo saute. La courbe donne sa hauteur h, en mètres, selon le temps t, en secondes.</p>${sautC}`, qs: [
         { t: 'Lire la hauteur maximale, en mètres.', comp: 'rea', pts: 1, a: 'le point le plus haut est à 2 m', v: 2, tol: .01, w: 20 },
         { t: 'Lire l’instant où cette hauteur est atteinte, en secondes.', comp: 'rea', pts: 1, a: 'à t = 1 s', v: 1, tol: .01, w: 20 },
         { t: 'La fonction est-elle croissante ou décroissante entre 1 s et 2 s ? Justifier.', comp: 'ana', pts: 1, a: 'Décroissante : la courbe descend de 2 m à 0 m.', v: null, lines: 2 }] }] };
@@ -68,7 +68,7 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
       { t: 'Dans P(x) = 4x + 9, quelle est la valeur de b ?', comp: 'app', pts: 1, a: 'b est le nombre ajouté : 9', v: 9, tol: .01, w: 20 },
       { t: 'La droite d’une fonction passe par l’origine (0 ; 0). La fonction est :', comp: 'ana', pts: 1, choices: ['linéaire', 'affine avec b non nul', 'décroissante'], ok: 0, a: 'linéaire', v: null }],
     exos: [
-      { t: 'La carte de cinéma', intro: `<p>Un cinéma (fictif) propose une carte à ${H('15 €')}, puis ${H('5 €')} par séance. Le prix de x séances est P(x) = 5x + 15.</p>`, qs: [
+      { t: 'La carte de cinéma', intro: `<p>Un cinéma propose une carte à ${H('15 €')}, puis ${H('5 €')} par séance. Le prix de x séances est P(x) = 5x + 15.</p>`, qs: [
         { t: 'Calculer le prix de 8 séances, en euros.', comp: 'rea', pts: 1, a: 'P(8) = 5 × 8 + 15 = 55 €', v: 55, tol: .01, w: 20 },
         { t: 'Avec 80 €, combien de séances peut-on payer ?', comp: 'rea', pts: 1, a: '5x + 15 = 80 donne 5x = 65, puis x = 13', v: 13, tol: .01, w: 20 },
         { t: 'Un client dit : « 12 séances coûtent moins de 70 €. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : P(12) = 5 × 12 + 15 = 75 €, plus que 70 €.', v: null, lines: 2 }] },
@@ -86,11 +86,11 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
       { t: 'La marge d’un commerçant est la différence entre :', comp: 'app', pts: 1, choices: ['le prix de vente HT et le prix d’achat HT', 'le prix TTC et le prix HT', 'le prix brut et le net commercial'], ok: 0, a: 'le prix de vente HT et le prix d’achat HT', v: null },
       { t: 'Un capital de 1 000 € est placé à 3 % par an pendant 2 ans (intérêts simples). Calcule l’intérêt, en euros.', comp: 'rea', pts: 1, a: 'I = 1 000 × 0,03 × 2 = 60 €', v: 60, tol: .01, w: 20 }],
     exos: [
-      { t: 'La facture du casque', intro: `<p>Un casque audio (fictif) est facturé ${H('120 € HT')}. Le magasin accorde une remise de ${H('10 %')}. La TVA est de ${H('20 %')}.</p>`, qs: [
+      { t: 'La facture du casque', intro: `<p>Un casque audio est facturé ${H('120 € HT')}. Le magasin accorde une remise de ${H('10 %')}. La TVA est de ${H('20 %')}.</p>`, qs: [
         { t: 'Calculer la remise, en euros.', comp: 'rea', pts: 1, a: '120 × 0,10 = 12 €', v: 12, tol: .01, w: 20 },
         { t: 'Calculer le total TTC, en euros.', comp: 'ana', pts: 1, a: 'net : 120 − 12 = 108 € HT ; TTC : 108 × 1,20 = 129,60 €', v: 129.6, tol: .006, w: 20 },
         { t: 'Le client dit : « Avec la remise, je paie moins de 120 €. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : le total TTC est 129,60 €, plus que 120 €, car la TVA s’ajoute au net de 108 €.', v: null, lines: 2 }] },
-      { t: 'La marge sur un jeu', intro: `<p>Une boutique (fictive) achète un jeu ${H('30 € HT')} et le revend ${H('39 € HT')}.</p>`, qs: [
+      { t: 'La marge sur un jeu', intro: `<p>Une boutique achète un jeu ${H('30 € HT')} et le revend ${H('39 € HT')}.</p>`, qs: [
         { t: 'Calculer la marge, en euros.', comp: 'rea', pts: 1, a: '39 − 30 = 9 €', v: 9, tol: .01, w: 20 },
         { t: 'Calculer le taux de marge, en pourcentage.', comp: 'app', pts: 1, a: '9 ÷ 30 = 0,30, soit 30 %', v: 30, tol: .05, w: 20 },
         { t: 'Le gérant dit : « Mon taux de marge est supérieur à 40 %. » A-t-il raison ? Justifier.', comp: 'ana', pts: 1, a: 'Non : le taux de marge est 30 %, inférieur à 40 %.', v: null, lines: 2 }] }] };
@@ -103,13 +103,29 @@ module.exports = ({ GR, E, chk0, K, H, tab, D, yn, sum }) => {
       { t: 'Le périmètre d’une figure s’exprime en :', comp: 'app', pts: 1, choices: ['mètres (m)', 'mètres carrés (m²)', 'mètres cubes (m³)'], ok: 0, a: 'mètres (m)', v: null },
       { t: 'Convertis 2 m² en centimètres carrés.', comp: 'rea', pts: 1, a: '2 × 10 000 = 20 000 cm²', v: 20000, tol: .01, w: 22 }],
     exos: [
-      { t: 'Le terrain du quartier', intro: `<p>Un terrain de jeu (fictif) est un rectangle de ${H('30 m')} sur ${H('15 m')}. Un pot de peinture couvre ${H('50 m²')}.</p>`, qs: [
+      { t: 'Le terrain du quartier', intro: `<p>Un terrain de jeu est un rectangle de ${H('30 m')} sur ${H('15 m')}. Un pot de peinture couvre ${H('50 m²')}.</p>`, qs: [
         { t: 'Calculer le périmètre du terrain, en mètres.', comp: 'rea', pts: 1, a: 'P = 2 × (30 + 15) = 90 m', v: 90, tol: .01, w: 20 },
         { t: 'Calculer l’aire du terrain, en mètres carrés.', comp: 'app', pts: 1, a: 'A = 30 × 15 = 450 m²', v: 450, tol: .01, w: 20 },
         { t: 'Un ouvrier dit : « 8 pots suffisent pour peindre tout le terrain. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : 450 ÷ 50 = 9 pots, plus que 8.', v: null, lines: 2 }] },
-      { t: 'Le gobelet du cinéma', intro: `<p>Un gobelet de cinéma (fictif) est un cylindre de rayon ${H('3 cm')} et de hauteur ${H('10 cm')}. Une bouteille contient ${H('1 L')}, soit 1 000 mL. On rappelle que 1 cm³ = 1 mL.</p>`, qs: [
+      { t: 'Le gobelet du cinéma', intro: `<p>Un gobelet de cinéma est un cylindre de rayon ${H('3 cm')} et de hauteur ${H('10 cm')}. Une bouteille contient ${H('1 L')}, soit 1 000 mL. On rappelle que 1 cm³ = 1 mL.</p>`, qs: [
         { t: 'Calculer le volume du gobelet, arrondi à l’unité, en cm³.', comp: 'rea', pts: 1, a: 'V = π × 3² × 10 ≈ 283 cm³', v: 283, tol: .51, w: 20 },
         { t: 'Combien de gobelets pleins peut-on remplir avec la bouteille de 1 L ?', comp: 'ana', pts: 1, a: '1 000 ÷ 282,74 ≈ 3,5 : 3 gobelets pleins', v: 3, tol: .01, w: 20 },
         { t: 'Un client dit : « Ce gobelet contient plus de 250 mL. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Oui : 283 mL est supérieur à 250 mL.', v: null, lines: 2 }] }] };
+    GR.c10 = { app: 'Je repère l’hypoténuse, les côtés de l’angle droit et les longueurs données.', ana: 'Je choisis entre Pythagore, Thalès et la trigonométrie.', rea: 'Je calcule une longueur ou un angle, avec l’unité et l’arrondi demandé.', val: 'Je vérifie que l’hypoténuse est le plus grand côté et que le résultat est possible.', com: 'Je rédige une conclusion avec une phrase et l’unité.' };
+  chk0.push(Math.hypot(6, 8) === 10 && Math.round(Math.hypot(100, 56) * 10) / 10 === 114.6 && Math.round(Math.hypot(100, 56) / 2.54 * 10) / 10 === 45.1 && 114.6 < 120 && 8 / 1 === 8 && 1.5 * 8 === 12 && 12 < 15 && Math.round(10 * Math.sin(30 * Math.PI / 180) * 100) / 100 === 5);
+  E.c10 = { lieu: 'Écran et arbre', duree: '45 min', grille: GR.c10, redac: 1,
+    auto: [
+      { t: 'Les côtés de l’angle droit d’un triangle mesurent 6 cm et 8 cm. Calcule l’hypoténuse, en centimètres.', comp: 'rea', pts: 1, a: '√(6² + 8²) = √100 = 10 cm', v: 10, tol: .01, w: 20 },
+      { t: 'L’hypoténuse d’un triangle rectangle est :', comp: 'app', pts: 1, choices: ['le côté opposé à l’angle droit', 'le plus petit côté', 'un côté de l’angle droit'], ok: 0, a: 'le côté opposé à l’angle droit', v: null },
+      { t: 'La calculatrice est en mode degrés. Calcule 10 × sin 30°.', comp: 'rea', pts: 1, a: 'sin 30° = 0,5, donc 10 × 0,5 = 5', v: 5, tol: .01, w: 20 }],
+    exos: [
+      { t: 'L’écran du salon', intro: `<p>Un écran de télévision rectangulaire mesure ${H('100 cm')} de large et ${H('56 cm')} de haut. On rappelle que 1 pouce = 2,54 cm.</p>`, qs: [
+        { t: 'Calculer la diagonale de l’écran, arrondie au dixième, en centimètres.', comp: 'rea', pts: 1, a: 'd² = 100² + 56² = 13 136 ; d = √13 136 ≈ 114,6 cm', v: 114.6, tol: .06, w: 20 },
+        { t: 'Convertir cette diagonale en pouces, arrondie au dixième.', comp: 'ana', pts: 1, a: '114,6 ÷ 2,54 ≈ 45,1 pouces', v: 45.1, tol: .06, w: 20 },
+        { t: 'Un vendeur dit : « Cet écran mesure plus de 120 cm de diagonale. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : 114,6 cm est inférieur à 120 cm.', v: null, lines: 2 }] },
+      { t: 'La hauteur d’un arbre', intro: `<p>Au même moment, un bâton de ${H('1,5 m')} a une ombre de ${H('1 m')}, et un arbre a une ombre de ${H('8 m')}. Les ombres sont proportionnelles aux hauteurs.</p>`, qs: [
+        { t: 'Calculer le coefficient entre l’ombre de l’arbre et celle du bâton.', comp: 'app', pts: 1, a: '8 ÷ 1 = 8', v: 8, tol: .01, w: 20 },
+        { t: 'Calculer la hauteur de l’arbre, en mètres.', comp: 'rea', pts: 1, a: '1,5 × 8 = 12 m', v: 12, tol: .01, w: 20 },
+        { t: 'Un enfant dit : « L’arbre mesure plus de 15 m. » A-t-il raison ? Justifier.', comp: 'val', pts: 1, a: 'Non : 12 m est inférieur à 15 m.', v: null, lines: 2 }] }] };
   /* FIN */
 };

@@ -32,6 +32,6 @@ python3 test-app3.py "$PWD/../cap/index.html"   # test de bout en bout (ordinate
 
 La version professeur (`build/maths-cap-professeur.pdf`) n’est pas publiée.
 
-Données réelles : voir la page « À propos » de l’appli (sources et date de consultation). Les entreprises, clubs et jeux des exercices inventés sont signalés « (fictif) ».
+Données réelles : voir la page « À propos » de l’appli (sources et date de consultation). Les entreprises, clubs et jeux des exercices sont inventés (un rappel figure au début du manuel).
 
 Tom Rougeaud · licence CC BY-NC 4.0.

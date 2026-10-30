@@ -4,13 +4,14 @@
   'use strict';
   const MC = typeof module !== 'undefined' ? require('./gens.js').MCVG : root.MCVG;
   const { fr } = MC;
-  const INK = '#1D2240', SOFT = '#545B7A', GRID = '#DCE2F2', RED = '#C2332A', BLUE = '#1D5FC2', ORG = '#B05200', GRN = '#1E7F45', VIO = '#7438C0';
+  const INK = '#1D2240', SOFT = '#545B7A', GRID = '#C4CCE4', RED = '#C2332A', BLUE = '#1D5FC2', ORG = '#B05200', GRN = '#1E7F45', VIO = '#7438C0';
+  const HALO = ' data-tk="1" style="paint-order:stroke;stroke:#fff;stroke-width:3.4px;stroke-linejoin:round"';
   const f1 = n => (Math.round(n * 10) / 10).toString();
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const T = (x, y, s, o = {}) => `<text x="${f1(x)}" y="${f1(y)}" font-size="${o.fs || 12}" text-anchor="${o.a || 'middle'}" font-weight="${o.w || 700}" ${o.fill ? `fill="${o.fill}"` : `class="${o.c || 'tx'}"`}${o.r ? ` transform="rotate(${o.r} ${f1(x)} ${f1(y)})"` : ''}>${s}</text>`;
+  const T = (x, y, s, o = {}) => `<text x="${f1(x)}" y="${f1(y)}" font-size="${o.fs || 12}" text-anchor="${o.a || 'middle'}" font-weight="${o.w || 700}" ${o.fill ? `fill="${o.fill}"` : `class="${o.c || 'tx'}"`}${o.r ? ` transform="rotate(${o.r} ${f1(x)} ${f1(y)})"` : ''}${o.tk ? HALO : ''}>${s}</text>`;
   /* repère : x ∈ [x0 ; x1] pas dx, y ∈ [y0 ; y1] pas dy */
   function plot(o) {
-    const W = o.W || 600, H = o.H || 300, [x0, x1, dx] = o.x, [y0, y1, dy] = o.y, ml = o.ml == null ? 50 : o.ml, mr = o.mr == null ? 16 : o.mr, mt = o.mt == null ? 16 : o.mt, mb = o.mb == null ? 36 : o.mb;
+    const W = o.W || 600, H = o.H || 300, [x0, x1, dx] = o.x, [y0, y1, dy] = o.y, ml = o.ml == null ? 50 : o.ml, mr = o.mr == null ? 16 : o.mr, mt = Math.max(o.mt == null ? 16 : o.mt, o.yl ? 22 : 0), mb = Math.max(o.mb == null ? 36 : o.mb, o.xl ? 42 : 0);
     const X = x => ml + (x - x0) / (x1 - x0) * (W - ml - mr), Y = y => H - mb - (y - y0) / (y1 - y0) * (H - mt - mb);
     const inY = y => Number.isFinite(y) && y >= y0 - 1e-9 && y <= y1 + 1e-9;
     let base = '';
@@ -21,13 +22,16 @@
     const ax0 = o.zeroAxes ? Math.min(Math.max(0, y0), y1) : y0, ay0 = o.zeroAxes ? Math.min(Math.max(0, x0), x1) : x0;
     base += `<line x1="${f1(X(x0))}" y1="${f1(Y(ax0))}" x2="${f1(X(x1))}" y2="${f1(Y(ax0))}" stroke="${INK}" stroke-width="2"/><line x1="${f1(X(ay0))}" y1="${f1(Y(y0))}" x2="${f1(X(ay0))}" y2="${f1(Y(y1))}" stroke="${INK}" stroke-width="2"/>`;
     const fs = o.fs || 12, lx = o.lx || 1, ly = o.ly || 1;
+    const orgOn = !!(o.zeroAxes && ax0 === 0 && ay0 === 0 && y0 < 0 && x0 <= 0);
+    let orgY = Y(0) + fs + 6;
+    if (orgOn) { let k = 0; for (let y = y0; y <= y1 + 1e-9; y += dy, k++) if (k % ly === 0 && Math.abs(y) > 1e-9 && Math.abs(Y(y) + 4 - orgY) < fs * 1.15) orgY = Y(0) - 6; }
     let i = 0;
-    if (o.xt) { for (const [x, lab] of o.xt) base += `<line x1="${f1(X(x))}" y1="${f1(Y(ax0))}" x2="${f1(X(x))}" y2="${f1(Y(ax0) + 5)}" stroke="${INK}" stroke-width="1.6"/>` + T(X(x), Y(ax0) + 19, lab, { fs, w: 400, c: 'ts' }); }
-    else for (let x = x0; x <= x1 + 1e-9; x += dx, i++) { base += `<line x1="${f1(X(x))}" y1="${f1(Y(ax0)) }" x2="${f1(X(x))}" y2="${f1(Y(ax0) + 5)}" stroke="${INK}" stroke-width="1.6"/>`; if (i % lx === 0 && !(o.zeroAxes && Math.abs(x) < 1e-9 && ay0 === 0 && false)) base += T(X(x), Y(ax0) + 19, fr(+x.toFixed(6)), { fs, w: 400, c: 'ts' }); }
+    if (o.xt) { for (const [x, lab] of o.xt) base += `<line x1="${f1(X(x))}" y1="${f1(Y(ax0))}" x2="${f1(X(x))}" y2="${f1(Y(ax0) + 5)}" stroke="${INK}" stroke-width="1.6"/>` + T(X(x), Y(ax0) + 19, lab, { fs, w: 400, c: 'ts', tk: 1 }); }
+    else for (let x = x0; x <= x1 + 1e-9; x += dx, i++) { base += `<line x1="${f1(X(x))}" y1="${f1(Y(ax0)) }" x2="${f1(X(x))}" y2="${f1(Y(ax0) + 5)}" stroke="${INK}" stroke-width="1.6"/>`; if (i % lx === 0) { if (orgOn && Math.abs(x) < 1e-9) base += T(X(x) - 8, orgY, '0', { fs, w: 400, c: 'ts', a: 'end', tk: 1 }); else base += T(X(x), Y(ax0) + 19, fr(+x.toFixed(6)), { fs, w: 400, c: 'ts', tk: 1 }); } }
     i = 0;
-    for (let y = y0; y <= y1 + 1e-9; y += dy, i++) { base += `<line x1="${f1(X(ay0) - 5)}" y1="${f1(Y(y))}" x2="${f1(X(ay0))}" y2="${f1(Y(y))}" stroke="${INK}" stroke-width="1.6"/>`; if (i % ly === 0) base += T(X(ay0) - 9, Y(y) + 4, fr(+y.toFixed(6)), { fs, a: 'end', w: 400, c: 'ts' }); }
-    if (o.xl) base += T(X(x1), H - 1, o.xl, { fs: fs + 1, a: 'end', c: 'ts' });
-    if (o.yl) base += T(ml - 4, 11, o.yl, { fs: fs + 1, a: 'start', c: 'ts' });
+    for (let y = y0; y <= y1 + 1e-9; y += dy, i++) { base += `<line x1="${f1(X(ay0) - 5)}" y1="${f1(Y(y))}" x2="${f1(X(ay0))}" y2="${f1(Y(y))}" stroke="${INK}" stroke-width="1.6"/>`; if (i % ly === 0 && !(orgOn && Math.abs(y) < 1e-9)) base += T(X(ay0) - 9, Y(y) + 4, fr(+y.toFixed(6)), { fs, a: 'end', w: 400, c: 'ts', tk: 1 }); }
+    if (o.xl) base += T(X(x1), H - 5, o.xl, { fs: fs + 1, a: 'end', c: 'ts' });
+    if (o.yl) base += T(ml - 4, mt - 8, o.yl, { fs: fs + 1, a: 'start', c: 'ts' });
     /* courbe d’une fonction, coupée là où elle sort du cadre */
     const curve = (fn, c = {}) => {
       const a = c.a == null ? x0 : c.a, b = c.b == null ? x1 : c.b, n = c.n || 240; let d = '', pen = false;
@@ -49,7 +53,7 @@
     const band = (xa, xb, c = {}) => `<rect x="${f1(X(Math.max(xa, x0)))}" y="${f1(Y(y1))}" width="${f1(X(Math.min(xb, x1)) - X(Math.max(xa, x0)))}" height="${f1(Y(y0) - Y(y1))}" fill="${c.fill || '#FFC233'}" opacity="${c.op || .22}"/>`;
     const txt = (x, y, s, c = {}) => T(X(x) + (c.dx || 0), Y(y) + (c.dy || 0), s, { fs: c.fs || 13, a: c.a, c: c.cls || 'kt', fill: c.fill });
     const open = `<svg viewBox="0 0 ${W} ${H}" class="${o.cls || 'pic vis'}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(o.lab || 'Graphique')}">`;
-    return { W, H, X, Y, base, curve, pts, dot, guide, seg, line, band, txt, T, wrap: body => open + body + '</svg>', open, ml, mr, mt, mb };
+    return { W, H, X, Y, base, curve, pts, dot, guide, seg, line, band, txt, T, wrap: body => { const tk = [], first = body.indexOf('data-tk'); const inSt = first > body.indexOf('<g class="st st1">') && body.indexOf('<g class="st st1">') >= 0; body = body.replace(/<text [^>]*data-tk="1"[^>]*>[^<]*<\/text>/g, m => { tk.push(m.replace(' data-tk="1"', '')); return ''; }); return open + body + (tk.length ? (inSt ? '<g class="st st1">' : '<g>') + tk.join('') + '</g>' : '') + '</svg>'; }, open, ml, mr, mt, mb };
   }
   /* moindres carrés : droite y = a x + b et coefficient de détermination */
   function fit(P) {

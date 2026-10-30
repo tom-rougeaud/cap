@@ -10,7 +10,7 @@
   H.bolt = BOLT;
   const cent = x => Math.round(x * 100);
   const dtm = (a, b) => (cent(BOLT[b][1]) - cent(BOLT[a][1])) / 100;
-  const CTXK = [['places de cinéma (fictif)', 'Nombre de places', 'Prix (€)'], ['paquets de cartes (fictif)', 'Nombre de paquets', 'Prix (€)'], ['séances de jeu (fictif)', 'Nombre de séances', 'Prix (€)']];
+  const CTXK = [['places de cinéma', 'Nombre de places', 'Prix (€)'], ['paquets de cartes', 'Nombre de paquets', 'Prix (€)'], ['séances de jeu', 'Nombre de séances', 'Prix (€)']];
 
   /* point de départ : les temps de passage de Usain Bolt */
   DEP.c3 = R => {
@@ -39,7 +39,7 @@
         items = [qcm('a', ['oui', 'non'], 1, 'non'), num('b', rnd(q0, 2), 2, f2(q0)), num('c', rnd(q1, 2), 2, f2(q1))];
         m = { a: `les quotients ne sont pas tous égaux : ${f2(q0)} et ${f2(q1)}`, b: `${fr(Y[0])} ÷ ${X[0]} = ${f2(q0)}`, c: `${fr(Yshow[idx])} ÷ ${X[idx]} = ${f2(q1)}` }; }
       xs(items, m);
-      return { titre: 'Proportionnel ou pas ?', consigne: `Un tableau relevé dans une boutique (fictive) donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On veut savoir si c’est un tableau de proportionnalité : on calcule 2e ligne ÷ 1re ligne dans plusieurs colonnes.`,
+      return { titre: 'Proportionnel ou pas ?', consigne: `Un tableau relevé dans une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On veut savoir si c’est un tableau de proportionnalité : on calcule 2e ligne ÷ 1re ligne dans plusieurs colonnes.`,
         support: tabXY(xl, yl, X, Yshow) + `<p class="tr-l">a. Est-ce un tableau de proportionnalité ? (voir la case en dessous)</p>` + (prop ? `<p class="tr-l">b. Coefficient de proportionnalité : ${tb('b', fr(k), 16)}</p><p class="tr-l">c. Valeur à mettre à la place du « ? » : ${tb('c', fr(Y[4]), 16)}</p>` : `<p class="tr-l">b. Quotient 2e ligne ÷ 1re ligne, colonne ${X[0]} : ${tb('b', f2(q0), 16)}</p><p class="tr-l">c. Quotient 2e ligne ÷ 1re ligne, colonne ${X[idx]} (arrondi au centième) : ${tb('c', f2(q1), 16)}</p>`), items,
         hints: ['Dans un tableau de proportionnalité, tous les quotients 2e ligne ÷ 1re ligne sont égaux.', 'Calcule ce quotient pour deux colonnes et compare.', 'Si c’est proportionnel, on multiplie la 1re ligne par le coefficient pour trouver la 2e.'] };
     }
@@ -47,7 +47,7 @@
       const k = pick(R, [3, 4, 5, 6, 8]), X = [1, 2, 3, 4], Y = X.map(x => x * k), Ys = Y.slice(); Ys[3] = '?';
       const items = [num('a', k, 0, String(k), [{ v: Y[1], m: 'C’est la valeur de la 2e ligne. Divise-la par celle de la 1re ligne.' }]), num('b', Y[3], 0, String(Y[3])), qcm('c', ['oui', 'non'], 0, 'oui')];
       xs(items, { a: `${Y[1]} ÷ ${X[1]} = ${k} (ou 1 ${nom.split(' ')[0].replace(/s$/, '')} coûte ${k} €)`, b: `4 × ${k} = ${Y[3]}`, c: `tous les quotients valent ${k}` });
-      return { titre: 'Proportionnel ou pas ? Pas à pas', consigne: `Un tableau relevé dans une boutique (fictive) donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On cherche le coefficient, puis on complète la case « ? ».`,
+      return { titre: 'Proportionnel ou pas ? Pas à pas', consigne: `Un tableau relevé dans une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On cherche le coefficient, puis on complète la case « ? ».`,
         support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">Début du calcul : colonne 2 → ${Y[1]} ÷ 2 = ?</p><p class="tr-l">a. Coefficient de proportionnalité : ${tb('a', String(k), 14)}</p><p class="tr-l">b. Valeur à mettre à la place du « ? » (4 × coefficient) : ${tb('b', String(Y[3]), 14)}</p><p class="tr-l">c. Les quotients des colonnes 1, 2 et 3 sont égaux : est-ce proportionnel ? (voir la case en dessous)</p>`, items,
         hints: ['Coefficient = valeur de la 2e ligne ÷ valeur de la 1re ligne, dans une colonne.', 'Pour la case manquante : 1re ligne × coefficient.', 'Même quotient dans toutes les colonnes : proportionnel.'] };
     }
@@ -55,12 +55,12 @@
     const ch = X.map(x => `colonne ${x}`);
     const items = [num('a', k, 2, fr(k), [{ v: rnd(bad / X[idx], 2), m: 'Cette colonne contient l’erreur. Prends le quotient d’une autre colonne.' }]), qcm('b', ch, idx, ch[idx]), num('c', Y[idx], 2, fr(Y[idx]), [{ v: bad, m: 'C’est la valeur fausse du tableau. Calcule la bonne : ' + X[idx] + ' × coefficient.' }]), qcm('d', ['oui', 'non'], 1, 'non')];
     xs(items, { a: `les colonnes ${X.filter((_, i) => i !== idx).slice(0, 2).join(' et ')} donnent ${fr(Y[X.indexOf(X.filter((_, i) => i !== idx)[0])])} ÷ ${X.filter((_, i) => i !== idx)[0]} = ${fr(k)}`, b: `${fr(bad)} ÷ ${X[idx]} = ${f2(bad / X[idx])}, qui n’est pas ${fr(k)}`, c: `${X[idx]} × ${fr(k)} = ${fr(Y[idx])}`, d: 'tant qu’une colonne ne suit pas le coefficient, le tableau n’est pas proportionnel' });
-    return { titre: 'Trouver l’erreur', consigne: `Le tableau d’une boutique (fictive) donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. Il devrait être proportionnel, mais une seule valeur de la 2e ligne est fausse. À toi de la repérer et de la corriger.`,
+    return { titre: 'Trouver l’erreur', consigne: `Le tableau d’une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. Il devrait être proportionnel, mais une seule valeur de la 2e ligne est fausse. À toi de la repérer et de la corriger.`,
       support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">a. Coefficient de proportionnalité (celui des colonnes justes) : ${tb('a', fr(k), 16)}</p><p class="tr-l">b. Quelle colonne contient l’erreur ? (voir la case en dessous)</p><p class="tr-l">c. Valeur correcte à mettre dans cette colonne : ${tb('c', fr(Y[idx]), 16)}</p><p class="tr-l">d. Le tableau tel qu’il est écrit est-il proportionnel ? (voir la case en dessous)</p>`, items,
       hints: ['Calcule 2e ligne ÷ 1re ligne dans chaque colonne : le quotient qui revient le plus souvent est le coefficient.', 'La colonne dont le quotient est différent contient l’erreur.', 'La valeur correcte : 1re ligne × coefficient.'] };
   });
 
-  /* e2 · coefficient et tableau : une recette (fictive) */
+  /* e2 · coefficient et tableau : une recette */
   const REC = [['de nouilles', 'g', [80, 90, 110, 120]], ['de bouillon', 'cL', [25, 30, 35, 40]], ['de riz', 'g', [60, 70, 75, 80]]];
   lv('c3e2', (R, niv) => {
     const [ing, un, qs] = pick(R, REC), q = pick(R, qs);
@@ -68,21 +68,21 @@
       const P = [2, 4, 6, 10], Q = P.map(p => p * q), Qs = Q.slice(), pers = 15, m = pick(R, [9, 12, 14]), M = q * m; Qs[2] = '?'; Qs[3] = '?';
       const items = [num('a', q, 0, String(q), [{ v: Q[1], m: 'C’est la quantité pour 4 personnes. Divise-la par 4 pour une personne.' }]), num('b', Q[2], 0, String(Q[2]), [{ v: q + 2, m: 'Ajouter 2 ne marche pas : en proportionnalité, on multiplie.' }]), num('c', q * pers, 0, String(q * pers)), num('d', m, 0, String(m), [{ v: M * q, m: 'Tu as multiplié. Pour trouver le nombre de personnes, divise la quantité totale par la quantité d’une personne.' }])];
       xs(items, { a: `${Q[1]} ${un} ÷ 4 = ${q} ${un} par personne`, b: `6 × ${q} = ${Q[2]} ${un}`, c: `${pers} × ${q} = ${q * pers} ${un}`, d: `${M} ÷ ${q} = ${m} personnes` });
-      return { titre: 'Une recette pour tout le monde', consigne: `Une recette de ramen (fictive) donne les quantités ${ing} selon le nombre de personnes. C’est une situation de proportionnalité. Les cases « ? » sont à compléter.`,
+      return { titre: 'Une recette pour tout le monde', consigne: `Une recette de ramen donne les quantités ${ing} selon le nombre de personnes. C’est une situation de proportionnalité. Les cases « ? » sont à compléter.`,
         support: tabXY('Personnes', `Quantité ${ing} (${un})`, P, Qs) + `<p class="tr-l">a. Quantité ${ing} pour une personne : ${tb('a', String(q), 14)} ${un}</p><p class="tr-l">b. Quantité pour 6 personnes (case « ? ») : ${tb('b', String(Q[2]), 14)} ${un}</p><p class="tr-l">c. Quantité pour ${pers} personnes : ${tb('c', String(q * pers), 14)} ${un}</p><p class="tr-l">d. Avec ${M} ${un}, pour combien de personnes peut-on préparer la recette ? ${tb('d', String(m), 14)}</p>`, items,
         hints: ['Quantité pour 1 personne : divise la quantité d’une colonne par le nombre de personnes de cette colonne.', 'Quantité pour n personnes : n × quantité d’une personne.', 'Nombre de personnes : quantité totale ÷ quantité d’une personne.'] };
     }
     if (niv < 0) {
       const P = [1, 2, 4], Q = P.map(p => p * q), items = [num('a', Q[1], 0, String(Q[1])), num('b', q * 3, 0, String(q * 3)), num('c', q * 5, 0, String(q * 5))];
       xs(items, { a: `2 × ${q} = ${Q[1]} ${un}`, b: `3 × ${q} = ${q * 3} ${un}`, c: `5 × ${q} = ${q * 5} ${un}` });
-      return { titre: 'Une recette, pas à pas', consigne: `Une recette de ramen (fictive) demande ${q} ${un} ${ing} par personne. C’est une situation de proportionnalité : pour 2 personnes, on multiplie par 2.`,
+      return { titre: 'Une recette, pas à pas', consigne: `Une recette de ramen demande ${q} ${un} ${ing} par personne. C’est une situation de proportionnalité : pour 2 personnes, on multiplie par 2.`,
         support: tabXY('Personnes', `Quantité ${ing} (${un})`, [1, 2, 3, 5], [q, '?', '?', '?']) + `<p class="tr-l">Début du calcul : 2 × ${q} = ?</p><p class="tr-l">a. Pour 2 personnes : ${tb('a', String(Q[1]), 14)} ${un}</p><p class="tr-l">b. Pour 3 personnes : ${tb('b', String(q * 3), 14)} ${un}</p><p class="tr-l">c. Pour 5 personnes : ${tb('c', String(q * 5), 14)} ${un}</p>`, items,
         hints: ['Pour n personnes : n × quantité d’une personne.', 'La quantité d’une personne est donnée dans la 1re colonne.', 'Vérifie : plus il y a de personnes, plus il faut de quantité.'] };
     }
     const c = pick(R, [.15, .2, .25, .3]), conv = 12, S = c * pick(R, [18, 20, 24, 30]), nb = Math.round(S / c), pu = pick(R, [3.2, 4.5, 5.5]), tot = 30 * c, cout = rnd(tot * pu, 2);
     const items = [num('a', rnd(c * 1000, 0), 0, String(Math.round(c * 1000)), [{ v: c, m: 'C’est en kg. On te demande des grammes : 1 kg = 1 000 g.' }]), num('b', rnd(tot, 2), 2, fr(rnd(tot, 2)), [{ v: Math.round(c * 1000 * 30), m: 'C’est en grammes. On te demande des kilogrammes.' }]), num('c', nb, 0, String(nb)), num('d', cout, 2, fr(cout))];
     xs(items, { a: `${fr(c)} kg = ${fr(c)} × 1 000 = ${Math.round(c * 1000)} g`, b: `30 × ${fr(c)} = ${fr(rnd(tot, 2))} kg`, c: `${fr(S)} ÷ ${fr(c)} = ${nb} convives`, d: `${fr(rnd(tot, 2))} × ${fr(pu)} = ${fr(cout)} €` });
-    return { titre: 'Buffet de ramen : les unités', consigne: `Pour un buffet de ramen (fictif), on prévoit ${fr(c)} kg de nouilles par convive. Les nouilles coûtent ${fr(pu)} € le kg. C’est une situation de proportionnalité : attention aux unités.`,
+    return { titre: 'Buffet de ramen : les unités', consigne: `Pour un buffet de ramen, on prévoit ${fr(c)} kg de nouilles par convive. Les nouilles coûtent ${fr(pu)} € le kg. C’est une situation de proportionnalité : attention aux unités.`,
       support: table(['Convives', '1', '30', '?'], [['Nouilles (kg)', fr(c), '?', fr(S)]]) + `<p class="tr-l">a. Masse de nouilles par convive, en grammes : ${tb('a', String(Math.round(c * 1000)), 14)} g</p><p class="tr-l">b. Masse nécessaire pour 30 convives, en kg : ${tb('b', fr(rnd(tot, 2)), 14)} kg</p><p class="tr-l">c. Avec un stock de ${fr(S)} kg, pour combien de convives en a-t-on assez ? ${tb('c', String(nb), 14)}</p><p class="tr-l">d. Coût des nouilles pour 30 convives, en € : ${tb('d', fr(cout), 14)} €</p>`, items,
       hints: ['1 kg = 1 000 g : pour passer des kg aux g, multiplie par 1 000.', 'Masse totale = nombre de convives × masse par convive.', 'Nombre de convives = stock ÷ masse par convive.', 'Coût = masse en kg × prix d’un kg.'] };
   });
@@ -94,7 +94,7 @@
       const items = niv < 0 ? [num('a', u, 2, fr(u), [{ v: a, m: 'C’est le nombre de ' + nom + '. Divise le prix par ce nombre.' }]), num('b', rnd(u * c, 2), 2, fr(rnd(u * c, 2)))] : [num('a', u, 2, fr(u), [{ v: a, m: 'C’est le nombre de ' + nom + '. Divise le prix par ce nombre.' }]), num('b', rnd(u * c, 2), 2, fr(rnd(u * c, 2)), [{ v: rnd(b + c, 2), m: 'Tu as additionné. En proportionnalité, on multiplie le prix d’une unité.' }]), num('c', m, 0, String(m), [{ v: rnd(D * u, 2), m: 'Tu as multiplié. Pour trouver un nombre de ' + nom + ', divise la somme par le prix d’une ' + un + '.' }]), qcm('d', [`${fr(D)} ÷ ${fr(u)}`, `${fr(D)} × ${fr(u)}`, `${fr(D)} − ${fr(u)}`], 0, `${fr(D)} ÷ ${fr(u)}`)];
       xs(items, niv < 0 ? { a: `${fr(b)} ÷ ${a} = ${fr(u)} €`, b: `${c} × ${fr(u)} = ${fr(rnd(u * c, 2))} €` } : { a: `${fr(b)} ÷ ${a} = ${fr(u)} € la ${un}`, b: `${c} × ${fr(u)} = ${fr(rnd(u * c, 2))} €`, c: `${fr(D)} ÷ ${fr(u)} = ${m}`, d: 'pour trouver combien de fois le prix d’une unité tient dans la somme, on divise' });
       const T3 = tabXY('Nombre', 'Prix (€)', [a, 1, c, '?'], [fr(b), '?', '?', fr(D)]);
-      return { titre: niv < 0 ? 'Le prix d’une unité, pas à pas' : 'Passer par l’unité', consigne: `${a} ${nom} coûtent ${fr(b)} € (tarif fictif, le même prix pour chaque ${un}). Pour calculer, on passe par le prix d’une ${un}.`,
+      return { titre: niv < 0 ? 'Le prix d’une unité, pas à pas' : 'Passer par l’unité', consigne: `${a} ${nom} coûtent ${fr(b)} € (le même prix pour chaque ${un}). Pour calculer, on passe par le prix d’une ${un}.`,
         support: (niv < 0 ? tabXY('Nombre', 'Prix (€)', [a, 1, c], [fr(b), '?', '?']) : T3) + `<p class="tr-l">${niv < 0 ? 'Début du calcul : ' + fr(b) + ' ÷ ' + a + ' = ?' : ''}</p><p class="tr-l">a. Prix d’une ${un}, en € : ${tb('a', fr(u), 16)}</p><p class="tr-l">b. Prix de ${c} ${nom}, en € : ${tb('b', fr(rnd(u * c, 2)), 16)}</p>` + (niv < 0 ? '' : `<p class="tr-l">c. Avec ${fr(D)} €, combien de ${nom} peut-on acheter ? ${tb('c', String(m), 14)}</p><p class="tr-l">d. Quelle opération donne ce nombre de ${nom} ? (voir la case en dessous)</p>`), items,
         hints: [`Prix d’une ${un} = ${fr(b)} ÷ ${a}.`, `Prix de ${c} ${nom} = ${c} × prix d’une ${un}.`, `Nombre de ${nom} = somme ÷ prix d’une ${un}.`] };
     }

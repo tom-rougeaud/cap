@@ -19,5 +19,8 @@ module.exports = {
   'c9.au': ['A = 8 × 5 = 40 m².', 'Le périmètre est une longueur : on l’écrit en mètres.', '1 m² = 10 000 cm², donc 2 m² = 2 × 10 000 = 20 000 cm².'],
   'c9.ev0': ['P = 2 × (30 + 15) = 2 × 45 = 90 m.', 'A = 30 × 15 = 450 m².', '450 ÷ 50 = 9 pots, plus que 8 : l’ouvrier a tort.'],
   'c9.ev1': ['V = π × 3² × 10 = π × 90 ≈ 282,74 cm³, soit 283 cm³.', '1 000 ÷ 282,74 ≈ 3,54 : on remplit 3 gobelets pleins.', '283 mL est supérieur à 250 mL : le client a raison.'],
+    'c10.au': ['d² = 6² + 8² = 36 + 64 = 100, donc d = √100 = 10 cm.', 'L’hypoténuse est le côté opposé à l’angle droit : c’est toujours le plus grand côté.', 'sin 30° = 0,5, donc 10 × 0,5 = 5.'],
+  'c10.ev0': ['d² = 100² + 56² = 10 000 + 3 136 = 13 136, donc d = √13 136 ≈ 114,6 cm.', '114,6 ÷ 2,54 ≈ 45,1 pouces.', '114,6 cm est inférieur à 120 cm : le vendeur a tort.'],
+  'c10.ev1': ['8 ÷ 1 = 8 : l’ombre de l’arbre est 8 fois plus longue que celle du bâton.', '1,5 × 8 = 12 m.', '12 m est inférieur à 15 m : l’enfant a tort.'],
   /* FIN */
 };

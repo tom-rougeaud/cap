@@ -11,7 +11,7 @@
 
   DEP.c7 = R => {
     const a = pick(R, [3, 4, 5, 6]), xs5 = [1, 2, 3, 4, 5], k = int(R, 0, 4), n = pick(R, [4, 6, 7, 9]), n2 = pick(R, [6, 8, 10]);
-    const doc = `<table class="dt tcx dt-sm"><thead><tr><th>Seaux de pop-corn x</th><th>Prix f(x) (€)</th></tr></thead><tbody>${xs5.map((x, i) => `<tr><th>${x}</th><td data-cell="${i + 1}">${a * x}</td></tr>`).join('')}</tbody></table><p class="tr-l">Un seau de pop-corn (fictif) a un prix fixe : le prix est f(x) = a × x.</p>`;
+    const doc = `<table class="dt tcx dt-sm"><thead><tr><th>Seaux de pop-corn x</th><th>Prix f(x) (€)</th></tr></thead><tbody>${xs5.map((x, i) => `<tr><th>${x}</th><td data-cell="${i + 1}">${a * x}</td></tr>`).join('')}</tbody></table><p class="tr-l">Un seau de pop-corn a un prix fixe : le prix est f(x) = a × x.</p>`;
     const ch = shuffle(R, ['l’origine (0 ; 0)', 'le point (0 ; 5)']);
     return { titre: 'Le prix des seaux de pop-corn', doc,
       qs: [{ t: `Quel est le prix de ${xs5[k]} seaux, en euros ?`, kind: 'tap', cell: String(k + 1), v: a * xs5[k], tol: .001, a: String(a * xs5[k]) },
@@ -27,21 +27,21 @@
     if (niv === 0) {
       const items = [num('a', v1, 0, String(v1), [{ v: a * (x1 + b), m: 'Tu as additionné avant de multiplier. On multiplie a par x, puis on ajoute b.' }]), num('b', b, 0, String(b), [{ v: a, m: 'C’est le coefficient a. Le nombre b est celui qui est ajouté.' }]), num('c', x2, 0, String(x2), [{ v: rnd(v2 / a, 2), m: 'Tu as divisé sans retirer b. Retire d’abord ' + b + ', puis divise par ' + a + '.' }])];
       xs(items, { a: `P(${x1}) = ${a} × ${x1} + ${b} = ${a * x1} + ${b} = ${v1}`, b: `dans ${a}x + ${b}, le nombre ajouté est ${b}`, c: `${a}x + ${b} = ${v2} donne ${a}x = ${v2 - b}, puis x = ${v2 - b} ÷ ${a} = ${x2}` });
-      return { titre: 'Une carte à prix fixe', consigne: `Un cinéma (fictif) vend une carte puis un prix par séance. Le prix de x séances est P(x) = ${a}x + ${b}.`,
+      return { titre: 'Une carte à prix fixe', consigne: `Un cinéma vend une carte puis un prix par séance. Le prix de x séances est P(x) = ${a}x + ${b}.`,
         support: table(['Nombre', 'Valeur', 'Rôle'], [['a', String(a), 'prix d’une séance'], ['b', String(b), 'prix de la carte']]) + ln('a', `Prix de ${x1} séances`, String(v1), 14, '€') + ln('b', 'Prix de la carte (le nombre b)', String(b), 14, '€') + `<p class="tr-l">Un client a payé ${v2} €.</p>` + ln('c', 'Nombre de séances', String(x2), 14), items,
         hints: ['Remplace x par la valeur, multiplie, puis ajoute b.', 'b est le nombre ajouté, le prix à 0 séance.', 'Retire b, puis divise par a.'] };
     }
     if (niv < 0) {
       const items = [num('a', a * x1, 0, String(a * x1), [{ v: x1, m: 'C’est le nombre de séances. Multiplie-le par ' + a + '.' }]), num('b', v1, 0, String(v1), [{ v: a * x1, m: 'C’est a × x. N’oublie pas d’ajouter ' + b + '.' }]), qcm('c', ['le prix fixe de la carte', 'le prix de chaque séance'], 0, 'le prix fixe de la carte')];
       xs(items, { a: `${a} × ${x1} = ${a * x1}`, b: `${a * x1} + ${b} = ${v1} €`, c: 'b est ajouté une seule fois : c’est le prix de la carte' });
-      return { titre: 'Une formule, pas à pas', consigne: `Un cinéma (fictif) vend une carte de ${b} € puis ${a} € par séance : P(x) = ${a}x + ${b}. On calcule le prix de ${x1} séances.`,
+      return { titre: 'Une formule, pas à pas', consigne: `Un cinéma vend une carte de ${b} € puis ${a} € par séance : P(x) = ${a}x + ${b}. On calcule le prix de ${x1} séances.`,
         support: tabXY('x', 'P (€)', [String(x1)], ['?']) + `<p class="tr-l">Début du calcul : P(${x1}) = ${a} × ${x1} + ${b}</p>` + ln('a', `${a} × ${x1}`, String(a * x1), 14) + ln('b', 'Prix P, en euros', String(v1), 14, '€') + `<p class="tr-l">c. Que représente le nombre ${b} ? (voir la case en dessous)</p>`, items,
         hints: ['Multiplie a par x.', 'Ajoute b au résultat.', 'b est ajouté une seule fois.'] };
     }
     const c = pick(R, [3, 4, 5]), d0 = pick(R, [2, 4, 6]), y1 = c * x1, g1 = d0 * x1 + 9, xx = pick(R, [4, 6, 8]), tg = d0 * xx + 9;
     const items = [num('a', y1, 0, String(y1)), num('b', g1, 0, String(g1), [{ v: d0 * (x1 + 9), m: 'Tu as additionné avant de multiplier.' }]), num('c', xx, 0, String(xx), [{ v: rnd(tg / d0, 2), m: 'Tu as divisé sans retirer 9. Retire 9 d’abord.' }]), qcm('d', ['f', 'g'], 0, 'f')];
     xs(items, { a: `f(${x1}) = ${c} × ${x1} = ${y1}`, b: `g(${x1}) = ${d0} × ${x1} + 9 = ${g1}`, c: `${d0}x + 9 = ${tg} donne ${d0}x = ${tg - 9}, puis x = ${xx}`, d: 'f(x) = c × x n’a pas de nombre ajouté : elle est linéaire' });
-    return { titre: 'Linéaire ou affine ?', consigne: `Deux formules (fictives) : f(x) = ${c}x et g(x) = ${d0}x + 9. Calcule, résous, puis classe-les.`,
+    return { titre: 'Linéaire ou affine ?', consigne: `Deux formules : f(x) = ${c}x et g(x) = ${d0}x + 9. Calcule, résous, puis classe-les.`,
       support: table(['Fonction', 'Formule'], [['f', `${c} × x`], ['g', `${d0} × x + 9`]]) + ln('a', `f(${x1})`, String(y1), 14) + ln('b', `g(${x1})`, String(g1), 14) + `<p class="tr-l">On sait que g(x) = ${tg}.</p>` + ln('c', 'x', String(xx), 14) + `<p class="tr-l">d. Laquelle est linéaire : f ou g ? (voir la case en dessous)</p>`, items,
       hints: ['Remplace x par la valeur dans chaque formule.', 'Multiplie avant d’additionner.', 'Retire 9, puis divise.', 'Une fonction linéaire n’a pas de nombre ajouté.'] };
   });
@@ -88,7 +88,7 @@
     if (niv === 0) {
       const items = [num('a', A(x1), 0, String(A(x1))), num('b', B(x1), 0, String(B(x1)), [{ v: q * (x1 + r), m: 'Tu as additionné avant de multiplier.' }]), num('c', xstar, 0, String(xstar), [{ v: r, m: 'Tu as pris le nombre ' + r + '. Il faut le diviser par l’écart des coefficients : ' + r + ' ÷ ' + dd + '.' }]), qcm('d', ['A', 'B'], A(x1) < B(x1) ? 0 : 1, A(x1) < B(x1) ? 'A' : 'B')];
       xs(items, { a: `A(${x1}) = ${p} × ${x1} = ${A(x1)} €`, b: `B(${x1}) = ${q} × ${x1} + ${r} = ${B(x1)} €`, c: `${p}x = ${q}x + ${r} donne ${dd}x = ${r}, puis x = ${xstar}`, d: `${A(x1)} ${A(x1) < B(x1) ? '<' : '>'} ${B(x1)} : ${A(x1) < B(x1) ? 'A' : 'B'} est moins chère` });
-      return { titre: 'Deux formules de séances', consigne: `Un cinéma (fictif) propose la formule A : A(x) = ${p}x, et la formule B : B(x) = ${q}x + ${r}. Compare-les pour ${x1} séance${x1 > 1 ? 's' : ''}.`,
+      return { titre: 'Deux formules de séances', consigne: `Un cinéma propose la formule A : A(x) = ${p}x, et la formule B : B(x) = ${q}x + ${r}. Compare-les pour ${x1} séance${x1 > 1 ? 's' : ''}.`,
         support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + ln('a', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec A`, String(A(x1)), 14, '€') + ln('b', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec B`, String(B(x1)), 14, '€') + ln('c', 'Nombre de séances où les prix sont égaux (résous A = B)', String(xstar), 14) + `<p class="tr-l">d. Pour ${x1} séance${x1 > 1 ? 's' : ''}, quelle formule est la moins chère ? (voir la case en dessous)</p>`, items,
         hints: ['Remplace x par la valeur dans chaque formule.', 'Multiplie avant d’additionner.', 'Écris p x = q x + r, puis retire q x des deux côtés.', 'Compare les deux prix.'] };
     }

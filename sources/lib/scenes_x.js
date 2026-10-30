@@ -60,5 +60,13 @@ module.exports = ({ SC, Sketch, SV, tint, acc, esc }) => {
     s += K.P(K.rect(500, 54, 80, 60)) + K.tx(540, 40, '56 carreaux', 13) + K.tx(540, 138, '+ 10 % de chutes', 12.5) + K.tx(540, 158, '= 62 carreaux', 13.5, { c: '#C2332A' });
     s += K.tx(300, 206, 'périmètre en m · aire en m² · volume en m³', 14.5);
     return SV(600, 230, s, 'Un terrain de 20 mètres sur 12 mètres dont le tour mesure 64 mètres, une fresque de 10 mètres carrés, un gobelet de 603 centimètres cubes et un carrelage de 62 carreaux'); };
+    /* 10 · Pythagore, Thalès, trigonométrie : écran, équerre 3-4-5, statue et ombres, demi-toit */
+  SC.c10 = () => { const K = Sketch(520); let s = '';
+    s += tint(40, 60, 100, 56, .8, 6) + K.P(K.rect(40, 60, 100, 56)) + K.P(K.line(40, 116, 140, 60), { w: 2.6, c: '#C2332A' }) + K.tx(90, 134, '80 cm', 12.5) + K.tx(34, 92, '45 cm', 12.5, { a: 'end' }) + K.tx(90, 48, 'd ≈ 91,8 cm', 13, { c: '#C2332A' }) + K.tx(90, 160, 'diagonale d’écran', 12);
+    s += tint(200, 57, 68, 57, .8, 2) + K.P(K.poly([[200, 114], [268, 114], [200, 57]], true)) + K.P(K.poly([[210, 114], [210, 104], [200, 104]], false), { w: 1.6 }) + K.tx(234, 130, '4', 13) + K.tx(194, 90, '3', 13, { a: 'end' }) + K.tx(248, 76, '5', 13, { a: 'start', c: '#C2332A' }) + K.tx(234, 146, '3² + 4² = 5²', 12.5) + K.tx(234, 162, 'équerre 3-4-5', 12);
+    s += K.P(K.line(310, 118, 450, 118), { w: 2.2 }) + K.P(K.line(330, 118, 330, 40), { w: 3 }) + K.P(K.line(330, 40, 392, 118), { w: 1.6, c: '#C2332A' }) + K.P(K.line(405, 118, 405, 87), { w: 3 }) + K.P(K.line(405, 87, 430, 118), { w: 1.6, c: '#C2332A' }) + K.tx(324, 82, '19,7 m', 12.5, { a: 'end' }) + K.tx(361, 134, '15,76 m', 11.5) + K.tx(405, 78, '2 m', 12.5) + K.tx(417, 134, '1,6 m', 11.5) + K.tx(380, 162, 'Thalès : ombres proportionnelles', 12);
+    s += tint(490, 68, 80, 50, .8, 2) + K.P(K.poly([[490, 118], [570, 118], [570, 68]], true)) + K.P(K.poly([[560, 118], [560, 108], [570, 108]], false), { w: 1.6 }) + K.tx(515, 114, 'α ≈ 32°', 11.5, { a: 'start' }) + K.tx(530, 134, '4 m', 12.5) + K.tx(576, 96, '2,5 m', 12.5, { a: 'start' }) + K.tx(524, 80, '4,72 m', 12.5, { a: 'end', c: '#C2332A' }) + K.tx(530, 162, 'chevron de toit', 12);
+    s += K.tx(300, 206, 'Pythagore · Thalès · trigonométrie', 14.5);
+    return SV(600, 230, s, 'Un écran de 91,8 centimètres de diagonale, une équerre de côtés 3, 4 et 5, une statue et un bâton avec leurs ombres proportionnelles, et un demi-toit incliné de 32 degrés'); };
   /* FIN */
 };

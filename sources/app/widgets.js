@@ -17,7 +17,7 @@
   /* 1 · statistique : du tableau d’effectifs au diagramme */
   W.c1 = el => {
     const V = [1, 2, 3, 4, 5], init = [3, 7, 5, 4, 1];
-    el.innerHTML = box('Du tableau au diagramme', 'Une salle d’arcade (fictive) note le nombre de parties jouées par chaque visiteur. Change les effectifs : le tableau, la moyenne, le diagramme en bâtons et le diagramme circulaire se recalculent.',
+    el.innerHTML = box('Du tableau au diagramme', 'Une salle d’arcade note le nombre de parties jouées par chaque visiteur. Change les effectifs : le tableau, la moyenne, le diagramme en bâtons et le diagramme circulaire se recalculent.',
       `<div class="wg-grid">${V.map((v, i) => slider('c1-e' + i, `${v} partie${v > 1 ? 's' : ''}`, 0, 12, 1, init[i], 'visiteurs')).join('')}</div><div class="wg-svg" id="c1-g"></div><div id="c1-t"></div><div class="wg-kpis" id="c1-k"></div>${defi('c1-d', 'Règle les effectifs pour avoir <b>20 visiteurs</b> et une moyenne de <b>3 parties</b> exactement.')}`);
     const arc = (cx, cy, r, a0, a1) => { const p = a => [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)]; const [x0, y0] = p(a0), [x1, y1] = p(a1); return `M${cx} ${cy}L${x0.toFixed(1)} ${y0.toFixed(1)}A${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}Z`; };
     const up = () => {
@@ -69,7 +69,7 @@
   /* 3 · proportionnalité : proportionnel ou pas ? */
   W.c3 = el => {
     const NS_ = [1, 2, 3, 5, 8, 10];
-    el.innerHTML = box('Proportionnel ou pas ?', 'Le prix de places de cinéma (tarifs fictifs). Choisis un tarif : le tableau, les quotients et le graphique montrent si le prix est proportionnel au nombre de places.',
+    el.innerHTML = box('Proportionnel ou pas ?', 'Le prix de places de cinéma. Choisis un tarif : le tableau, les quotients et le graphique montrent si le prix est proportionnel au nombre de places.',
       `<div class="wg-grid"><label class="wg-sl"><span>Tarif</span><select id="c3-m"><option value="p">A · le même prix pour chaque place</option><option value="d">B · tarif dégressif (8 € puis 6 €)</option></select></label>${slider('c3-p', 'Prix d’une place', 1, 15, .5, 5, '€')}</div><div id="c3-t"></div><div class="wg-svg" id="c3-g"></div><p class="wg-calc" id="c3-v" aria-live="polite"></p>${defi('c3-d', 'Avec le tarif A, règle le prix d’une place pour que <b>8 places coûtent 60 €</b>.')}`);
     const price = (mode, p, n) => mode === 'p' ? p * n : (n <= 2 ? 8 * n : 16 + 6 * (n - 2));
     const up = () => {

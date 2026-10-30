@@ -29,7 +29,7 @@ const sum = a => a.reduce((x, y) => x + y, 0);
       { t: 'Sur 20 spectateurs, 5 viennent en groupe. Quelle est la fréquence des spectateurs en groupe ?', comp: 'rea', pts: 1, choices: ['1/4', '1/5', '1/2'], ok: 0, a: '1/4 (5/20 = 0,25)', v: null },
       { t: 'Un secteur d’un diagramme circulaire mesure 90°. Quelle fraction du cercle représente-t-il ?', comp: 'ana', pts: 1, choices: ['1/4', '1/3', '1/2'], ok: 0, a: '1/4 (90/360 = 0,25)', v: null }],
     exos: [
-      { t: 'Le ciné-club', intro: `<p>Un ciné-club (fictif) a organisé ${H('10 séances')}. Voici le nombre de spectateurs par séance.</p>${tab(['Spectateurs par séance', '20', '25', '30', '40'], [['Nombre de séances', '2', '3', '4', '1']])}`, qs: [
+      { t: 'Le ciné-club', intro: `<p>Un ciné-club a organisé ${H('10 séances')}. Voici le nombre de spectateurs par séance.</p>${tab(['Spectateurs par séance', '20', '25', '30', '40'], [['Nombre de séances', '2', '3', '4', '1']])}`, qs: [
         { t: 'Combien de séances ont réuni 30 spectateurs ?', comp: 'app', pts: .5, a: '4 séances', v: 4, tol: .01, w: 20 },
         { t: 'Vérifier que le club a organisé 10 séances en tout.', comp: 'rea', pts: .5, a: '2 + 3 + 4 + 1 = 10 séances', v: 10, tol: .01, w: 20 },
         { t: 'Calculer la fréquence des séances à 30 spectateurs, en pourcentage.', comp: 'rea', pts: 1, a: '4 ÷ 10 = 0,4 = 40 %', v: 40, tol: .01, w: 22 },
@@ -51,7 +51,7 @@ const sum = a => a.reduce((x, y) => x + y, 0);
       { t: 'La probabilité d’un événement A est 0,35. Quelle est la probabilité de l’événement contraire de A ?', comp: 'rea', pts: 1, a: '1 − 0,35 = 0,65', v: .65, tol: .001, w: 20 },
       { t: 'Lequel de ces nombres ne peut pas être une probabilité ?', comp: 'ana', pts: 1, choices: ['0,8', '1,2', '0'], ok: 1, a: '1,2 : une probabilité est comprise entre 0 et 1', v: null }],
     exos: [
-      { t: 'La tombola', intro: `<p>Une association (fictive) organise une tombola de ${H('50 billets')} numérotés de 1 à 50. ${H('1 billet')} gagne le gros lot, ${H('4 billets')} gagnent un petit lot, les autres perdent. On tire un billet au hasard.</p>`, qs: [
+      { t: 'La tombola', intro: `<p>Une association organise une tombola de ${H('50 billets')} numérotés de 1 à 50. ${H('1 billet')} gagne le gros lot, ${H('4 billets')} gagnent un petit lot, les autres perdent. On tire un billet au hasard.</p>`, qs: [
         { t: 'Combien de billets perdants y a-t-il ?', comp: 'app', pts: .5, a: '50 − 1 − 4 = 45 billets', v: 45, tol: .01, w: 20 },
         { t: 'Calculer la probabilité de gagner le gros lot (en décimal).', comp: 'rea', pts: 1, a: '1 ÷ 50 = 0,02', v: .02, tol: .0006, w: 20 },
         { t: 'Calculer la probabilité de gagner un lot (gros lot ou petit lot).', comp: 'rea', pts: 1, a: '5 ÷ 50 = 0,1', v: .1, tol: .0006, w: 20 },
@@ -71,7 +71,7 @@ const sum = a => a.reduce((x, y) => x + y, 0);
       { t: 'Un tableau de proportionnalité donne 2 → 5 et 6 → 15. Quel est le coefficient de proportionnalité ?', comp: 'rea', pts: 1, a: '5 ÷ 2 = 2,5', v: 2.5, tol: .01, w: 20 },
       { t: 'Lequel de ces tableaux est un tableau de proportionnalité ?', comp: 'ana', pts: 1, choices: ['1 → 3 ; 2 → 6 ; 3 → 9', '1 → 3 ; 2 → 5 ; 3 → 7', '1 → 2 ; 2 → 3 ; 3 → 4'], ok: 0, a: '1 → 3 ; 2 → 6 ; 3 → 9 (tous les quotients valent 3)', v: null }],
     exos: [
-      { t: 'La boutique de badges', intro: `<p>Une boutique (fictive) vend des badges. ${H('5 badges')} coûtent ${H('12,50 €')}. Le prix est proportionnel au nombre de badges.</p>`, qs: [
+      { t: 'La boutique de badges', intro: `<p>Une boutique vend des badges. ${H('5 badges')} coûtent ${H('12,50 €')}. Le prix est proportionnel au nombre de badges.</p>`, qs: [
         { t: 'Calculer le prix d’un badge.', comp: 'rea', pts: 1, a: '12,50 ÷ 5 = 2,50 €', v: 2.5, tol: .006, w: 20 },
         { t: 'Calculer le prix de 12 badges.', comp: 'rea', pts: 1, a: '12 × 2,50 = 30 €', v: 30, tol: .006, w: 20 },
         { t: 'Avec 20 €, combien de badges peut-on acheter ?', comp: 'ana', pts: 1, a: '20 ÷ 2,50 = 8 badges', v: 8, tol: .01, w: 20 }] },

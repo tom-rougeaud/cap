@@ -95,7 +95,7 @@
   };
   lv('c6e3', (R, niv) => {
     const s = pick(R, SAUTS), f = t => rnd(s.c * t * (s.b - t), 3), n = Math.round(s.tm / s.dt), idx = int(R, 1, Math.floor(n / 2) - 1 + (s.tm > 2 ? 0 : 0)), t1 = idx * s.dt, h1 = f(t1), t2 = rnd(s.b - t1, 3);
-    const tab = `<p class="tr-l">Un personnage de jeu vidéo (fictif) saute. Sa hauteur h (en m) dépend du temps t (en s).</p>`;
+    const tab = `<p class="tr-l">Un personnage de jeu vidéo saute. Sa hauteur h (en m) dépend du temps t (en s).</p>`;
     if (niv === 0) {
       const items = [num('a', h1, 3, eh(h1), [{ v: t1, m: 'C’est le temps donné. La hauteur se lit sur l’axe vertical.' }]), num('b', s.pic, 3, eh(s.pic), [{ v: s.tp, m: 'C’est l’instant du maximum. La hauteur maximale se lit sur l’axe vertical.' }]), num('c', s.tp, 3, eh(s.tp), [{ v: s.pic, m: 'C’est la hauteur du maximum. L’instant se lit sur l’axe horizontal.' }]), num('d', s.b, 3, eh(s.b), [{ v: s.tp, m: 'C’est la moitié du saut. Le personnage retombe à la fin : lis l’instant où h revient à 0.' }])];
       xs(items, { a: `au-dessus de t = ${eh(t1)}, on lit h = ${eh(h1)} m`, b: `le point le plus haut est à ${eh(s.pic)} m`, c: `ce point est au-dessus de t = ${eh(s.tp)} s`, d: `h revient à 0 à t = ${eh(s.b)} s : le saut dure ${eh(s.b)} s` });
