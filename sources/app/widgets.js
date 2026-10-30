@@ -90,5 +90,7 @@
     el.addEventListener('input', up); up();
   };
 
+  /* outils partagés avec widgets_x.js (chapitres 4 à 10) */
+  W._h = { slider, box, defi, setDefi, kpi, val, out, COL };
   window.MCVW = W;
 })();

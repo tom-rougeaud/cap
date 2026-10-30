@@ -27,12 +27,17 @@
   const int = (R, lo, hi) => lo + Math.floor(R() * (hi - lo + 1));
   const shuffle = (R, arr) => { const b = arr.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
 
+  /* ligne de réponse « a. consigne : [case] unité » et tableau à deux lignes */
+  const ln = (k, lab, a, w = 14, un = '') => `<p class="tr-l">${k}. ${lab} : ${tb(k, a, w)}${un ? ' ' + un : ''}</p>`;
+  const tabXY = (xl, yl, X, Y) => `<table class="dt tcx dt-sm"><thead><tr><th>${xl}</th>${X.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody><tr><th>${yl}</th>${Y.map(y => `<td>${y}</td>`).join('')}</tr></tbody></table>`;
+  const f1 = x => fr(rnd(x, 1), 1), f2 = x => fr(rnd(x, 2), 2);
+
   const DEP = {}, TR = {};
   /* calculs détaillés (version professeur) : xs(items, { a: '…', b: '…' }) */
   const xs = (items, m) => { items.forEach(it => { if (m[it.k]) it.x = m[it.k]; }); return items; };
   /* un exercice à trois niveaux : f(R, niv) avec niv = 0 (courant), -1 (🌱 guidé), +1 (🚀 défi) ; ids id, id + 'a', id + 'd' */
   const lv = (id, f) => { TR[id] = R => f(R, 0); TR[id + 'a'] = R => f(R, -1); TR[id + 'd'] = R => f(R, 1); };
-  const H = { lv, MC, P, PIE, fr, rnd, eur, pct, esc, TOL, L, tb, sb, T, svg, table, num, qcm, pick, int, shuffle, NB, xs };
+  const H = { lv, ln, tabXY, f1, f2, MC, P, PIE, fr, rnd, eur, pct, esc, TOL, L, tb, sb, T, svg, table, num, qcm, pick, int, shuffle, NB, xs };
 
   /* vérification d’une réponse, avec l’erreur fréquente reconnue */
   function verdict(it, s) {

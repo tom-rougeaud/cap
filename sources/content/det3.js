@@ -12,4 +12,5 @@ module.exports = {
   'c3.au': ['Prix d’un objet : 12 ÷ 3 = 4 €. Puis 5 × 4 = 20 €.', 'Coefficient = 2e ligne ÷ 1re ligne : 5 ÷ 2 = 2,5. Contrôle : 15 ÷ 6 = 2,5.', 'Dans le 1er tableau : 3 ÷ 1 = 6 ÷ 2 = 9 ÷ 3 = 3, tous les quotients sont égaux. Dans les deux autres, les quotients sont différents (3 puis 2,5 puis 2,33 ; 2 puis 1,5 puis 1,33).'],
   'c3.ev0': ['12,50 ÷ 5 = 2,50 € le badge.', '12 × 2,50 = 30 €.', '20 ÷ 2,50 = 8 badges. Contrôle : 8 × 2,50 = 20 €.'],
   'c3.ev1': ['2,88 ÷ 20 = 0,144.', '100 m = 5 × 20 m, donc 5 × 2,88 = 14,40 s.', '14,40 − 9,58 = 4,82 s : le temps réel est bien plus court. Les quotients 0,144 et 0,096 sont différents : le temps n’est pas proportionnel à la distance.']
-};
+}
+Object.assign(module.exports, require('./det_x'));

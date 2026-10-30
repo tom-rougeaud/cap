@@ -1,0 +1,82 @@
+{
+ "netflix": [
+  [
+   "Standard avec pub",
+   7.99,
+   5.99
+  ],
+  [
+   "Standard",
+   14.99,
+   13.49
+  ],
+  [
+   "Premium",
+   21.99,
+   19.99
+  ]
+ ],
+ "srcNetflix": "Source : JeChange, « Tarifs Netflix », page mise à jour le 30 septembre 2026 (hausse du 18 avril 2025).",
+ "srcNetflixDebit": "Source : centre d’aide Netflix, « Débits Internet recommandés » (consulté en octobre 2026).",
+ "cnc2024": [
+  13.71,
+  15.06,
+  15.19,
+  11.92,
+  15.71,
+  14.14,
+  17.9,
+  14.13,
+  10.07,
+  15.34,
+  17.83,
+  20.54
+ ],
+ "srcGundam": "Source : Wikipédia (en), « Statue of Unicorn Gundam », consultée en octobre 2026.",
+ "srcEndgame": "Source : CNC, visa d’exploitation n° 150633 (23 avril 2019) : durée 181 minutes, tous publics.",
+ "top2025": [
+  [
+   "Zootopie 2",
+   6.18
+  ],
+  [
+   "Lilo & Stitch",
+   5.1
+  ],
+  [
+   "Avatar : De feu et de cendres",
+   4.58
+  ],
+  [
+   "F1 le film",
+   3.31
+  ],
+  [
+   "Jurassic World : Renaissance",
+   2.97
+  ],
+  [
+   "God save the Tuche",
+   2.95
+  ],
+  [
+   "Minecraft, le film",
+   2.66
+  ],
+  [
+   "Mufasa : Le roi lion",
+   2.64
+  ],
+  [
+   "Dragons",
+   2.55
+  ],
+  [
+   "Mission : Impossible – The Final Reckoning",
+   2.46
+  ]
+ ],
+ "srcTop": "Source : CNC (données Comscore), communiqué du 30 décembre 2025, entrées en millions.",
+ "srcOnePiece": "Source : éditeur Shueisha, annonce du tome 114 (sorti au Japon le 4 mars 2026), relayée par Outlook Respawn le 15 avril 2026.",
+ "srcPokemon": "Source : The Pokémon Company, chiffres de l’entreprise au 31 mars 2026, relayés par PokéGuardian."
+}

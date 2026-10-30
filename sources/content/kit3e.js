@@ -47,4 +47,6 @@ const tab2 = (head, rows) => { const h = Math.ceil(rows.length / 2); return `<ta
 const pic = (w, h, body, lab) => S(w, h, body, lab).replace('class="pic vis"', 'class="pic vis dsc"');
 /* pastille d’étape dans une méthode visuelle (même numéro que la liste « La méthode, pas à pas ») */
 const SN = (n, x, y) => `<circle cx="${x}" cy="${y}" r="11" class="k"/><text x="${x}" y="${y + 5}" font-size="13" font-weight="800" text-anchor="middle" class="tw">${n}</text>`;
-module.exports = { ...K, ENT, EQ, SN, tab2, PB, prog, rais, tab, pic, scratch, scratchSvg, MCVP, S, T, Rc, Ln, Ar, Br, st, Sketch, esc };
+/* case d’un tableau dessiné : k = case colorée */
+const cell = (x, y, w, h, txt, o = {}) => Rc(x, y, w, h, { rx: 4, c: o.k ? 'k' : 'k2', op: o.op }) + T(x + w / 2, y + h / 2 + 5, txt, { fs: o.fs || 14, c: o.k ? 'tw' : (o.c || 'tx') });
+module.exports = { ...K, cell, ENT, EQ, SN, tab2, PB, prog, rais, tab, pic, scratch, scratchSvg, MCVP, S, T, Rc, Ln, Ar, Br, st, Sketch, esc };

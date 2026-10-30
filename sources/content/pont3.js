@@ -40,4 +40,5 @@ module.exports = {
     prog: ['Reconnaître que deux suites de nombres sont proportionnelles', 'Calculer une quatrième proportionnelle', 'Trouver le coefficient de proportionnalité et compléter un tableau', 'Traiter des problèmes relatifs à deux suites proportionnelles'],
     reac: ['Tables de multiplication.', 'Divisions par 2, 3, 4, 5 et 10.', 'Conversions : cL et L, m et km, m/s et km/h (× 3,6).'],
     vig: ['Il est important de présenter des situations de non-proportionnalité (programme).', 'Les calculs commerciaux ou financiers sont des exemples : toutes les informations nécessaires sont fournies.', 'Une vitesse moyenne n’est pas la vitesse à chaque instant.', 'Le produit en croix sert de contrôle ; le coefficient et le passage par l’unité donnent du sens.'] }
-};
+}
+Object.assign(module.exports, require('./pont_x')(d));

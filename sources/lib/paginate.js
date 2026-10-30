@@ -178,9 +178,10 @@
     const NB = '\\u00a0\\u202f', NUM = `\\d+(?:[${NB} ]\\d{3}(?!\\d))*(?:,\\d+)?(?:[a-zA-Z](?![\\p{L}]))?[²³]?`, UNIT = `(?:[${NB} ]?(?:%|€|°|cm|km|kg|mm|ml|cl|min|[mgLhs])[²³]?(?![\\p{L}]))?`;
     const OPD = `(?:[A-Za-z]{0,3}\\([^()<>]{1,40}\\)[²³]?|${NUM}${UNIT}|[a-zA-Z](?![\\p{L}])[²³]?)`;
     const OP = `[${NB} ]?[+−×÷=≈<>≤≥/·][${NB} ]?`;
-    const RE = new RegExp(`${OPD}(?:${OP}${OPD})+`, 'gu');
+    const COORD = `\\([−-]?\\d+(?:,\\d+)?[${NB} ]?;[${NB} ]?[−-]?\\d+(?:,\\d+)?\\)`;
+    const RE = new RegExp(`${COORD}|${OPD}(?:${OP}${OPD})+`, 'gu');
     [...out.children].forEach((pg, i) => { const inn = pg.querySelector('.inner'); if (!inn) return;
-      const w = document.createTreeWalker(inn, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement && !n.parentElement.closest('.katex,.katex-mathml,svg,script,style,textarea,template,.pfoot') && /[+−×÷=≈<>≤≥\/·]/.test(n.nodeValue)) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT });
+      const w = document.createTreeWalker(inn, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement && !n.parentElement.closest('.katex,.katex-mathml,svg,script,style,textarea,template,.pfoot') && /[+−×÷=≈<>≤≥\/·;]/.test(n.nodeValue)) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT });
       const nodes = []; let t; while ((t = w.nextNode())) nodes.push(t);
       nodes.forEach(n => { const s = n.nodeValue; RE.lastIndex = 0; let m;
         while ((m = RE.exec(s))) { if (m[0].length < 4 || m[0].length > 130) continue;

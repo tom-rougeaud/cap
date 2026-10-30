@@ -49,3 +49,4 @@ const SK = {
   croix: () => SV(tt(55, 16, 'places', 9.5, { c: 'ts' }) + tt(145, 16, 'prix (€)', 9.5, { c: 'ts' }) + fill(20, 24, 70, 30, .9, 'k2', 4) + fill(110, 24, 70, 30, .9, 'k2', 4) + fill(20, 74, 70, 30, .9, 'k2', 4) + fill(110, 74, 70, 30, .9, 'k', 4) + tt(55, 45, '3', 14) + tt(145, 45, '22,50', 14) + tt(55, 95, '8', 14) + tt(145, 95, '?', 16, { c: 'tw' }) + `<path d="M92 56L108 72M108 56L92 72" class="ks" stroke-width="2"/>` + tt(100, 124, 'combien pour 8 places ?', 10.5, { c: 'ts' }), 'Un tableau de proportionnalité : trois places coûtent 22,50 euros, combien coûtent huit places ?'),
 };
 module.exports = { SK, D, SV, tt, fill, mini: null };
+require('./skx');

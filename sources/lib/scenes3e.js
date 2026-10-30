@@ -39,4 +39,5 @@ const CP = {
   val: () => { const K = Sketch(604); return SV(200, 130, tint(14, 16, 172, 30, .9, 6) + K.tx(100, 37, 'Résultat : 250 °C', 13) + tint(14, 56, 172, 30, .7, 6) + K.tx(100, 77, 'Possible pour un four ?', 12) + acc(14, 94, 172, 28, .85, 6) + K.tx(100, 113, 'Oui, c’est plausible ✓', 13, { c: '#fff' }), 'Contrôler qu’un résultat est vraisemblable'); },
   com: () => { const K = Sketch(606); return SV(200, 130, tint(14, 14, 122, 54, .9, 14) + K.P(K.poly([[14, 14], [136, 14], [136, 68], [64, 68], [44, 88], [48, 68], [14, 68]], true)) + K.tx(75, 46, 'Donc l’offre B…', 12) + acc(76, 72, 110, 44, .85, 14) + K.tx(131, 99, 'coûte 12 € de moins', 11, { c: '#fff' }), 'Deux bulles : une explication et sa conclusion'); }
 };
+require('./scenes_x')({ SC, Sketch, SV, tint, acc, esc });
 module.exports = { SC, CP };

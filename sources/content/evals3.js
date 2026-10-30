@@ -81,6 +81,8 @@ const sum = a => a.reduce((x, y) => x + y, 0);
         { t: 'Comparer avec son vrai temps de 9,58 s. Le temps est-il proportionnel à la distance ? Justifier.', comp: 'val', pts: 1, a: 'Non : 14,40 s est très différent de 9,58 s (4,82 s d’écart). Au départ Bolt accélère.', v: null, lines: 2 }] }] };
 }
 
+require('./evals_x')({ GR, E, chk0, K, H, tab, D, yn, sum });
+
 /* contrôle du format : 45 min, 3 questions d’automatismes (3 points), 1 ou 2 exercices (6 points), 1 point de rédaction */
 module.exports = (chk, extra = {}) => {
   Object.assign(E, extra);
