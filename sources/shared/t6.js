@@ -117,4 +117,43 @@
       hints: ['Pars de l’instant et monte jusqu’à la courbe.', 'Trace la ligne horizontale à cette hauteur : elle coupe la courbe deux fois.', 'Lis le plus grand des deux instants.', 'Soustrais les deux instants.'] };
   });
   if (typeof module !== 'undefined') module.exports = { BOLT };
+  /* ===== exercice ajouté (3 niveaux) : notion 3 (lire une image et un antécédent sur une courbe) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c6e4', (R, niv) => {
+      const X = [0, 2, 4, 6, 8], x0 = 46, y0 = 196, sx = 44, sy = 14, px = x => x0 + x * sx, py = y => y0 - y * sy;
+      let Y;
+      if (niv <= 0) Y = shuffle(R, [0, 2, 4, 6, 8, 10, 12]).slice(0, 5).sort((a, b) => a - b);
+      else { const ymax = pick(R, [10, 12]), ya = pick(R, [4, 6, 8]), ya0 = int(R, 0, ya / 2 - 1) * 2, ye = int(R, 0, ya / 2 - 1) * 2; Y = [ya0, ya, ymax, ya, ye]; }
+      let g = '';
+      for (let x = 0; x <= 8; x++) g += `<line x1="${px(x)}" y1="${py(0)}" x2="${px(x)}" y2="${py(12)}" stroke="#D5DBEC" stroke-width="1"/>` + T(px(x), y0 + 16, String(x), { fs: 11 });
+      for (let y = 0; y <= 12; y += 2) g += `<line x1="${px(0)}" y1="${py(y)}" x2="${px(8)}" y2="${py(y)}" stroke="#D5DBEC" stroke-width="1"/>` + T(x0 - 8, py(y) + 4, String(y), { fs: 11, a: 'end' });
+      g += `<line x1="${px(0)}" y1="${py(0)}" x2="${px(8) + 10}" y2="${py(0)}" stroke="#1D2240" stroke-width="2"/><line x1="${px(0)}" y1="${py(0)}" x2="${px(0)}" y2="${py(12) - 10}" stroke="#1D2240" stroke-width="2"/>` + T(px(8) + 14, y0 + 4, 'x', { fs: 12, a: 'start' }) + T(x0 + 14, py(12) - 8, 'f(x)', { fs: 12, a: 'start' });
+      g += `<polyline points="${X.map((x, i) => px(x) + ',' + py(Y[i])).join(' ')}" fill="none" stroke="#2B59C3" stroke-width="3" stroke-linejoin="round"/>` + X.map((x, i) => `<circle cx="${px(x)}" cy="${py(Y[i])}" r="4.5" fill="#2B59C3"/>`).join('');
+      const pic = svg(440, 226, g, 'Courbe d’une fonction f : lecture d’images et d’antécédents');
+      if (niv <= 0) {
+        const i = int(R, 1, 4); let j = int(R, 1, 4); while (j === i) j = int(R, 1, 4);
+        const m = pick(R, [1, 2, 3, 4]), xm = X[m - 1] + 1, ym = (Y[m - 1] + Y[m]) / 2;
+        const rows = [
+          { lab: `Image de ${X[i]} : f(${X[i]})`, v: Y[i], d: 0, w: 12, x: `On part de ${X[i]} sur l’axe horizontal, on monte jusqu’à la courbe, puis on lit l’axe vertical : f(${X[i]}) = ${Y[i]}.`, err: [{ v: X[i], m: 'Une image se lit sur l’axe vertical.' }] },
+          { lab: `Antécédent de ${Y[j]}`, v: X[j], d: 0, w: 12, x: `On part de ${Y[j]} sur l’axe vertical, on rejoint la courbe, puis on lit l’axe horizontal : ${X[j]}.`, err: [{ v: Y[j], m: 'Un antécédent se lit sur l’axe horizontal.' }] },
+          { lab: `Dans f(${X[i]}) = ${Y[i]}, le nombre ${Y[i]} est…`, qcm: ['l’image de ' + X[i], 'un antécédent de ' + X[i]], ok: 0, x: `Dans f(a) = b, b est l’image de a : ${Y[i]} est l’image de ${X[i]}.` }];
+        if (niv === 0) rows.push({ lab: `Image de ${xm} (sur le segment)`, v: ym, d: 0, w: 12, x: `${xm} est au milieu de ${X[m - 1]} et ${X[m]} : (${Y[m - 1]} + ${Y[m]}) ÷ 2 = ${ym}.` });
+        return QC(niv < 0 ? 'Lire une image et un antécédent, pas à pas' : 'Lire une image et un antécédent', 'Voici la courbe de la fonction f. Les points marqués sont sur des croisements du quadrillage.', rows,
+          ['L’image se lit sur l’axe vertical, l’antécédent sur l’axe horizontal.', 'Image : pars de x, monte ou descends jusqu’à la courbe.', 'Antécédent : pars de y, va vers la courbe, puis descends.'], pic, niv < 0 ? 'image : horizontal → courbe → vertical. Antécédent : vertical → courbe → horizontal.' : '');
+      }
+      return QC('Lire une courbe qui monte puis descend', 'Voici la courbe de la fonction f : elle monte, puis elle descend.', [
+        { lab: `Plus petit antécédent de ${Y[1]}`, v: 2, d: 0, w: 12, x: `La courbe est à la hauteur ${Y[1]} en x = 2 et en x = 6 : le plus petit antécédent est 2.` },
+        { lab: `Plus grand antécédent de ${Y[1]}`, v: 6, d: 0, w: 12, x: `La courbe est à la hauteur ${Y[1]} en x = 2 et en x = 6 : le plus grand antécédent est 6.` },
+        { lab: 'Maximum de la fonction f', v: Y[2], d: 0, w: 12, x: `Le point le plus haut est à la hauteur ${Y[2]}.` },
+        { lab: 'Valeur de x pour laquelle le maximum est atteint', v: 4, d: 0, w: 12, x: `Le point le plus haut a pour abscisse 4.`, err: [{ v: Y[2], m: 'Ici, lis l’axe horizontal : c’est l’abscisse du point le plus haut.' }] },
+        { lab: `Combien de nombres ont pour image ${Y[1]} ?`, qcm: ['un seul', 'deux', 'aucun'], ok: 1, x: `${Y[1]} a deux antécédents (2 et 6) : la courbe passe deux fois à cette hauteur.` }],
+        ['Un nombre peut avoir plusieurs antécédents.', 'Trace mentalement une ligne horizontale à la hauteur demandée.', 'Le maximum est le point le plus haut de la courbe.'], pic);
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

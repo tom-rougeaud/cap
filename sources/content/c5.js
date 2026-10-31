@@ -139,5 +139,8 @@ module.exports = function (chk) {
   };
   chk(21 / 3 === 7 && 20 - 8 === 12 && 230 * 2 === 460 && (9 - 1) / 2 === 4, 'c5 fiche');
   c.words = require('./gl3')('c5');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c5e4', lc: 2, niv: 0 }, { id: 'e4a', gen: 'c5e4a', lc: 2, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c5e4d', lc: 2, niv: 1, base: 'e4' });
+  c.bilan[1][1].push('e4');
   return c;
 };

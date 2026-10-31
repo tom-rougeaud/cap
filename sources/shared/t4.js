@@ -100,4 +100,25 @@
       hints: ['Distance réelle = distance sur la carte × échelle.', '1 km = 100 000 cm : pour passer des cm aux km, divise par 100 000.', 'Passe la longueur réelle en cm, puis divise par l’échelle.'] };
   });
   if (typeof module !== 'undefined') module.exports = { NFX };
+  /* ===== exercice ajouté (3 niveaux) : notion 3 (calculer un taux d’évolution) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c4e4', (R, niv) => {
+      const dep = pick(R, niv < 0 ? [50, 80, 100, 200] : niv === 0 ? [24, 36, 45, 60, 75] : [32, 48, 64, 120, 250]), tx = pick(R, niv < 0 ? [10, 20, 25, -10, -20] : niv === 0 ? [5, 15, 12.5, -5, -15, -12.5] : [8, 12.5, -8, -16, -37.5]), arr = rnd(dep * (1 + tx / 100), 2), up = tx > 0;
+      const var_ = rnd(arr - dep, 2), t = rnd(var_ / dep * 100, 1), t2 = pick(R, [10, 20]);
+      const rows = [
+        { lab: 'Variation : valeur d’arrivée − valeur de départ', v: var_, d: 2, w: 14, un: '€', x: `${fr(arr)} − ${fr(dep)} = ${fr(var_)} €`, err: [{ v: rnd(dep - arr, 2), m: 'Variation = arrivée − départ (dans cet ordre).' }] },
+        { lab: 'Taux d’évolution (variation ÷ départ × 100)', v: t, d: 1, w: 14, un: '%', x: `${fr(var_)} ÷ ${fr(dep)} = ${fr(var_ / dep, 3)}, puis × 100 : ${fr(t, 1)} %`, err: [{ v: rnd(var_ / arr * 100, 1), m: 'On divise par la valeur de départ, pas par la valeur d’arrivée.' }, { v: rnd(var_ / dep, 3), m: 'Pense à multiplier par 100 pour l’écrire en pourcentage.' }] },
+        { lab: 'C’est une…', qcm: ['hausse', 'baisse'], ok: up ? 0 : 1, x: up ? 'Le taux est positif : c’est une hausse.' : 'Le taux est négatif : c’est une baisse.' },
+        { lab: `Après une nouvelle hausse de ${t2} %, la valeur devient`, v: rnd(arr * (1 + t2 / 100), 2), d: 2, w: 14, un: '€', x: `${fr(arr)} × ${fr(1 + t2 / 100)} = ${fr(arr * (1 + t2 / 100))} €`, err: [{ v: rnd(arr + t2, 2), m: 'Une hausse de ' + t2 + ' % se calcule : valeur × ' + fr(1 + t2 / 100) + '.' }] }];
+      if (niv > 0) rows.push({ lab: 'Quel taux de baisse ramène du prix d’arrivée au prix de départ ? (au dixième)', v: rnd((dep - arr) / arr * 100, 1), d: 1, w: 14, un: '%', x: `Variation de ${fr(arr)} à ${fr(dep)} : ${fr(dep - arr)} ÷ ${fr(arr)} = ${fr((dep - arr) / arr, 3)}, soit ${fr(rnd((dep - arr) / arr * 100, 1), 1)} %`, err: [{ v: rnd(-t, 1), m: 'On part maintenant du prix d’arrivée : divise par ' + fr(arr) + '.' }] });
+      return QC(niv < 0 ? 'Taux d’évolution, pas à pas' : niv > 0 ? 'Taux d’évolution et évolution réciproque' : 'Calculer un taux d’évolution', `Un article passe de ${fr(dep)} € à ${fr(arr)} €.`, rows,
+        ['Variation = valeur d’arrivée − valeur de départ.', 'Taux = variation ÷ valeur de départ × 100.', 'Positif : hausse. Négatif : baisse.'], table(['Valeur de départ', 'Valeur d’arrivée'], [[`${fr(dep)} €`, `${fr(arr)} €`]]), niv < 0 ? 'taux = (arrivée − départ) ÷ départ × 100.' : '');
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

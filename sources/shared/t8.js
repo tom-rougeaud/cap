@@ -98,4 +98,33 @@
       hints: ['Divise la marge par le prix d’achat, puis multiplie par 100.', 'Même méthode pour l’article 2.', 'Compare les deux taux.', 'Prix de vente = achat + marge ; puis × 1,20.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};
+  /* ===== exercice ajouté (3 niveaux) : notion 4 (intérêts simples et valeur acquise) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c8e4', (R, niv) => {
+      const C = pick(R, niv < 0 ? [1000, 2000, 500] : [1500, 2500, 3200, 4000]), t = pick(R, niv < 0 ? [2, 3, 5] : [1.5, 2.5, 3.5, 4]), n = niv < 0 ? pick(R, [2, 3]) : pick(R, [2, 3, 4]), m = pick(R, [6, 9, 18, 30]);
+      const I1 = rnd(C * t / 100, 2);
+      if (niv <= 0) {
+        const I = rnd(I1 * n, 2), V = rnd(C + I, 2);
+        return QC(niv < 0 ? 'Intérêts simples, pas à pas' : 'Intérêts simples et valeur acquise', `On place ${fr(C, 0)} € à intérêts simples au taux de ${fr(t)} % par an, pendant ${n} ans.`, [
+          { lab: 'Intérêts d’une année (C × t)', v: I1, d: 2, w: 14, un: '€', x: `${fr(C, 0)} × ${fr(t / 100, 3)} = ${fr(I1)} €`, err: [{ v: rnd(C * t, 2), m: 'Écris le taux en nombre décimal : ' + fr(t) + ' % = ' + fr(t / 100, 3) + '.' }] },
+          { lab: `Intérêts sur ${n} ans (I = C × t × n)`, v: I, d: 2, w: 14, un: '€', x: `${fr(I1)} × ${n} = ${fr(I)} €`, err: [{ v: I1, m: 'Avec des intérêts simples, il y a les mêmes intérêts chaque année : multiplie par le nombre d’années.' }] },
+          { lab: 'Valeur acquise (V = C + I)', v: V, d: 2, w: 14, un: '€', x: `${fr(C, 0)} + ${fr(I)} = ${fr(V)} €`, err: [{ v: I, m: 'La valeur acquise est le capital plus les intérêts.' }] },
+          { lab: 'Avec des intérêts simples, l’intérêt est le même chaque année.', qcm: ['vrai', 'faux'], ok: 0, x: 'Les intérêts simples sont toujours calculés sur le capital de départ : ils sont identiques chaque année.' }],
+          ['Taux en nombre décimal : t % = t ÷ 100.', 'I = C × t × n.', 'Valeur acquise = capital + intérêts.'], table(['Capital', 'Taux annuel', 'Durée'], [[`${fr(C, 0)} €`, `${fr(t)} %`, `${n} ans`]]), niv < 0 ? 'intérêts d’une année = capital × taux ; il y en a autant chaque année.' : '');
+      }
+      const I = rnd(C * t / 100 * m / 12, 2), V = rnd(C + I, 2), n2 = pick(R, [3, 4]), tx = pick(R, [2, 2.5, 3]), I2 = rnd(C * tx / 100 * n2, 2);
+      return QC('Intérêts simples sur quelques mois', `On place ${fr(C, 0)} € à intérêts simples au taux de ${fr(t)} % par an, pendant ${m} mois.`, [
+        { lab: 'Intérêts d’une année entière', v: I1, d: 2, w: 14, un: '€', x: `${fr(C, 0)} × ${fr(t / 100, 3)} = ${fr(I1)} €` },
+        { lab: `Intérêts sur ${m} mois (× ${m} ÷ 12)`, v: I, d: 2, w: 14, un: '€', x: `${fr(I1)} × ${m} ÷ 12 = ${fr(I)} €`, err: [{ v: rnd(I1 * m, 2), m: 'Une année compte 12 mois : multiplie par ' + m + ' puis divise par 12.' }] },
+        { lab: 'Valeur acquise', v: V, d: 2, w: 14, un: '€', x: `${fr(C, 0)} + ${fr(I)} = ${fr(V)} €` },
+        { lab: `Autre placement : ${fr(C, 0)} € pendant ${n2} ans rapportent ${fr(I2)} €. Taux annuel`, v: tx, d: 1, w: 12, un: '%', x: `I = C × t × n donne t = ${fr(I2)} ÷ (${fr(C, 0)} × ${n2}) = ${fr(I2 / (C * n2), 3)}, soit ${fr(tx, 1)} %`, err: [{ v: rnd(I2 / C * 100, 1), m: 'Divise aussi par le nombre d’années.' }] }],
+        ['Mois : durée en années = mois ÷ 12.', 'I = C × t × n, avec n en années.', 'Pour retrouver t : t = I ÷ (C × n).'], table(['Capital', 'Taux annuel', 'Durée'], [[`${fr(C, 0)} €`, `${fr(t)} %`, `${m} mois`]]));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

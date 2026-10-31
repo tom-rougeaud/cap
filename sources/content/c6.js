@@ -166,5 +166,8 @@ module.exports = function (chk) {
     flash: [['Dans (4 ; 3), quelle est l’abscisse ?', '4'], ['f(80) = 7,92 : 7,92 est l’… de 80.', 'image'], ['La courbe descend : la fonction est… ?', 'décroissante'], ['Comment s’appelle la plus grande valeur ?', 'le maximum']]
   };
   c.words = require('./gl3')('c6');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c6e4', lc: 3, niv: 0 }, { id: 'e4a', gen: 'c6e4a', lc: 3, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c6e4d', lc: 3, niv: 1, base: 'e4' });
+  c.bilan[2][1].push('e4');
   return c;
 };

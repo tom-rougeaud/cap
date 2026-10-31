@@ -15,7 +15,7 @@ module.exports = chk => {
     chk(c.notions.length >= 3 && c.notions.length <= 6, `${c.id} : 3 à 6 notions`);
     chk(!!c.parties && c.parties.flatMap(p => p.n).join() === c.notions.map((_, i) => i + 1).join(), `${c.id} : les parties couvrent toutes les notions, dans l’ordre`);
     /* 3 exercices × 3 niveaux (courant, 🌱 guidé, 🚀 défi) et 5 problèmes (dont un 🌱 et un 🚀) */
-    chk(c.entraine.length === 9 && c.entraine.filter(e => e.niv === 0).length === 3 && c.entraine.filter(e => e.niv < 0).length === 3 && c.entraine.filter(e => e.niv > 0).length === 3, `${c.id} : 3 exercices à 3 niveaux`);
+    { const n0 = c.entraine.filter(e => e.niv === 0).length; chk(n0 >= 3 && c.entraine.length === 3 * n0 && c.entraine.filter(e => e.niv < 0).length === n0 && c.entraine.filter(e => e.niv > 0).length === n0, `${c.id} : au moins 3 exercices, chacun à 3 niveaux`); }
     chk(c.entraine.filter(e => e.niv).every(e => c.entraine.some(b => b.id === e.base && b.niv === 0)), `${c.id} : chaque variante renvoie à un exercice courant`);
     chk(c.probs.length === 5 && c.probs.filter(p => p.niv < 0).length === 1 && c.probs.filter(p => p.niv > 0).length === 1, `${c.id} : 5 problèmes dont un guidé et un défi`);
     chk(c.resolus.length === 2 && !!c.resolus[1].trous, `${c.id} : un résolu complet et un à trous`);

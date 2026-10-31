@@ -139,4 +139,44 @@
       hints: ['h = longueur × sin α.', 'd = longueur × cos α.', 'Élève au carré, puis additionne.', 'tan α = h ÷ d, puis tan⁻¹.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};
+  /* ===== exercice ajouté (3 niveaux) : notion 2 (Pythagore : un côté et la réciproque) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c10e4', (R, niv) => {
+      const sq = x => x * x;
+      const tri = (ab, ac, bc) => {
+        const Wd = 200, Hd = Math.max(70, Math.min(130, Wd * ac / ab)), Ax = 80, Ay = 170, Bx = Ax + Wd, By = Ay, Cx = Ax, Cy = Ay - Hd;
+        let g = `<polygon points="${Ax},${Ay} ${Bx},${By} ${Cx},${Cy}" fill="#EEF2FB" stroke="#1D2240" stroke-width="2.4" stroke-linejoin="round"/><path d="M ${Ax + 14} ${Ay} L ${Ax + 14} ${Ay - 14} L ${Ax} ${Ay - 14}" fill="none" stroke="#1D2240" stroke-width="1.8"/>`;
+        g += T(Ax - 14, Ay + 16, 'A', { fs: 15 }) + T(Bx + 14, By + 16, 'B', { fs: 15 }) + T(Cx - 14, Cy - 6, 'C', { fs: 15 });
+        g += T((Ax + Bx) / 2, Ay + 22, 'AB = ?', { fs: 13 }) + T(Ax - 10, (Ay + Cy) / 2, `AC = ${fr(ac)} cm`, { fs: 13, a: 'end' });
+        const nl = Math.hypot(Hd, Wd); g += T((Bx + Cx) / 2 + 17 * Hd / nl, (By + Cy) / 2 - 17 * Wd / nl + 4, `BC = ${fr(bc)} cm`, { fs: 13, r: Math.round(Math.atan(Hd / Wd) * 180 / Math.PI) });
+        return svg(400, 200, g, `Triangle ABC rectangle en A : AC = ${ac} cm et BC = ${bc} cm`);
+      };
+      const T3 = pick(R, [[3, 4, 5], [5, 12, 13], [8, 15, 17], [6, 8, 10]]), k = niv < 0 ? 1 : pick(R, [1, 2]), [p, q, h0] = T3, ab = p * k, ac = q * k, bc = h0 * k;
+      if (niv <= 0) {
+        const [ra, rb, rc] = pick(R, [[3, 4, 5], [5, 12, 13], [6, 8, 10], [9, 12, 15], [7, 8, 10]]), ok = ra * ra + rb * rb === rc * rc;
+        const rows = [
+          { lab: 'BC² (hypoténuse au carré)', v: sq(bc), d: 0, w: 12, x: `${bc} × ${bc} = ${fr(sq(bc), 0)}` },
+          { lab: 'AC²', v: sq(ac), d: 0, w: 12, x: `${ac} × ${ac} = ${fr(sq(ac), 0)}` },
+          { lab: 'AB² = BC² − AC²', v: sq(ab), d: 0, w: 12, x: `${fr(sq(bc), 0)} − ${fr(sq(ac), 0)} = ${fr(sq(ab), 0)}`, err: [{ v: sq(bc) + sq(ac), m: 'Pour un côté de l’angle droit, on soustrait : BC² − AC².' }] },
+          { lab: 'AB, la longueur du côté (racine carrée)', v: ab, d: 0, w: 12, un: 'cm', x: `√${fr(sq(ab), 0)} = ${ab} cm`, err: [{ v: sq(ab), m: 'AB est la racine carrée de AB², pas AB² lui-même.' }] }];
+        if (niv === 0) rows.push({ lab: `Un triangle a pour côtés ${ra} cm, ${rb} cm et ${rc} cm : est-il rectangle ?`, qcm: ['oui', 'non'], ok: ok ? 0 : 1, x: `${rc}² = ${rc * rc} ; ${ra}² + ${rb}² = ${ra * ra} + ${rb * rb} = ${ra * ra + rb * rb}. ${ok ? 'Les deux sont égaux : d’après la réciproque, le triangle est rectangle.' : 'Les deux sont différents : le triangle n’est pas rectangle.'}` });
+        return QC(niv < 0 ? 'Pythagore : un côté, pas à pas' : 'Pythagore : un côté et la réciproque', 'Le triangle ABC est rectangle en A. On cherche la longueur AB.', rows,
+          ['Pour un côté de l’angle droit : AB² = BC² − AC².', 'Ensuite, AB est la racine carrée de AB².', 'Réciproque : si le grand côté au carré = somme des deux autres carrés, le triangle est rectangle.'], tri(ab, ac, bc), niv < 0 ? 'on soustrait les carrés : AB² = BC² − AC² ; puis on prend la racine carrée.' : '');
+      }
+      const bc2 = pick(R, [13, 15, 17, 20, 25]), ac2 = pick(R, [7, 9, 10, 12]), ab2sq = sq(bc2) - sq(ac2), ab2 = Math.sqrt(ab2sq), [sa, sb, sc] = pick(R, [[5, 7, 9], [6, 8, 11], [4, 6, 8], [9, 12, 15], [8, 15, 17]]), ok = sa * sa + sb * sb === sc * sc;
+      return QC('Pythagore : côté non entier et réciproque', 'Le triangle ABC est rectangle en A. Calcule la longueur AB, arrondie au centième.', [
+        { lab: 'AB² = BC² − AC²', v: ab2sq, d: 0, w: 12, x: `${bc2}² − ${ac2}² = ${fr(sq(bc2), 0)} − ${fr(sq(ac2), 0)} = ${fr(ab2sq, 0)}`, err: [{ v: sq(bc2) + sq(ac2), m: 'On soustrait : BC² − AC².' }] },
+        { lab: 'AB (racine carrée, au centième)', v: rnd(ab2, 2), d: 2, w: 12, un: 'cm', x: `AB = √${fr(ab2sq, 0)} ≈ ${fr(ab2, 3)} ≈ ${fr(rnd(ab2, 2))} cm`, err: [{ v: ab2sq, m: 'Utilise la touche √ à la fin.' }] },
+        { lab: `Un triangle a pour côtés ${sa} cm, ${sb} cm et ${sc} cm. Le grand côté au carré vaut`, v: sq(sc), d: 0, w: 12, x: `${sc}² = ${fr(sq(sc), 0)}` },
+        { lab: `La somme des carrés des deux autres côtés vaut`, v: sq(sa) + sq(sb), d: 0, w: 12, x: `${sa}² + ${sb}² = ${fr(sq(sa), 0)} + ${fr(sq(sb), 0)} = ${fr(sq(sa) + sq(sb), 0)}`, err: [{ v: sq(sa + sb), m: 'Calcule le carré de chaque côté, puis additionne.' }] },
+        { lab: 'Ce triangle est-il rectangle ?', qcm: ['oui', 'non'], ok: ok ? 0 : 1, x: ok ? 'Les deux nombres sont égaux : d’après la réciproque de Pythagore, le triangle est rectangle.' : 'Les deux nombres sont différents : le triangle n’est pas rectangle.' }],
+        ['AB² = BC² − AC² pour un côté de l’angle droit.', 'Touche √ de la calculatrice pour AB.', 'Réciproque : compare le carré du plus grand côté à la somme des deux autres carrés.'], tri(Math.round(ab2 * 10) / 10, ac2, bc2));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

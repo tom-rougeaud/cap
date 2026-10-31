@@ -151,5 +151,8 @@ module.exports = function (chk) {
   };
   chk(12 / 3 * 5 === 20 && 5 / 2 === 2.5 && 15 / 6 === 2.5 && 10 * 3.6 === 36 && 30 / 7.5 === 4, 'c3 fiche');
   c.words = require('./gl3')('c3');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c3e4', lc: 4, niv: 0 }, { id: 'e4a', gen: 'c3e4a', lc: 4, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c3e4d', lc: 4, niv: 1, base: 'e4' });
+  c.bilan[3][1].push('e4');
   return c;
 };

@@ -115,4 +115,45 @@
       hints: ['Deux dés : 6 × 6 issues.', `Compte dans le tableau les cases dont la somme est ${k} ou plus.`, 'Probabilité = issues favorables ÷ 36.', 'La somme qui apparaît le plus souvent dans le tableau est la plus probable.'] };
   });
   if (typeof module !== 'undefined') module.exports = { EV };
+  /* ===== exercice ajouté (3 niveaux) : notion 1 (expérience aléatoire, issues et événements) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c2e4', (R, niv) => {
+      if (niv < 0) {
+        const pair = pick(R, ['pair', 'impair']), nf = 3, imp = pick(R, [7, 8, 9]);
+        return QC('Un dé : issues et événements, pas à pas', 'On lance un dé à 6 faces numérotées de 1 à 6 et on regarde le numéro obtenu.', [
+          { lab: 'Nombre d’issues possibles', v: 6, d: 0, w: 12, x: 'Le dé a 6 faces : les issues sont 1, 2, 3, 4, 5 et 6.' },
+          { lab: `Nombre d’issues favorables à « obtenir un nombre ${pair} »`, v: nf, d: 0, w: 12, x: pair === 'pair' ? 'Nombres pairs : 2, 4 et 6, soit 3 issues.' : 'Nombres impairs : 1, 3 et 5, soit 3 issues.' },
+          { lab: `« Obtenir ${imp} » est un événement…`, qcm: ['impossible', 'certain', 'possible mais pas certain'], ok: 0, x: `Aucune face ne porte ${imp} : l’événement n’a aucune issue favorable, il est impossible.` },
+          { lab: '« Obtenir un nombre entre 1 et 6 » est un événement…', qcm: ['impossible', 'certain', 'possible mais pas certain'], ok: 1, x: 'Toutes les faces portent un nombre entre 1 et 6 : toutes les issues sont favorables, l’événement est certain.' }],
+          ['Les issues sont tous les résultats possibles.', 'Les issues favorables sont celles qui réalisent l’événement.', 'Impossible : aucune issue favorable. Certain : toutes les issues sont favorables.'],
+          table(['Dé', 'Faces'], [['Numéros', '1 · 2 · 3 · 4 · 5 · 6']]), 'compte les faces une par une.');
+      }
+      if (niv === 0) {
+        const r = int(R, 3, 8), b = int(R, 3, 8), v = int(R, 2, 6), N = r + b + v;
+        return QC('Un sac de boules : issues et événements', 'On tire une boule au hasard dans un sac, sans regarder.', [
+          { lab: 'Nombre d’issues possibles', v: N, d: 0, w: 12, x: `${r} + ${b} + ${v} = ${N} boules, donc ${N} issues possibles.`, err: [{ v: 3, m: 'Chaque boule est une issue : additionne le nombre de boules de chaque couleur.' }] },
+          { lab: 'Nombre d’issues favorables à « tirer une boule rouge »', v: r, d: 0, w: 12, x: `Il y a ${r} boules rouges : ${r} issues favorables.` },
+          { lab: 'Nombre d’issues favorables à « ne pas tirer de boule rouge »', v: N - r, d: 0, w: 12, x: `${N} − ${r} = ${N - r} boules qui ne sont pas rouges.` },
+          { lab: '« Tirer une boule jaune » est un événement…', qcm: ['impossible', 'certain', 'possible mais pas certain'], ok: 0, x: 'Il n’y a aucune boule jaune : l’événement est impossible.' },
+          { lab: '« Tirer une boule rouge, bleue ou verte » est un événement…', qcm: ['impossible', 'certain', 'possible mais pas certain'], ok: 1, x: 'Toutes les boules sont rouges, bleues ou vertes : l’événement est certain.' }],
+          ['Une issue = une boule possible. Additionne toutes les boules.', 'Issues favorables : celles qui réalisent l’événement.', 'Impossible : aucune issue favorable. Certain : toutes.'],
+          table(['Couleur', 'rouge', 'bleue', 'verte'], [['Nombre de boules', r, b, v]]));
+      }
+      const N = pick(R, [12, 15, 18, 20]), m = pick(R, [3, 4]), fa = Math.floor(N / m), both = Math.floor(N / (m * 2));
+      return QC('Une roue numérotée : issues et événements', `Une roue est partagée en ${N} secteurs égaux numérotés de 1 à ${N}. On la fait tourner : le secteur indiqué donne le résultat.`, [
+        { lab: 'Nombre d’issues possibles', v: N, d: 0, w: 12, x: `Il y a ${N} secteurs : ${N} issues.` },
+        { lab: `Nombre d’issues favorables à « le numéro est un multiple de ${m} »`, v: fa, d: 0, w: 12, x: `Multiples de ${m} jusqu’à ${N} : ${Array.from({ length: fa }, (_, i) => m * (i + 1)).join(', ')}, soit ${fa} issues.`, err: [{ v: m, m: 'Compte tous les multiples jusqu’à ' + N + '.' }] },
+        { lab: `Nombre d’issues favorables à « le numéro est pair ET multiple de ${m} »`, v: both, d: 0, w: 12, x: `Il faut un multiple de ${m * 2} : ${Array.from({ length: both }, (_, i) => m * 2 * (i + 1)).join(', ')}, soit ${both} issue${both > 1 ? 's' : ''}.` },
+        { lab: `Nombre d’issues favorables à « le numéro n’est pas un multiple de ${m} »`, v: N - fa, d: 0, w: 12, x: `${N} − ${fa} = ${N - fa}` },
+        { lab: `« Obtenir un numéro plus grand que ${N} » est un événement…`, qcm: ['impossible', 'certain', 'possible mais pas certain'], ok: 0, x: `Les numéros vont de 1 à ${N} : aucune issue n’est favorable, l’événement est impossible.` }],
+        ['Écris la liste des numéros favorables avant de les compter.', 'Pair et multiple de ' + m + ' : les deux conditions à la fois.', 'Le contraire d’un événement : toutes les autres issues.'],
+        table(['Roue', 'Numéros'], [['Secteurs', `de 1 à ${N}`]]));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

@@ -21,7 +21,7 @@ raw.forEach((c, i) => {
   const F = full[i], id = c.id;
   /* volumes */
   if (c.notions.length < 3 || c.notions.length > 6) err(`${id} : ${c.notions.length} notions (3 à 6 attendues)`);
-  if (c.entraine.length !== 9) err(`${id} : ${c.entraine.length} exercices « Je m’entraîne » (3 exercices × 3 variantes attendus)`);
+  if (c.entraine.length < 9 || c.entraine.length % 3) err(`${id} : ${c.entraine.length} exercices « Je m’entraîne » (3 exercices × 3 variantes attendus)`);
   if (c.probs.length !== 5) err(`${id} : ${c.probs.length} problèmes (5 attendus)`);
   if (c.mots.length < 5) err(`${id} : seulement ${c.mots.length} mots à connaître`);
   if (c.resolus.length !== 2 || !c.resolus.every(r => r.verif)) err(`${id} : 2 résolus avec « Je vérifie » attendus`);

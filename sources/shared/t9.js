@@ -134,4 +134,41 @@
       hints: ['1 m² = 10 000 cm².', 'Divise par l’aire d’un carreau en cm², arrondis, puis ajoute 10 % et arrondis.', 'Divise par ' + k + ' et arrondis au supérieur.', 'Multiplie le nombre de boîtes par le prix d’une boîte.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};
+  /* ===== exercice ajouté (3 niveaux) : notion 2 (l’aire) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c9e4', (R, niv) => {
+      const PI = Math.PI, Lg = pick(R, [6, 8, 10, 12]), la = pick(R, [3, 4, 5]), b = pick(R, [4, 6, 8, 10]), h = pick(R, [3, 5, 7, 9]), r = pick(R, [1, 2, 3, 4, 5]), pr = pick(R, [8, 12, 15, 20]);
+      const aR = Lg * la, aT = b * h / 2;
+      if (niv < 0) {
+        return QC('L’aire d’un rectangle et d’un triangle, pas à pas', 'On calcule des aires, en mètres carrés (m²).', [
+          { lab: `Aire d’un rectangle de ${Lg} m sur ${la} m (L × l)`, v: aR, d: 0, w: 12, un: 'm²', x: `${Lg} × ${la} = ${aR} m²`, err: [{ v: 2 * (Lg + la), m: 'L’aire se calcule par une multiplication : L × l.' }] },
+          { lab: `Aire d’un triangle de base ${b} m et de hauteur ${h} m (b × h ÷ 2)`, v: aT, d: 1, w: 12, un: 'm²', x: `${b} × ${h} ÷ 2 = ${fr(b * h)} ÷ 2 = ${fr(aT)} m²`, err: [{ v: b * h, m: 'Pour un triangle, il faut diviser le produit b × h par 2.' }] },
+          { lab: 'Une aire s’exprime en…', qcm: ['m²', 'm', 'm³'], ok: 0, x: 'Une aire mesure une surface : elle s’exprime en m², cm²…' },
+          { lab: `Peindre le rectangle à ${pr} € le m² coûte`, v: aR * pr, d: 0, w: 12, un: '€', x: `${aR} × ${pr} = ${fr(aR * pr, 0)} €` }],
+          ['Rectangle : A = L × l.', 'Triangle : A = b × h ÷ 2.', 'Coût = aire × prix d’un m².'], table(['Figure', 'Dimensions'], [['Rectangle', `${Lg} m × ${la} m`], ['Triangle', `base ${b} m, hauteur ${h} m`]]), 'rectangle : A = L × l ; triangle : A = b × h ÷ 2.');
+      }
+      if (niv === 0) {
+        const aD = PI * r * r, D = 2 * r;
+        return QC('Calculer une aire : rectangle, triangle, disque', 'Calcule chaque aire. Pour le disque, utilise la touche π de la calculatrice.', [
+          { lab: `Aire d’un rectangle de ${Lg} cm sur ${la} cm`, v: aR, d: 0, w: 12, un: 'cm²', x: `${Lg} × ${la} = ${aR} cm²` },
+          { lab: `Aire d’un triangle de base ${b} cm et de hauteur ${h} cm`, v: aT, d: 1, w: 12, un: 'cm²', x: `${b} × ${h} ÷ 2 = ${fr(aT)} cm²`, err: [{ v: b * h, m: 'N’oublie pas de diviser par 2.' }] },
+          { lab: `Aire d’un disque de rayon ${r} cm (π × r × r), au dixième`, v: rnd(aD, 1), d: 1, w: 12, un: 'cm²', x: `π × ${r} × ${r} = π × ${r * r} ≈ ${fr(aD, 2)} ≈ ${fr(rnd(aD, 1), 1)} cm²`, err: [{ v: rnd(PI * r * 2, 1), m: 'Le rayon est multiplié par lui-même : r × r, pas par 2.' }] },
+          { lab: `Un disque a un diamètre de ${D} cm : son rayon`, v: r, d: 0, w: 12, un: 'cm', x: `${D} ÷ 2 = ${r} cm`, err: [{ v: D, m: 'Le rayon est la moitié du diamètre.' }] }],
+          ['Rectangle : L × l. Triangle : b × h ÷ 2. Disque : π × r × r.', 'Le rayon est la moitié du diamètre.', 'Arrondis seulement à la fin.'], table(['Figure', 'Dimensions'], [['Rectangle', `${Lg} cm × ${la} cm`], ['Triangle', `base ${b} cm, hauteur ${h} cm`], ['Disque', `rayon ${r} cm`]]));
+      }
+      const rc = pick(R, [1, 1.5, 2]), aDi = PI * rc * rc, aRest = aR - aDi, plaque = pick(R, [0.8, 1.2]);
+      return QC('Une plaque percée : aire restante et coût', `Une plaque rectangulaire de ${Lg} dm sur ${la} dm est percée d’un trou rond de rayon ${fr(rc)} dm.`, [
+        { lab: 'Aire de la plaque pleine (L × l)', v: aR, d: 0, w: 12, un: 'dm²', x: `${Lg} × ${la} = ${aR} dm²` },
+        { lab: 'Aire du trou (π × r × r), au centième', v: rnd(aDi, 2), d: 2, w: 12, un: 'dm²', x: `π × ${fr(rc)} × ${fr(rc)} ≈ ${fr(aDi, 3)} ≈ ${fr(rnd(aDi, 2))} dm²` },
+        { lab: 'Aire de la plaque percée (plaque pleine − trou), au centième', v: rnd(aRest, 2), d: 2, w: 12, un: 'dm²', x: `${aR} − ${fr(aDi, 2)} ≈ ${fr(aRest, 3)} ≈ ${fr(rnd(aRest, 2))} dm²`, err: [{ v: rnd(aR + aDi, 2), m: 'Le trou enlève de la matière : on soustrait son aire.' }] },
+        { lab: `Le métal coûte ${fr(plaque)} € le dm² : prix de la plaque percée, au centime`, v: rnd(aRest * plaque, 2), d: 2, w: 12, un: '€', x: `${fr(aRest, 3)} × ${fr(plaque)} ≈ ${fr(aRest * plaque, 3)} ≈ ${fr(rnd(aRest * plaque, 2))} €` }],
+        ['Aire percée = aire de la plaque − aire du trou.', 'Disque : π × r × r.', 'Prix = aire × prix d’un dm².'], table(['Figure', 'Dimensions'], [['Plaque', `${Lg} dm × ${la} dm`], ['Trou rond', `rayon ${fr(rc)} dm`]]));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

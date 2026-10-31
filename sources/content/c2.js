@@ -181,5 +181,8 @@ module.exports = function (chk) {
   };
   chk(3 / 6 === .5 && 1 - .35 === .65 && 2 * 2 === 4 && 14 / 20 === .7 && 1 - .3 === .7, 'c2 fiche');
   c.words = require('./gl3')('c2');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c2e4', lc: 1, niv: 0 }, { id: 'e4a', gen: 'c2e4a', lc: 1, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c2e4d', lc: 1, niv: 1, base: 'e4' });
+  c.bilan[0][1].push('e4');
   return c;
 };

@@ -107,4 +107,25 @@
       hints: ['A : divise le budget par ' + p + ' et garde l’entier.', 'B : retire ' + r + ', divise par ' + q + ', garde l’entier.', 'Compare les deux nombres.', 'Résous A = B.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};
+  /* ===== exercice ajouté (3 niveaux) : notion 3 (la fonction affine f(x) = a × x + b) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c7e4', (R, niv) => {
+      const a = niv < 0 ? pick(R, [2, 3, 4, 5]) : niv === 0 ? pick(R, [1.5, 2.5, 3, 4.5]) : pick(R, [-2, -3, -1.5, -4]), b = niv < 0 ? pick(R, [1, 2, 3, 5, 10]) : niv === 0 ? pick(R, [2.5, 4, 6, 8]) : pick(R, [20, 30, 36, 50]);
+      const f = x => a * x + b, X = [0, 1, 2, 3], x0 = pick(R, [5, 6, 8, 10]), xs = pick(R, niv > 0 ? [4, 5, 6, 8] : [3, 4, 5, 6, 8]), ys = f(xs), neg = a < 0;
+      const rows = [
+        { lab: 'La valeur de b, c’est f(0)', v: b, d: 2, w: 12, x: `Pour x = 0, f(0) = a × 0 + b = b : on lit b = ${fr(b)} dans le tableau.` },
+        { lab: 'Le coefficient a = f(1) − f(0)', v: a, d: 2, w: 12, x: `f(1) − f(0) = ${fr(f(1))} − ${fr(f(0))} = ${fr(a)}`, err: [{ v: -a, m: 'Soustrais dans le bon ordre : f(1) − f(0).' }] },
+        { lab: `f(${x0})`, v: f(x0), d: 2, w: 12, x: `f(${x0}) = ${fr(a)} × ${x0} + ${fr(b)} = ${fr(a * x0)} + ${fr(b)} = ${fr(f(x0))}`, err: [{ v: rnd(a * x0, 2), m: 'N’oublie pas d’ajouter b.' }] },
+        { lab: `Antécédent de ${fr(ys)} : on résout ${fr(a)} × x + ${fr(b)} = ${fr(ys)}`, v: xs, d: 2, w: 12, x: `${fr(a)} × x = ${fr(ys)} − ${fr(b)} = ${fr(ys - b)} donc x = ${fr(ys - b)} ÷ ${fr(a)} = ${fr(xs)}`, err: [{ v: rnd((ys + b) / a, 2), m: 'On commence par soustraire b des deux côtés.' }] }];
+      if (niv > 0) rows.push({ lab: 'La droite de f est…', qcm: ['croissante', 'décroissante'], ok: neg ? 1 : 0, x: neg ? `a = ${fr(a)} est négatif : la droite descend, f est décroissante.` : 'a est positif : la droite monte.' });
+      return QC(niv < 0 ? 'La fonction affine, pas à pas' : niv > 0 ? 'Fonction affine décroissante' : 'La fonction affine f(x) = a × x + b', `On donne la fonction affine f(x) = a × x + b par un tableau de valeurs${niv > 0 ? ' (une cuve qui se vide)' : ''}.`, rows,
+        ['f(0) = b : lis-le dans le tableau.', 'a = f(1) − f(0) : l’écart quand x augmente de 1.', 'Pour un antécédent, résous l’équation a × x + b = y.'], tabXY('x', 'f(x)', X, X.map(x => fr(f(x)))), niv < 0 ? 'b est la valeur pour x = 0 ; a est l’écart entre deux valeurs qui se suivent.' : '');
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

@@ -138,5 +138,8 @@ module.exports = function (chk) {
   };
   chk(6 * 6 + 8 * 8 === 100 && 3 * 3 + 4 * 4 === 25, 'c10 fiche');
   c.words = require('./gl3')('c10');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c10e4', lc: 2, niv: 0 }, { id: 'e4a', gen: 'c10e4a', lc: 2, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c10e4d', lc: 2, niv: 1, base: 'e4' });
+  c.bilan[1][1].push('e4');
   return c;
 };

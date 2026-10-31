@@ -171,8 +171,8 @@ async def run(p, vw, vh, label, full):
     # niveaux : chaque exercice courant a ses variantes guidée et défi
     for c in data['chapitres']:
         await page.goto(f"{URL}#/{c['id']}/entrainement"); await page.wait_for_timeout(50)
-        na, nd = await page.evaluate("[document.querySelectorAll('.ex2.tr .niv-a').length, document.querySelectorAll('.ex2.tr .niv-d').length]")
-        if (na, nd) != (3, 3): bad(f'{label} {c["id"]} niveaux : {na} guidés, {nd} défis')
+        na, nd, nt = await page.evaluate("[document.querySelectorAll('.ex2.tr .niv-a').length, document.querySelectorAll('.ex2.tr .niv-d').length, document.querySelectorAll('.ex2.tr').length]")
+        if not (na == nd and na >= 3 and nt == 3 * na): bad(f'{label} {c["id"]} niveaux : {na} guidés, {nd} défis, {nt} exercices')
         await page.goto(f"{URL}#/{c['id']}/problemes"); await page.wait_for_timeout(50)
         na, nd = await page.evaluate("[document.querySelectorAll('.pb .niv-a').length, document.querySelectorAll('.pb .niv-d').length]")
         if (na, nd) != (1, 1): bad(f'{label} {c["id"]} problèmes : {na} guidé, {nd} défi')

@@ -53,7 +53,7 @@
     });
   }
   function addNotes(p) {
-    const el = inner(p); if (el.classList.contains('cols2')) return; const f = free(el) / MM;
+    const el = inner(p); if (el.classList.contains('cols2')) return; const f = free(el) / MM; (res.gaps = res.gaps || []).push([out.children.length, Math.round(f), Math.round(el.clientHeight / MM)]);
     if (f < 34) return;
     const n = tpl('notesTpl'); n.querySelector('.lines').innerHTML = '<i></i>'.repeat(Math.floor((f - 24) / 10));
     el.appendChild(n); if (over(el)) el.removeChild(n); else res.notes++;
@@ -63,13 +63,39 @@
   for (const node of [...flow.children]) {
     if (node.dataset.recto === '1' && out.children.length % 2 === 1) fillPage();
     if (node.classList.contains('page')) { out.appendChild(node); fitAll(node); continue; }
+    if (node.dataset.key === 'rep') { const placed = new Set([...out.querySelectorAll('.ex[data-eid]')].map(e => e.dataset.eid)); node.querySelectorAll('[data-optrep]').forEach(e => { if (!placed.has(e.dataset.optrep)) e.remove(); }); }
     const run = node.dataset.run, col = node.dataset.col, fill = node.dataset.fill === '1', cols = node.dataset.cols === '2';
     let p = newPage(null, col, false);
     res.secs[node.dataset.key] = out.children.length;
     const kids = [...node.children]; const fixed = [], queue = [];
     kids.forEach(k => (k.classList.contains('ex') ? queue : fixed).push(k));
+    const pool = queue.filter(b => b.classList.contains('opt')); pool.forEach(b => queue.splice(queue.indexOf(b), 1));
     const place = blk => { const el = inner(p); el.appendChild(blk); fitAll(blk); if (over(el)) { el.removeChild(blk); return false; } return true; };
     let first = true;
+    let curLc = 0;
+    /* réserve d’exercices : posés seulement dans la place restée vide d’une page, jamais sur une page en plus */
+    const usedSrc = {};
+    const topUp = (lc, dep) => { if (!fill || !pool.length) return; const el = inner(p); if (el.classList.contains('cols2')) return;
+      const here = new Set([...el.querySelectorAll(':scope > .opt')].map(b => b.dataset.src));
+      const pickc = (test, same) => pool.filter(b => test(b) && (b.dataset.free || (lc ? +b.dataset.lc === lc : (!b.dataset.src || out.querySelector('.ex[data-eid="' + b.dataset.src + '"]')))) && (same || (!here.has(b.dataset.src) && !(b.dataset.src && el.querySelector('[data-eid="' + b.dataset.src + '"]')))))
+        .sort((a, b) => (usedSrc[a.dataset.src] || 0) - (usedSrc[b.dataset.src] || 0));
+      const put1 = (b, same) => {
+        if (lc) b.classList.add('inl'); if (same) b.classList.add('again');
+        const sais = lc ? null : el.querySelector(':scope > .sais3, :scope > .sais'); let ok = false;
+        if (sais) { el.insertBefore(b, sais); fitAll(b); ok = !over(el); if (!ok) el.removeChild(b); } else ok = place(b);
+        if (!ok) { b.classList.remove('inl'); b.classList.remove('again'); }
+        return ok; };
+      const first = (cand, same) => { for (const b of cand) if (put1(b, same)) return b; return null; };
+      /* rappel : on choisit l’exercice qui remplit le mieux la place restante */
+      const best = cand => { let bb = null, bf = 1e9; for (const b of cand) if (put1(b, false)) { const f = free(el); el.removeChild(b); if (f < bf) { bf = f; bb = b; } } if (bb) put1(bb, false); return bb; };
+      for (;;) {
+        /* d’abord les « autres nombres » de la page ; sur une page de cours, la même notion « encore une fois » ; sur une page d’exercices, un rappel d’un chapitre précédent */
+        let put = first(pickc(b => dep ? b.dataset.dep : !b.dataset.rap, false), false);
+        if (!put && lc) put = first(pickc(b => !b.dataset.rap, true), true);
+        if (!put && !lc) put = best(pickc(b => b.dataset.rap && (dep ? !b.dataset.dep : true), false));
+        if (!put) return;
+        pool.splice(pool.indexOf(put), 1); here.add(put.dataset.src); usedSrc[put.dataset.src] = (usedSrc[put.dataset.src] || 0) + 1; } };
+    const lessonTop = () => { const el = inner(p), last = el.lastElementChild; if (last && last.classList.contains('nt3r') && last.dataset.lc) topUp(+last.dataset.lc); else if (last && (last.classList.contains('dep3') || last.classList.contains('auto3'))) topUp(0, true); };
     for (const blk of fixed) {
       if (cols && first && !blk.classList.contains('span')) { p = out.lastElementChild; }
       if (cols && !blk.classList.contains('span') && !inner(p).classList.contains('cols2') && !p._colbox) {
@@ -87,10 +113,10 @@
         const carry = []; while (el.lastElementChild && el.lastElementChild.classList.contains('kwn')) carry.unshift(el.removeChild(el.lastElementChild));
         p = newPage(run, col, true); carry.forEach(c => inner(p).appendChild(c)); inner(p).appendChild(blk); continue; }
       // une notion commence toujours en haut d’une page (sa méthode et sa solution restent ensemble)
-      if (blk.classList.contains('pgb') && inner(p).children.length) { if (fill) addNotes(p); p = newPage(run, col, false); }
+      if (blk.classList.contains('pgb') && inner(p).children.length) { lessonTop(); if (fill) addNotes(p); p = newPage(run, col, false); }
       if (!place(blk)) { const el = inner(p), carry = [];
         while (el.lastElementChild && el.lastElementChild.classList.contains('kwn') && el.children.length > 1) carry.unshift(el.removeChild(el.lastElementChild));
-        if (fill) addNotes(p);
+        lessonTop(); if (fill) addNotes(p);
         p = newPage(run, col, false); carry.forEach(c => inner(p).appendChild(c)); inner(p).appendChild(blk); fitAll(blk); if (over(inner(p))) res.errors.push('Débordement : ' + blk.textContent.slice(0, 50)); }
     }
     const WIN = 8;
@@ -140,10 +166,11 @@
       if (el.children.length && half()) continue;
       // un titre (« Les exercices ») ne reste jamais seul en bas de page
       const carry = []; while (el.lastElementChild && el.lastElementChild.classList.contains('kwn') && el.children.length > 1) carry.unshift(el.removeChild(el.lastElementChild));
-      if (fill) addNotes(p);
+      topUp(0); if (fill) addNotes(p);
       p = newPage(run, col, false); carry.forEach(c => inner(p).appendChild(c));
     }
-    if (fill) addNotes(p);
+    topUp(0); if (fill) addNotes(p);
+    if (fill && pool.length) { const el = inner(p); (res.poolLeft = res.poolLeft || {})[node.dataset.key] = pool.map(b => { el.appendChild(b); const h = Math.round(b.getBoundingClientRect().height / MM); el.removeChild(b); return (b.dataset.src || '?') + (b.dataset.dep ? '/dep' : '') + (b.dataset.lc ? '/lc' + b.dataset.lc : '') + ':' + h; }); }
   }
   if (out.children.length % 2 === 1) { const last = document.createElement('div'); last.className = 'page'; last.innerHTML = '<div class="inner"><div class="blk notes"><h3>📝 Mes notes</h3><div class="lines">' + '<i></i>'.repeat(24) + '</div></div></div><div class="foot"></div>'; out.appendChild(last); }
   flow.remove();
@@ -162,6 +189,7 @@
   document.querySelectorAll('[data-pageof]').forEach(s => { const v = res.secs[s.dataset.pageof]; if (v) s.textContent = v; else res.errors.push('Renvoi introuvable : ' + s.dataset.pageof); });
   document.querySelectorAll('[data-wordpage]').forEach(s => { const v = res.words[s.dataset.wordpage]; if (v) s.textContent = v; else res.errors.push('Page introuvable : ' + s.dataset.wordpage); });
   document.querySelectorAll('[data-numof]').forEach(s => { const v = res.num[s.dataset.numof]; if (v) s.textContent = v; else res.errors.push('Numéro introuvable : ' + s.dataset.numof); });
+  document.querySelectorAll('.rp3').forEach(rp => { const ps = [...rp.querySelectorAll(':scope > p')]; ps.sort((x, y) => (+x.querySelector('[data-numof]').textContent || 0) - (+y.querySelector('[data-numof]').textContent || 0)).forEach(x => rp.appendChild(x)); });
   document.querySelectorAll('.bilan td').forEach(td => { const bs = [...td.querySelectorAll('[data-numof]')]; if (bs.length > 1) td.innerHTML = bs.map(b => +b.textContent).sort((a, b) => a - b).map(x => `<b>${x}</b>`).join(', '); });
   // version 3 : les coups de pouce (écrits à l’envers) descendent en bas de leur page ; la hauteur totale ne change pas
   document.querySelectorAll('#out .page').forEach(pg => { const ps = [...pg.querySelectorAll('.inner .pouce-inv')]; if (!ps.length) return; const f = document.createElement('div'); f.className = 'pfoot'; ps.forEach(x => f.appendChild(x)); pg.appendChild(f); res.pouces = (res.pouces || 0) + ps.length; });

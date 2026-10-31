@@ -97,4 +97,42 @@
       hints: ['I = P ÷ U pour chaque appareil, puis on additionne.', 'Compare l’intensité totale à la limite.', 't = d ÷ v.', '1 h = 60 min.'] };
   });
   if (typeof module !== 'undefined') module.exports = { CLUB };
+  /* ===== exercice ajouté (3 niveaux) : notion 2 (résoudre x + a = b et a × x = b) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c5e4', (R, niv) => {
+      const eqt = t => table(['Équation'], t.map(x => [x]));
+      if (niv < 0) {
+        const a = int(R, 3, 12), b = a + int(R, 4, 20), c = pick(R, [2, 3, 4, 5]), x = int(R, 3, 9), p = c * x, u3 = pick(R, [4.5, 6, 7.5, 12]), t3 = 3 * u3;
+        return QC('Équations, pas à pas', 'Résous chaque équation : fais la même opération des deux côtés.', [
+          { lab: `x + ${a} = ${b} : x =`, v: b - a, d: 0, w: 12, x: `On soustrait ${a} des deux côtés : x = ${b} − ${a} = ${b - a}`, err: [{ v: a + b, m: 'Pour défaire une addition, on soustrait.' }] },
+          { lab: `${c} × x = ${p} : x =`, v: x, d: 0, w: 12, x: `On divise par ${c} des deux côtés : x = ${p} ÷ ${c} = ${x}`, err: [{ v: p * c, m: 'Pour défaire une multiplication, on divise.' }] },
+          { lab: 'Pour résoudre x + a = b, on…', qcm: ['soustrait a des deux côtés', 'ajoute a des deux côtés'], ok: 0, x: 'L’addition se défait par la soustraction : on soustrait a des deux côtés.' },
+          { lab: `Trois articles identiques coûtent ${fr(t3)} € : prix d’un article`, v: u3, d: 2, w: 12, un: '€', x: `3 × x = ${fr(t3)} donne x = ${fr(t3)} ÷ 3 = ${fr(u3)} €` }],
+          ['On fait la même opération des deux côtés de l’égalité.', 'x + a = b : on soustrait a. a × x = b : on divise par a.', 'Vérifie en remplaçant x par ta solution.'], eqt([`x + ${a} = ${b}`, `${c} × x = ${p}`]), 'l’addition se défait par une soustraction, la multiplication par une division.');
+      }
+      if (niv === 0) {
+        const a = pick(R, [2.5, 3.5, 4.5, 12.5]), b = rnd(a + pick(R, [7.5, 10, 15.5, 20]), 2), c = pick(R, [2.5, 4, 1.5, 0.5]), x = pick(R, [4, 6, 8, 12]), p = rnd(c * x, 2), fr_ = pick(R, [15, 20, 25]), tot = fr_ + pick(R, [45, 60, 120]);
+        return QC('Résoudre x + a = b et a × x = b', 'Résous chaque équation, puis réponds à la question.', [
+          { lab: `x + ${fr(a)} = ${fr(b)} : x =`, v: rnd(b - a, 2), d: 2, w: 12, x: `x = ${fr(b)} − ${fr(a)} = ${fr(b - a)}`, err: [{ v: rnd(a + b, 2), m: 'Pour défaire une addition, on soustrait.' }] },
+          { lab: `${fr(c)} × x = ${fr(p)} : x =`, v: x, d: 2, w: 12, x: `x = ${fr(p)} ÷ ${fr(c)} = ${fr(x, 0)}`, err: [{ v: rnd(p * c, 2), m: 'Pour défaire une multiplication, on divise.' }] },
+          { lab: `Une facture de ${fr(tot, 0)} € comprend ${fr_} € de frais de port. Prix des articles, x + ${fr_} = ${fr(tot, 0)} :`, v: tot - fr_, d: 2, w: 12, un: '€', x: `x = ${fr(tot, 0)} − ${fr_} = ${fr(tot - fr_, 0)} €` },
+          { lab: `Vérification : pour x = ${fr(x, 0)}, ${fr(c)} × x vaut`, v: p, d: 2, w: 12, x: `${fr(c)} × ${fr(x, 0)} = ${fr(p)}, ce qui est bien ${fr(p)} : la solution est juste.` }],
+          ['Même opération des deux côtés.', 'Addition → soustraction. Multiplication → division.', 'On vérifie en remplaçant x.'], eqt([`x + ${fr(a)} = ${fr(b)}`, `${fr(c)} × x = ${fr(p)}`]));
+      }
+      const a = pick(R, [4.5, 7.5, 12, 18]), b = rnd(pick(R, [10, 14.5, 20, 35]), 2), c = pick(R, [2, 4, 5, 8]), x = pick(R, [3.5, 4.5, 7.5, 12]), p = rnd(x / c, 2) , d = pick(R, [1.2, 2.5, 6]), x2 = pick(R, [5, 8, 12]), q = rnd(d * x2, 2);
+      return QC('Équations : x − a = b, x ÷ a = b et a × x = b', 'Résous chaque équation et vérifie ton résultat.', [
+        { lab: `x − ${fr(a)} = ${fr(b)} : x =`, v: rnd(b + a, 2), d: 2, w: 12, x: `On ajoute ${fr(a)} des deux côtés : x = ${fr(b)} + ${fr(a)} = ${fr(b + a)}`, err: [{ v: rnd(b - a, 2), m: 'Pour défaire une soustraction, on ajoute.' }] },
+        { lab: `x ÷ ${c} = ${fr(p)} : x =`, v: x, d: 2, w: 12, x: `On multiplie par ${c} des deux côtés : x = ${fr(p)} × ${c} = ${fr(x)}`, err: [{ v: rnd(p / c, 2), m: 'Pour défaire une division, on multiplie.' }] },
+        { lab: `${fr(d)} × x = ${fr(q)} : x =`, v: x2, d: 2, w: 12, x: `x = ${fr(q)} ÷ ${fr(d)} = ${fr(x2, 0)}`, err: [{ v: rnd(q * d, 2), m: 'Divise ' + fr(q) + ' par ' + fr(d) + '.' }] },
+        { lab: `Pour x = ${fr(x2, 0)}, ${fr(d)} × x + ${fr(a)} vaut`, v: rnd(q + a, 2), d: 2, w: 12, x: `${fr(d)} × ${fr(x2, 0)} + ${fr(a)} = ${fr(q)} + ${fr(a)} = ${fr(q + a)}` },
+        { lab: 'Pour défaire une division par c, on…', qcm: ['multiplie par c', 'divise par c'], ok: 0, x: 'La division se défait par la multiplication : on multiplie par c des deux côtés.' }],
+        ['Soustraction → addition. Division → multiplication.', 'a × x = b : x = b ÷ a.', 'Remplace x par ta solution pour vérifier.'], eqt([`x − ${fr(a)} = ${fr(b)}`, `x ÷ ${c} = ${fr(p)}`, `${fr(d)} × x = ${fr(q)}`]));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

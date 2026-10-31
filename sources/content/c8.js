@@ -137,5 +137,8 @@ module.exports = function (chk) {
   };
   chk(r2(50 * 1.2) === 60 && r2(120 / 1.2) === 100 && 25 - 20 === 5 && r2(5 / 20) === .25 && r2(1000 * .03 * 2) === 60, 'c8 fiche');
   c.words = require('./gl3')('c8');
+  /* ajout-e4 : un exercice d’entraînement (3 niveaux) pour chaque notion qui n’en avait pas */
+  c.entraine.push({ id: 'e4', gen: 'c8e4', lc: 4, niv: 0 }, { id: 'e4a', gen: 'c8e4a', lc: 4, niv: -1, base: 'e4' }, { id: 'e4d', gen: 'c8e4d', lc: 4, niv: 1, base: 'e4' });
+  c.bilan[3][1].push('e4');
   return c;
 };

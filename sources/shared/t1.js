@@ -113,4 +113,26 @@
       hints: ['La somme de toutes les valeurs, c’est la moyenne multipliée par leur nombre.', 'La valeur manquante : la somme moins les valeurs connues.', 'Pour la question c, la nouvelle somme vaut ' + cible + ' × ' + (k + 1) + '.'] };
   });
   if (typeof module !== 'undefined') module.exports = { SIM, CNC, MOIS, tally, sum };
+  /* ===== exercice ajouté (3 niveaux) : notion 1 (effectifs, effectif total et classes) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c1e4', (R, niv) => {
+      const s = pick(R, [10, 20, 30]), nv = niv < 0 ? 4 : 6, V = Array.from({ length: nv }, (_, i) => s + i), n = V.map(() => int(R, 1, niv < 0 ? 6 : 9)), N = n.reduce((a, b) => a + b, 0);
+      const k = int(R, 0, nv - 1), w = niv > 0 ? 3 : 2, i0 = int(R, 0, Math.floor(nv / w) - 1) * w, cl = [V[i0], V[i0 + w - 1]], ec = n.slice(i0, i0 + w).reduce((a, b) => a + b, 0), ctx = pick(R, [['livraisons par jour', 'jours'], ['pièces défectueuses par lot', 'lots'], ['clients par heure', 'heures']]);
+      const rows = [
+        { lab: `Effectif de la valeur ${V[k]}`, v: n[k], d: 0, w: 12, x: `Dans le tableau, la valeur ${V[k]} a pour effectif ${n[k]}.`, err: [{ v: V[k], m: 'L’effectif est dans la ligne du bas, pas la valeur elle-même.' }] },
+        { lab: 'Effectif total', v: N, d: 0, w: 12, x: `${n.join(' + ')} = ${N}`, err: [{ v: Math.max(...n), m: 'Additionne tous les effectifs pour trouver l’effectif total.' }] },
+        { lab: `Effectif de la classe [${cl[0]} ; ${cl[1]}]`, v: ec, d: 0, w: 12, x: `La classe [${cl[0]} ; ${cl[1]}] contient ${V.slice(i0, i0 + w).join(', ')} : ${n.slice(i0, i0 + w).join(' + ')} = ${ec}`, err: [{ v: n[i0], m: 'Additionne les effectifs de toutes les valeurs de la classe.' }] },
+        { lab: `La valeur ${cl[1]} appartient-elle à la classe [${cl[0]} ; ${cl[1]}] ?`, qcm: ['oui', 'non'], ok: 0, x: `Les bornes comptent : la classe [${cl[0]} ; ${cl[1]}] contient tous les nombres x tels que ${cl[0]} ≤ x ≤ ${cl[1]}.` }];
+      if (niv > 0) rows.push({ lab: `Part de cette classe dans l’effectif total, en % (au dixième)`, v: rnd(ec / N * 100, 1), d: 1, w: 14, x: `${ec} ÷ ${N} = ${fr(ec / N, 3)} soit ${fr(rnd(ec / N * 100, 1), 1)} %` });
+      return QC(niv < 0 ? 'Effectifs et classes, pas à pas' : niv > 0 ? 'Effectifs, classes et part d’une classe' : 'Effectifs, effectif total et classes', `On a relevé le nombre de ${ctx[0]} sur ${ctx[1] === 'jours' ? 'plusieurs jours' : 'une période'}.`, rows,
+        ['L’effectif total est la somme de tous les effectifs.', 'Une classe [a ; b] contient a, b et tous les nombres entre a et b.', 'Pour l’effectif d’une classe, additionne les effectifs de ses valeurs.'],
+        tabXY(`Nombre de ${ctx[0]}`, `Effectif (${ctx[1]})`, V, n), niv < 0 ? 'effectif total = somme de tous les effectifs.' : '');
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);

@@ -108,4 +108,43 @@
       hints: ['Durée de la section : temps d’arrivée de la section − temps de départ.', 'Vitesse moyenne = distance ÷ durée.', 'Temps pour 100 m = 100 ÷ vitesse.', 'Écart = la différence entre les deux temps, sans signe.'] };
   });
   if (typeof module !== 'undefined') module.exports = { BOLT };
+  /* ===== exercice ajouté (3 niveaux) : notion 4 (vitesse moyenne et proportionnalité) ===== */
+  {
+    const { fr, rnd, pick, int, shuffle, table, tb, svg, T, num, qcm, ln, tabXY, lv, eur, L } = H;
+    /* trame d’un exercice : rows { lab, v, d, a, x, err, w, un } ou { lab, qcm, ok, x } ; aide : ligne d’aide du niveau guidé */
+    const QC = (titre, consigne, rows, hints, pre = '', aide = '') => {
+      const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+      return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
+    };
+    lv('c3e4', (R, niv) => {
+      const v = pick(R, niv > 0 ? [40, 60, 80, 100] : [30, 40, 50, 60, 80]);
+      if (niv < 0) {
+        const t = pick(R, [2, 3, 4]), d = v * t, t2 = pick(R, [5, 6]), ms = pick(R, [10, 20]);
+        return QC('Vitesse moyenne, pas à pas', `Un camion parcourt ${fr(d, 0)} km en ${t} h à vitesse constante.`, [
+          { lab: 'Sa vitesse moyenne (distance ÷ durée)', v, d: 0, w: 12, un: 'km/h', x: `${fr(d, 0)} ÷ ${t} = ${v} km/h`, err: [{ v: d * t, m: 'La vitesse est la distance divisée par la durée.' }] },
+          { lab: `Distance parcourue en ${t2} h à la même vitesse`, v: v * t2, d: 0, w: 12, un: 'km', x: `${v} × ${t2} = ${fr(v * t2, 0)} km` },
+          { lab: `Une vitesse de ${ms} m/s correspond à (× 3,6)`, v: ms * 3.6, d: 0, w: 12, un: 'km/h', x: `${ms} × 3,6 = ${fr(ms * 3.6, 0)} km/h` }],
+          ['Vitesse = distance ÷ durée.', 'Distance = vitesse × durée.', 'Pour passer de m/s à km/h, on multiplie par 3,6.'],
+          table(['Distance', 'Durée'], [[`${fr(d, 0)} km`, `${t} h`]]), 'vitesse = distance ÷ durée ; distance = vitesse × durée.');
+      }
+      if (niv === 0) {
+        const t = pick(R, [1.5, 2.5, 3.5]), d = v * t, k = pick(R, [1.5, 2, 2.5, 3.5]), d2 = v * k, ms = pick(R, [5, 8, 12, 15, 25]);
+        return QC('Vitesse moyenne et proportionnalité', `Un autocar parcourt ${fr(d)} km en ${fr(t)} h à vitesse constante. Distance et durée sont proportionnelles.`, [
+          { lab: 'Sa vitesse moyenne', v, d: 0, w: 12, un: 'km/h', x: `${fr(d)} ÷ ${fr(t)} = ${v} km/h (coefficient de proportionnalité)`, err: [{ v: d * t, m: 'Divise la distance par la durée.' }] },
+          { lab: `Distance parcourue en ${fr(k)} h`, v: d2, d: 1, w: 12, un: 'km', x: `${v} × ${fr(k)} = ${fr(d2)} km` },
+          { lab: `Durée pour parcourir ${fr(d2)} km`, v: k, d: 2, w: 12, un: 'h', x: `${fr(d2)} ÷ ${v} = ${fr(k)} h`, err: [{ v: d2 * v, m: 'Durée = distance ÷ vitesse.' }] },
+          { lab: `${ms} m/s en km/h (× 3,6)`, v: ms * 3.6, d: 1, w: 12, un: 'km/h', x: `${ms} × 3,6 = ${fr(ms * 3.6)} km/h` }],
+          ['Vitesse = distance ÷ durée.', 'Durée = distance ÷ vitesse.', 'm/s → km/h : × 3,6.'],
+          table(['Distance', 'Durée'], [[`${fr(d)} km`, `${fr(t)} h`]]));
+      }
+      const hh = pick(R, [1, 2, 3]), mi = pick(R, [15, 30, 45]), t = hh + mi / 60, d = v * t, kmh = pick(R, [36, 54, 72, 90, 108]), d2 = v * 1.5;
+      return QC('Vitesse moyenne : heures et minutes', `Un train parcourt ${fr(d)} km en ${hh} h ${mi} min à vitesse constante.`, [
+        { lab: `La durée ${hh} h ${mi} min, en heures`, v: t, d: 2, w: 12, un: 'h', x: `${mi} min = ${mi} ÷ 60 = ${fr(mi / 60)} h, donc ${hh} + ${fr(mi / 60)} = ${fr(t)} h`, err: [{ v: hh + mi / 100, m: 'Une heure compte 60 minutes : divise les minutes par 60.' }] },
+        { lab: 'Sa vitesse moyenne', v, d: 0, w: 12, un: 'km/h', x: `${fr(d)} ÷ ${fr(t)} = ${v} km/h` },
+        { lab: `Durée pour parcourir ${fr(d2, 0)} km à cette vitesse`, v: 1.5, d: 2, w: 12, un: 'h', x: `${fr(d2, 0)} ÷ ${v} = 1,5 h, soit 1 h 30 min` },
+        { lab: `${kmh} km/h en m/s (÷ 3,6)`, v: kmh / 3.6, d: 0, w: 12, un: 'm/s', x: `${kmh} ÷ 3,6 = ${fr(kmh / 3.6, 0)} m/s`, err: [{ v: kmh * 3.6, m: 'Pour passer de km/h à m/s, on divise par 3,6.' }] }],
+        ['Convertis d’abord les minutes en heures : minutes ÷ 60.', 'Vitesse = distance ÷ durée (durée en heures).', 'km/h → m/s : ÷ 3,6.'],
+        table(['Distance', 'Durée'], [[`${fr(d)} km`, `${hh} h ${mi} min`]]));
+    });
+  }
 })(typeof module !== 'undefined' ? module.exports : window);
