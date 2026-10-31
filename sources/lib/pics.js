@@ -55,7 +55,7 @@ P.croise = () => { const xs = [12, 62, 100, 138], ys = [10, 30, 50, 70], w = [50
   r += `<rect x="62" y="30" width="38" height="20" class="k" opacity=".85"/>`;
   [10, 30, 50, 70, 90].forEach(y => { r += `<line x1="12" x2="152" y1="${y}" y2="${y}" class="ks" stroke-width="1.2"/>`; });
   [12, 62, 100, 138, 152].forEach(x => { r += `<line x1="${x}" x2="${x}" y1="10" y2="90" class="ks" stroke-width="1.2"/>`; });
-  return S(r + t(81, 44, '90', { fs: 11, c: 'tw' }) + t(81, 24, 'en ligne', { fs: 8.5 }) + t(119, 24, 'boutique', { fs: 8.5 }) + t(37, 44, 'satisfaits', { fs: 8 }) + t(37, 64, 'non sat.', { fs: 8 }) + t(37, 84, 'Total', { fs: 8.5, c: 'kt' }) + t(145, 84, 'N', { fs: 9, c: 'kt' }), '0 0 160 96'); };
+  return S(r + t(81, 44, '90', { fs: 11, c: 'tw' }) + t(81, 24, 'en ligne', { fs: 7.4 }) + t(119, 24, 'boutique', { fs: 7.4 }) + t(37, 44, 'satisfaits', { fs: 7.4 }) + t(37, 64, 'non sat.', { fs: 8 }) + t(37, 84, 'Total', { fs: 8.5, c: 'kt' }) + t(145, 84, 'N', { fs: 9, c: 'kt' }), '0 0 160 96'); };
 P.parmi = () => S(`<rect x="8" y="10" width="144" height="70" rx="8" class="k2 ks" stroke-width="1.4"/><rect x="14" y="16" width="62" height="58" rx="6" fill="#fff" class="ks" stroke-width="2"/>` +
   Array.from({ length: 12 }, (_, i) => `<circle cx="${24 + (i % 4) * 14}" cy="${28 + Math.floor(i / 4) * 16}" r="5" class="${i < 9 ? 'k' : 'k2 ks'}" stroke-width="1"/>`).join('') +
   Array.from({ length: 10 }, (_, i) => `<circle cx="${92 + (i % 4) * 14}" cy="${28 + Math.floor(i / 4) * 16}" r="5" class="k2 ks" stroke-width="1"/>`).join('') + t(80, 92, 'parmi les 12 : 9 → 75 %', { fs: 9.5, c: 'kt' }), '0 0 160 96');

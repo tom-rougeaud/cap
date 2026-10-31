@@ -17,7 +17,8 @@
   /* case à compléter dans un texte ou un tableau */
   const tb = (k, a, w = 16) => `<span class="tb" data-k="${k}" data-a="${esc(a)}" style="min-width:${w}mm"><i>${k}</i></span>`;
   /* case à compléter dans un dessin */
-  const sb = (x, y, w, k, a, h = 26) => `<g class="sb"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" class="sbr"/><text x="${x + 5}" y="${y + 11}" font-size="10" class="sbk">${k}</text><text x="${x + w / 2 + 4}" y="${y + h / 2 + 6}" font-size="15" text-anchor="middle" class="pa">${esc(a)}</text></g>`;
+  const sbw = (w, a) => Math.max(w, Math.ceil(String(a).length * 7.6) + 12);
+  const sb = (x, y, w, k, a, h = 26) => { const W2 = sbw(w, a), X0 = x - (W2 - w) / 2; return `<g class="sb"><rect x="${X0}" y="${y}" width="${W2}" height="${h}" rx="5" class="sbr"/><text x="${X0 + 3}" y="${y - 3}" font-size="10" class="sbk" style="paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round">${k}</text><text x="${X0 + W2 / 2}" y="${y + h / 2 + 6}" font-size="15" text-anchor="middle" class="pa">${esc(a)}</text></g>`; };
   const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" font-size="${o.fs || 14}" text-anchor="${o.a || 'middle'}" font-weight="${o.w || 700}" class="${o.c || 'tx'}"${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
   const svg = (w, h, body, lab = '') => `<svg viewBox="0 0 ${w} ${h}" class="pic vis trs" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(lab)}">${body}</svg>`;
   const table = (head, rows, cls = '') => `<table class="dt tcx dt-sm ${cls}"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, j) => j === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
