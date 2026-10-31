@@ -37,6 +37,20 @@ const AST = { vite: ['⚡', 'Calculer vite'], og: ['🎯', 'Estimer'], sens: ['�
 const trou = h => h.replace(/⟦([^⟧]+)⟧/g, (m, a) => `<span class="bl tr3" style="width:${Math.max(14, Math.min(46, a.replace(/<[^>]+>/g, '').length * 2.4 + 6))}mm" data-a="${esc(a)}"></span>`);
 const trouTxt = h => h.replace(/⟦([^⟧]+)⟧/g, '<b>$1</b>');
 const qcmOpts = it => `<span class="opts">${it.qcm.choices.map((c, j) => opt(c, j === it.qcm.ok)).join('')}</span>`;
+/* QCM : les choix se placent sur la ligne de la question (à droite) ; en dessous seulement si la question n’a pas de ligne propre */
+const stk = g => { const m = /<svg[^>]*viewBox="0 0 (\d+)/.exec(g.support); return m && +m[1] >= 400 ? ' stk' : ''; };
+const trParts = g => {
+  let sup = g.support; const out = [];
+  g.items.forEach(it => {
+    if (sup.includes(`data-k="${it.k}"`) || new RegExp(`class="sbk"[^>]*>${it.k}<`).test(sup)) return;
+    if (it.qcm) {
+      const re = new RegExp(`<p class="tr-l">(${it.k}\\. (?:(?!</p>)[\\s\\S])*)</p>`);
+      if (re.test(sup)) { sup = sup.replace(re, (m, inner) => `<p class="tr-l tr-lq"><span class="tr-lt">${inner}</span>${qcmOpts(it)}</p>`); return; }
+    }
+    out.push(it);
+  });
+  return { support: sup, extra: out.length ? `<div class="tr-q">${out.map(it => `<div class="tr-qi"><span class="mg-l">${it.k}.</span>${it.qcm ? qcmOpts(it) : bl(30, it.a)}</div>`).join('')}</div>` : '' };
+};
 
 /* ---------- « Ce que tu sais déjà » : du collège au CAP ---------- */
 const pontBox = c => `<div class="blk pont3 c-${c.col}"><div class="pont3-h">🔗 Ce que tu sais déjà : ce qui reste, ce qui change au CAP</div><div class="pont3-g"><div class="pont3-a"><span class="pont3-k">Avant le CAP, tu as appris</span><ul>${c.pont.de.map(x => `<li><b class="pont3-n">${x.niv}</b> <i>${esc(x.titre)}</i> : ${x.sais}</li>`).join('')}</ul><p class="pont3-ex"><b>Exemple du collège</b> · ${c.pont.ex2}</p></div><div class="pont3-b"><span class="pont3-k">Au CAP, la même situation va plus loin</span><p class="pont3-ex">${c.pont.ex1}</p></div></div><div class="pont3-g3"><div><span class="pont3-k">✅ Ce qui reste</span><ul>${c.pont.reste.map(x => `<li>${x}</li>`).join('')}</ul></div><div><span class="pont3-k">➕ Ce qui change</span><ul>${c.pont.change.map(x => `<li>${x}</li>`).join('')}</ul></div><div><span class="pont3-k">🎯 À quoi ça sert</span><p>${c.pont.pourquoi}</p></div></div></div>`;
@@ -77,47 +91,44 @@ function chapter(c) {
   ex.push(`<div class="blk ex palh palh3 kwn keep" data-stage="1" data-sec="${c.id}-x"><span class="ph-i">✏️</span><b>Je m’entraîne</b><span>Un support à compléter, des cases lettrées. Réponses p. <span data-pageof="rep-${c.id}">…</span> ; d’autres nombres dans l’appli.</span></div>`);
   c.entraine.forEach(e => {
     const g = MCVT.tr(e.gen, seedOf(c.id + '-' + e.id)), eid = c.id + '-' + e.id;
-    const outside = g.items.filter(it => !g.support.includes(`data-k="${it.k}"`) && !g.support.includes(`class="sbk">${it.k}<`));
-    const extra = outside.length ? `<div class="tr-q">${outside.map(it => `<div class="tr-qi"><span class="mg-l">${it.k}.</span>${it.qcm ? qcmOpts(it) : bl(30, it.a)}</div>`).join('')}</div>` : '';
+    const tp = trParts(g), extra = tp.extra;
     key.push({ eid, titre: g.titre, det: detBlock(eid, `<b class="cn" data-numof="${eid}">·</b> ${nivT(e)}${g.titre}`, g.items.map(it => [`${it.k}.`, it.x || it.a])) });
-    ex.push(`<div class="blk ex tr3 c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1"><div class="exh"><span class="num">·</span>${nivB(e)}<span class="ext">${g.titre}</span><span class="cps"><span class="lcref">notion ${e.lc}</span></span></div><div class="exb">${nivNote(e)}<p class="tr-c">${g.consigne}</p><div class="tr-s">${g.support}</div>${extra}</div></div>`);
+    ex.push(`<div class="blk ex tr3 c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1"><div class="exh"><span class="num">·</span>${nivB(e)}<span class="ext">${g.titre}</span><span class="cps"><span class="lcref">notion ${e.lc}</span></span></div><div class="exb">${nivNote(e)}<p class="tr-c">${g.consigne}</p><div class="tr-s">${tp.support}</div>${extra}</div></div>`);
     rep.push({ eid, titre: nivT(e) + g.titre, txt: g.items.map(it => `${it.k}. ${it.a}`).join(' ; ') });
   });
 
   /* réserve : d’autres tirages des exercices « Je m’entraîne ». La mise en page ne les pose que dans la place restée vide d’une page (jamais de page en plus). */
   const evPool = [];
   {
-    const base = c.entraine.filter(e => !e.niv), cnt = {}; base.forEach(e => { cnt[e.lc] = (cnt[e.lc] || 0) + 1; });
+   const base = c.entraine.filter(e => !e.niv), cnt = {}; base.forEach(e => { cnt[e.lc] = (cnt[e.lc] || 0) + 1; });
     const sig = g => g.support + '|' + g.items.map(it => it.a).join(';');
     base.slice().sort((a, b) => cnt[a.lc] - cnt[b.lc]).forEach(e => {
       const seen = new Set([sig(MCVT.tr(e.gen, seedOf(c.id + '-' + e.id)))]);
       ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'].forEach(sfx => {
         const rid = e.id + sfx, eid = c.id + '-' + rid, g = MCVT.tr(e.gen, seedOf(c.id + '-' + rid)), isEv = sfx === 'r4';
         if (seen.has(sig(g))) return; seen.add(sig(g));
-        const outside = g.items.filter(it => !g.support.includes(`data-k="${it.k}"`) && !g.support.includes(`class="sbk">${it.k}<`));
-        const extra = outside.length ? `<div class="tr-q">${outside.map(it => `<div class="tr-qi"><span class="mg-l">${it.k}.</span>${it.qcm ? qcmOpts(it) : bl(30, it.a)}</div>`).join('')}</div>` : '';
+        const tp = trParts(g), extra = tp.extra;
         detBlock(eid, `<b class="cn" data-numof="${eid}">·</b> ${g.titre}`, g.items.map(it => [`${it.k}.`, it.x || it.a]));
-        const html = `<div class="blk ex tr3 opt${isEv ? ' evb' : ''} c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1" data-src="${c.id}-${e.id}" data-lc="${e.lc}"><div class="exh"><span class="num">·</span><span class="ext">${g.titre}</span><span class="cps"><span class="optn optn-s">autres nombres · comme l’exercice <b data-numof="${c.id}-${e.id}">·</b></span><span class="optn optn-l">à toi, tout de suite</span><span class="optn optn-g">encore une fois · autres nombres</span><span class="optn optn-e">pour t’entraîner encore · hors barème</span><span class="lcref">notion ${e.lc}</span></span></div><div class="exb"><p class="tr-c">${g.consigne}</p><div class="tr-s">${g.support}</div>${extra}</div></div>`;
+        const html = `<div class="blk ex tr3 opt${stk(g)}${isEv ? ' evb' : ''} c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1" data-src="${c.id}-${e.id}" data-lc="${e.lc}"><div class="exh"><span class="num">·</span><span class="ext">${g.titre}</span><span class="cps"><span class="optn optn-s">autres nombres · comme l’exercice <b data-numof="${c.id}-${e.id}">·</b></span><span class="optn optn-l">à toi, tout de suite</span><span class="optn optn-g">encore une fois · autres nombres</span><span class="optn optn-e">pour t’entraîner encore · hors barème</span><span class="lcref">notion ${e.lc}</span></span></div><div class="exb"><p class="tr-c">${g.consigne}</p><div class="tr-s">${tp.support}</div>${extra}</div></div>`;
         (isEv ? evPool : ex).push(html);
         rep.push({ eid, titre: g.titre, txt: g.items.map(it => `${it.k}. ${it.a}`).join(' ; '), opt: 1 });
       });
     });
   }
   /* rappel : des exercices d’avant (autres nombres). Au « Point de départ » : ceux du chapitre précédent ; ailleurs, seulement si une page garde de la place vide (jamais de page en plus). */
-  {
+ {
     const ci = DATA.indexOf(c), prev = ci > 0 ? DATA[ci - 1] : null; let nr = 0, ne = 0;
     const addRap = (g, eid, srcId, titre, dep, free, isEv) => {
-      const outside = g.items.filter(it => !g.support.includes(`data-k="${it.k}"`) && !g.support.includes(`class="sbk">${it.k}<`));
-      const extra = outside.length ? `<div class="tr-q">${outside.map(it => `<div class="tr-qi"><span class="mg-l">${it.k}.</span>${it.qcm ? qcmOpts(it) : bl(30, it.a)}</div>`).join('')}</div>` : '';
+      const tp = trParts(g), extra = tp.extra;
       detBlock(eid, `<b class="cn" data-numof="${eid}">·</b> ${g.titre}`, g.items.map(it => [`${it.k}.`, it.x || it.a]));
-      const html = `<div class="blk ex tr3 opt rap${isEv ? ' evb' : ''} c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1"${dep ? ' data-dep="1"' : ''} data-rap="1"${free ? ' data-free="1"' : ''} data-src="${srcId}"><div class="exh"><span class="num">·</span><span class="ext">${g.titre}</span><span class="cps"><span class="optn optn-r">je me rappelle · ${titre}</span></span></div><div class="exb"><p class="tr-c">${g.consigne}</p><div class="tr-s">${g.support}</div>${extra}</div></div>`;
+      const html = `<div class="blk ex tr3 opt rap${stk(g)}${isEv ? ' evb' : ''} c-${col}" data-eid="${eid}" data-det="${eid}" data-stage="1"${dep ? ' data-dep="1"' : ''} data-rap="1"${free ? ' data-free="1"' : ''} data-src="${srcId}"><div class="exh"><span class="num">·</span><span class="ext">${g.titre}</span><span class="cps"><span class="optn optn-r">je me rappelle · ${titre}</span></span></div><div class="exb"><p class="tr-c">${g.consigne}</p><div class="tr-s">${tp.support}</div>${extra}</div></div>`;
       (isEv ? evPool : ex).push(html);
       rep.push({ eid, titre: g.titre, txt: g.items.map(it => `${it.k}. ${it.a}`).join(' ; '), opt: 1 });
     };
     const fromChap = (o, e, dep) => { const rid = 'rap' + (++nr), eid = c.id + '-' + rid; addRap(MCVT.tr(e.gen, seedOf(eid)), eid, o.id + '-' + e.id, o.titre, dep, false, false); };
     const fromChapEv = (o, e) => { const rid = 'rae' + (++ne), eid = c.id + '-' + rid; addRap(MCVT.tr(e.gen, seedOf(eid)), eid, o.id + '-' + e.id, o.titre, false, false, true); };
     if (prev) { const base = prev.entraine.filter(e => !e.niv), dp = [base[0], base[Math.floor(base.length / 2)], base[base.length - 1]].filter((e, i, a) => e && a.indexOf(e) === i); dp.forEach(e => fromChap(prev, e, true)); base.filter(e => !dp.includes(e)).forEach(e => fromChap(prev, e, false)); }
-    for (let k = 2; k <= Math.min(ci, 6); k++) { const o = DATA[ci - k], base = o.entraine.filter(e => !e.niv); for (let j = 0; j < Math.min(4, base.length); j++) fromChap(o, base[(ci + k + j) % base.length], false); }
+   for (let k = 2; k <= Math.min(ci, 6); k++) { const o = DATA[ci - k], base = o.entraine.filter(e => !e.niv); for (let j = 0; j < Math.min(4, base.length); j++) fromChap(o, base[(ci + k + j) % base.length], false); }
     /* évaluation : deux rappels « hors barème » du chapitre précédent et d’un chapitre plus ancien */
     if (prev) { const base = prev.entraine.filter(e => !e.niv); if (base.length) fromChapEv(prev, base[(ci + 1) % base.length]); if (base.length > 1) fromChapEv(prev, base[(ci + 2) % base.length]); }
     if (ci > 1) { const o = DATA[ci - 2], base = o.entraine.filter(e => !e.niv); if (base.length) fromChapEv(o, base[ci % base.length]); }
@@ -280,6 +291,7 @@ const CSS = ['print.css', 'n3.css', 'mcv.css', 'v3.css'].map(f => fs.readFileSyn
   + `
 .page.cover2{padding:0}.cvfull,.cvfull svg{width:210mm;height:297mm;display:block}
 .cvsvg text{font-family:'Inter',${FALL}}
+.opt.stk{display:block;font-size:11pt}.opt.stk>.exh{margin-bottom:1.6mm}
 .optn{font:800 8.4pt 'Inter',${FALL};color:var(--cc);background:var(--tt);border-radius:3mm;padding:.3mm 2.2mm;margin-right:2mm;white-space:nowrap}.opt .optn-e{display:none}.opt.evb .optn-s{display:none}.opt.evb .optn-e{display:inline}.opt .optn-r{display:none}.opt.rap .optn-s,.opt.rap .optn-e,.opt.rap .optn-l{display:none}.opt.rap .optn-r{display:inline}.opt .optn-l{display:none}.opt.inl .optn-l{display:inline}.opt.inl .optn-s{display:none}.opt .optn-g{display:none}.opt.inl.again .optn-l{display:none}.opt.inl.again .optn-g{display:inline}
 .owner{display:grid;grid-template-columns:auto 1fr auto 40mm;gap:3mm;align-items:end;font:800 11pt 'Inter',${FALL};color:#1D2240;margin-top:4mm}.owner i{border-bottom:2px dashed #9aa3c7;height:8mm}
 .ccfhow{display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin:3mm 0}.ccfhow div{border:2px solid var(--cc);border-radius:4mm;padding:2.4mm 3.4mm;background:var(--tt)}.ccfhow b{display:block;font:800 12pt 'Inter',${FALL};color:#1D2240}.ccfhow span{font-size:10pt;line-height:1.3}.ccfadv{border-left:5px solid var(--cc);background:#FFFBEA;border-radius:3mm;padding:2mm 4mm;font-size:10.4pt}.ccfctx{font-size:10.6pt;margin:1mm 0 2mm}

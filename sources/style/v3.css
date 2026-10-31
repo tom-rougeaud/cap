@@ -95,6 +95,7 @@ table.mkt3{width:100%;border-collapse:collapse;font-size:10pt}
 .tr-l{margin:1.2mm 0;font-size:11pt}
 .tr-q{display:grid;grid-template-columns:1fr 1fr;gap:1.4mm 4mm;margin-top:1.6mm}
 .tr-qi{display:flex;gap:2mm;align-items:center}
+.tr-lq{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4mm 5mm}.tr-lq .tr-lt{flex:1 1 auto}.tr-lq .opts{flex:0 1 auto;max-width:100%;gap:.8mm 5mm}
 .tb{display:inline-block;position:relative;height:6.6mm;border:1.6px dashed var(--cc);border-radius:1.8mm;vertical-align:middle;background:#fff;margin:.3mm .4mm}
 .tb i{position:absolute;left:.9mm;top:-.2mm;font:800 7.4pt 'Inter';font-style:normal;color:var(--cc)}
 .prof .tb[data-a]::after{left:3.6mm;bottom:.4mm;font-size:9.6pt}
