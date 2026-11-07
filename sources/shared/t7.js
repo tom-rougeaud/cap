@@ -6,7 +6,7 @@
   const { fr, tb, T, svg, table, num, qcm, pick, int, xs, lv, shuffle, rnd, ln, tabXY, f1, f2, P } = H;
   const eu = x => fr(x, Number.isInteger(rnd(x, 2)) ? 0 : 2);
   const SM = '<svg style="max-width:108mm;height:auto" ';
-  const gt = (x, y, s, col, a = 'start', fs = 12) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Inter" font-size="${fs}" font-weight="800" text-anchor="${a}" fill="${col}">${s}</text>`;
+  const gt = (x, y, s, col, a = 'start', fs = 12) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Nunito Sans" font-size="${fs}" font-weight="800" text-anchor="${a}" fill="${col}">${s}</text>`;
   const RED = '#C2332A', BLUE = '#1D5FC2';
 
   DEP.c7 = R => {

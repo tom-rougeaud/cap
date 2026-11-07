@@ -4,7 +4,7 @@
 'use strict';
 const NAVY = '#2B2D7C', YEL = '#FFC233', INK = '#1D2240', W = '#FFFFFF';
 const K = { blue: '#1D5FC2', green: '#1E7F45', red: '#C2332A', orange: '#B05200', violet: '#7438C0', teal: '#08767C', gold: '#755C00', navy2: '#4446B8' };
-const T = (x, y, s, fs, o = {}) => `<text x="${x}" y="${y}" font-family="Inter" font-size="${fs}" font-weight="${o.w || 800}" fill="${o.f || W}"${o.a ? ` text-anchor="${o.a}"` : ''}${o.ls ? ` letter-spacing="${o.ls}"` : ''}>${s}</text>`;
+const T = (x, y, s, fs, o = {}) => `<text x="${x}" y="${y}" font-family="Nunito Sans" font-size="${fs}" font-weight="${o.w || 800}" fill="${o.f || W}"${o.a ? ` text-anchor="${o.a}"` : ''}${o.ls ? ` letter-spacing="${o.ls}"` : ''}>${s}</text>`;
 const tile = (x, y, w, h, c, inner) => `<g transform="translate(${x} ${y})"><rect width="${w}" height="${h}" rx="26" fill="${c}"/>${inner(w, h)}</g>`;
 const SW = 'stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"';
 

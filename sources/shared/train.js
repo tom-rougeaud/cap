@@ -22,7 +22,8 @@
   const T = (x, y, s, o = {}) => `<text x="${x}" y="${y}" font-size="${o.fs || 14}" text-anchor="${o.a || 'middle'}" font-weight="${o.w || 700}" class="${o.c || 'tx'}"${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
   const svg = (w, h, body, lab = '') => `<svg viewBox="0 0 ${w} ${h}" class="pic vis trs" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(lab)}">${body}</svg>`;
   const table = (head, rows, cls = '') => `<table class="dt tcx dt-sm ${cls}"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, j) => j === 0 ? `<th>${c}</th>` : `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
-  const num = (k, v, d, a, err = [], x) => ({ k, v, tol: TOL(d), a, err: err.filter(e => Number.isFinite(e.v) && Math.abs(e.v - v) > TOL(d)), ...(x ? { x } : {}) });
+  /* réponse numérique à d décimales : exacte (tolérance quasi nulle) si la valeur n’a pas besoin d’arrondi ; sinon tolérance d’arrondi (et l’énoncé doit demander l’arrondi) */
+  const num = (k, v, d, a, err = [], x) => { const tol = Math.abs(v - rnd(v, d)) < 1e-9 ? 1e-9 : TOL(d); return { k, v, tol, a, err: err.filter(e => Number.isFinite(e.v) && Math.abs(e.v - v) > tol), ...(x ? { x } : {}) }; };
   const qcm = (k, choices, ok, a, x) => ({ k, qcm: { choices, ok }, a: a || choices[ok], v: null, ...(x ? { x } : {}) });
   const pick = (R, arr) => arr[Math.floor(R() * arr.length)];
   const int = (R, lo, hi) => lo + Math.floor(R() * (hi - lo + 1));
@@ -38,13 +39,23 @@
   const xs = (items, m) => { items.forEach(it => { if (m[it.k]) it.x = m[it.k]; }); return items; };
   /* un exercice à trois niveaux : f(R, niv) avec niv = 0 (courant), -1 (🌱 guidé), +1 (🚀 défi) ; ids id, id + 'a', id + 'd' */
   const lv = (id, f) => { TR[id] = R => f(R, 0); TR[id + 'a'] = R => f(R, -1); TR[id + 'd'] = R => f(R, 1); };
-  const H = { lv, ln, tabXY, f1, f2, MC, P, PIE, fr, rnd, eur, pct, esc, TOL, L, tb, sb, T, svg, table, num, qcm, pick, int, shuffle, NB, xs };
+  const Q = (titre, consigne, rows, hints, pre = '') => {
+    const items = rows.map((r, i) => { const k = L[i], d = r.d == null ? 2 : r.d; const it = r.qcm ? qcm(k, r.qcm, r.ok, r.a) : num(k, r.v, d, r.a != null ? r.a : (Number.isInteger(rnd(r.v, d)) ? fr(r.v, 0) : d === 2 ? fr(r.v, 2) : fr(rnd(r.v, d))), r.err || []); if (r.x) it.x = r.x; return it; });
+    return { titre, consigne, support: pre + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 16)).join(''), items, hints };
+  };
+  /* ligne d’aide des exercices 🌱 guidés */
+  const AI = t => t ? `<p class="tr-l tr-ai">💡 Aide : ${t}</p>` : '';
+  const sgn = (x, v = 'x') => `${x < 0 ? '−' : '+'} ${fr(Math.abs(x), 0)}`;
+  const H = { lv, ln, tabXY, f1, f2, MC, P, PIE, fr, rnd, eur, pct, esc, TOL, L, tb, sb, T, svg, table, num, qcm, pick, int, shuffle, NB, xs, Q, AI };
 
   /* vérification d’une réponse, avec l’erreur fréquente reconnue */
   function verdict(it, s) {
     if (it.qcm) return { ok: +s === it.qcm.ok };
     const x = MC.parse(s); if (!Number.isFinite(x)) return { ok: false, empty: String(s).trim() === '' };
-    if (Math.abs(x - it.v) <= (it.tol == null ? 1e-6 : it.tol)) return { ok: true };
+    if (Math.abs(x - it.v) <= (it.tol == null ? 1e-6 : it.tol) && !MC.formOK(it, s)) return { ok: false, msg: 'Ta valeur est proche, mais elle n’est pas arrondie comme demandé : donne le résultat arrondi.' };
+    if (Math.abs(x - it.v) <= (it.tol == null ? 1e-6 : it.tol)) {
+      if (it.irr) { const f = /(\d+)\s*\/\s*(\d+)/.exec(String(s).replace(/[\s  ]/g, '')), gd = (a, b) => b ? gd(b, a % b) : a; if (!f || gd(+f[1], +f[2]) !== 1) return { ok: false, msg: f ? 'Ta fraction est juste, mais elle n’est pas irréductible : simplifie-la.' : 'On demande une fraction irréductible, par exemple 3/4.' }; }
+      return { ok: true }; }
     const e = (it.err || []).find(e => Math.abs(x - e.v) <= Math.max(it.tol || 0, 1e-6)); return { ok: false, msg: e ? e.m : null };
   }
   const make = (tab, id, seed) => { const g = tab[id]; if (!g) throw new Error('générateur inconnu : ' + id); return g(rng(seed)); };

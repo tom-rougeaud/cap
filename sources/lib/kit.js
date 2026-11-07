@@ -29,7 +29,7 @@ function prob(o) {
 }
 /* question type bac (consigne à l’infinitif) */
 function BQ(n, t, comp, a, v = null, o = {}) {
-  const cps = { app: 'S’approprier', ana: 'Analyser', rea: 'Réaliser', val: 'Valider', com: 'Communiquer' };
+  const cps = { che: 'Chercher', mod: 'Modéliser', rep: 'Représenter', rai: 'Raisonner', cal: 'Calculer', com: 'Communiquer' };
   const html = `<div class="pq"><div class="pq-h"><span class="pq-n">${n}</span><span class="pq-q">${t}</span><span class="cp cp-${comp}">${cps[comp]}</span></div>${o.lines ? lines(o.lines, a) : rep(o.lab || '', o.w || 34, a)}</div>`;
   return { html, app: { l: n + '.', t, a, v, tol: o.tol != null ? o.tol : (v == null ? null : 0.006) } };
 }

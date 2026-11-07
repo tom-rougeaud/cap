@@ -44,8 +44,12 @@
     if (/^[-+]?\d*\.?\d+\/\d+$/.test(t)) { const [a, b] = t.split('/'); return +a / +b; }
     return t === '' ? NaN : Number(t);
   }
-  const check = (it, s) => { const x = parse(s); return Number.isFinite(x) && Math.abs(x - it.v) <= (it.tol == null ? 1e-6 : it.tol); };
+  /* forme de la réponse : si la tolérance est celle d’un arrondi (d décimales), la réponse saisie doit être arrondie à d décimales au plus ;
+     une fraction n’est acceptée que si elle est exactement égale à la valeur (3,14 n’est pas « 3,1 » ; 1/3 n’est pas « 0,33 »). */
+  const dmaxOf = tol => { if (tol == null) return null; const u = 2 * (tol - 1e-9); if (!(u > 0)) return null; const d = Math.round(-Math.log10(u)); return d >= 0 && d <= 8 && Math.abs(0.5 * Math.pow(10, -d) + 1e-9 - tol) < 1e-12 ? d : null; };
+  const formOK = (it, s) => { const d = dmaxOf(it.tol); if (d == null || typeof it.v !== 'number') return true; const t = String(s).replace(/(\d)[\s  ](?=\d{3}\b)/g, '$1').replace(/\s/g, '').replace('−', '-'); const m = /(\d+)(?:[.,](\d+))?(?:\/(\d+))?/.exec(t); if (!m) return true; if (m[3]) return Math.abs(parse(s) - it.v) <= 1e-9; return (m[2] ? m[2].length : 0) <= d; };
+  const check = (it, s) => { const x = parse(s); if (!(Number.isFinite(x) && Math.abs(x - it.v) <= (it.tol == null ? 1e-6 : it.tol) && formOK(it, s))) return false; if (it.irr) { const f = /(\d+)\s*\/\s*(\d+)/.exec(String(s).replace(/[\s  ]/g, '')), gd = (a, b) => b ? gd(b, a % b) : a; if (!f || gd(+f[1], +f[2]) !== 1) return false; } return true; };
   const make = (id, seed) => { const g = G[id]; if (!g) throw new Error('générateur inconnu : ' + id); return g(rng(seed)); };
 
-  root.MCVG = { G, rng, make, check, parse, rnd, fr, eur, pct, sg, cm, frac };
+  root.MCVG = { G, rng, make, check, parse, formOK, dmaxOf, rnd, fr, eur, pct, sg, cm, frac };
 })(typeof module !== 'undefined' ? module.exports : window);

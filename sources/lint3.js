@@ -14,7 +14,7 @@ const FORBID = /(^|[^\p{L}])(faciles?|difficiles?|difficultés?|niveaux?)(?![\p{
 const forbid = (where, s) => { const m = plain(s).match(FORBID); if (m) err(`${where} : mot interdit « ${m[2]} »`); };
 const L = { methode: [30, 110], sent: 16, sentMax: 24, consigne: 22 };
 
-const raw = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => fs.existsSync(path.join(__dirname, `content/c${n}.js`))).map(n => require(`./content/c${n}.js`)(chk));
+const raw = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => fs.existsSync(path.join(__dirname, `content/c${n}.js`))).map(n => require(`./content/c${n}.js`)(chk));
 const full = require('./content')(chk);
 const stat = { notions: 0, phrases: 0, consignes: 0, departs: 0, supports: 0 };
 raw.forEach((c, i) => {

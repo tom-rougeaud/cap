@@ -27,7 +27,7 @@ module.exports = function (chk) {
     const line = `<polyline points="${B0.map(([d, t]) => g.X(d).toFixed(1) + ',' + g.Y(t).toFixed(1)).join(' ')}" fill="none" class="ks" stroke-width="2.8" stroke-linejoin="round"/>`;
     return { g, body: g.base + line + g.pts(B0.slice(1).map(([d, t]) => [d, t]), { r: 3.6 }) }; };
   const tri = (x, y, dir, col) => { const p = { l: [[x, y], [x + 8, y - 4.5], [x + 8, y + 4.5]], d: [[x, y], [x - 4.5, y - 8], [x + 4.5, y - 8]], r: [[x, y], [x - 8, y - 4.5], [x - 8, y + 4.5]], u: [[x, y], [x - 4.5, y + 8], [x + 4.5, y + 8]] }[dir]; return `<polygon points="${p.map(q => q.join(',')).join(' ')}" fill="${col}"/>`; };
-  const gtxt = (x, y, str, col, an = 'start', fs = 11.5) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Inter" font-size="${fs}" font-weight="800" text-anchor="${an}" fill="${col}">${str}</text>`;
+  const gtxt = (x, y, str, col, an = 'start', fs = 11.5) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Nunito Sans" font-size="${fs}" font-weight="800" text-anchor="${an}" fill="${col}">${str}</text>`;
   /* notion 3 : image de 60 m et antécédent de 8,75 s */
   const lec = (() => { const { g, body } = boltG();
     const X = g.X, Y = g.Y;

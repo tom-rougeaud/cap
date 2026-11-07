@@ -1,0 +1,12 @@
+/* manuel professeur calqué : détail des réponses placé dans l’espace libre, sans rien déplacer */
+.calque [data-x][data-fx]::after{content:attr(data-x)}
+.calque [data-fx=right]::after{white-space:nowrap;max-width:none}
+.calque [data-fx=beside]::after{white-space:nowrap;max-width:none;left:calc(100% + 2mm)!important;right:auto!important;bottom:auto!important;top:50%!important;transform:translateY(-50%)!important}
+.calque [data-fx=below]::after{white-space:normal;max-width:none;width:var(--fxw)!important;top:calc(100% + .5mm)!important;bottom:auto!important;line-height:1.15}
+.calque [data-fx=below][data-fn]::after{white-space:nowrap}
+.calque [data-fx=zone]::after{white-space:normal;max-width:none;width:var(--fxw)!important;top:var(--fxt,.4mm)!important;bottom:auto!important;line-height:1.15}
+.calque [data-fx][data-fs]::after{font-size:var(--fxs)}
+.calque .calc{position:relative}
+.calque .calqfill{position:absolute;left:3mm;right:3mm;top:6.4mm;color:#D0021B;font:700 9.4pt/1.22 'Nunito Sans',sans-serif}
+.calque .calqfill b{color:#1D2240;margin-right:.8mm}
+.calque .calqfill span{display:inline-block;margin-right:4mm}

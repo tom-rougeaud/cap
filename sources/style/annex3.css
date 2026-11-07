@@ -1,0 +1,17 @@
+/* annexes du manuel professeur calqué */
+.acp{padding:3mm 4mm;border-radius:4mm;background:#fff;border:.35mm solid #D3D8EA;margin:2.4mm 0}
+.acp-h{display:flex;gap:3mm;align-items:flex-start;margin:0 0 1.8mm}.acp-h p{margin:0;font-size:10pt;line-height:1.35}
+.acp-t{width:100%;border-collapse:collapse;table-layout:fixed;font-size:9pt}
+.acp-t th{background:#EEF0F8;color:#1D2240;font:800 8.6pt 'Nunito Sans',sans-serif;padding:1mm 1.6mm;border:1px solid #CBD2E6;text-align:left}
+.acp-t td{vertical-align:top;border:1px solid #CBD2E6;padding:1.2mm 1.6mm;line-height:1.3}
+.acp-m{margin:1.8mm 0 0;font-size:8.8pt;color:var(--soft)}
+.acs,.acg,.apr{padding:3mm 4mm;border-radius:4mm;background:#fff;border:.35mm solid #D3D8EA;margin:2.4mm 0}
+.acs h3,.acg h3,.apr h3{margin:0 0 1.8mm;font:800 11.4pt 'Nunito Sans',sans-serif;color:#1D2240}.acg h3 small,.apr h3 small{font-weight:600;color:var(--soft)}
+.acs-t,.acg-t,.apr-m{width:100%;border-collapse:collapse;font-size:9pt}
+.acs-t th,.acs-t td,.acg-t th,.acg-t td,.apr-m th,.apr-m td{border:1px solid #CBD2E6;padding:1mm 1.4mm;text-align:center}
+.acs-t th,.acg-t th,.apr-m th{background:#EEF0F8;font:800 8.4pt 'Nunito Sans',sans-serif}
+.acs-t td.tl,.acg-t td.tl,.apr-m td.tl{text-align:left}.acs-t .tot td{background:#F6F7FC}
+.acs-t .cp{font-size:7.6pt;padding:.4mm 1.2mm}
+.apr-t{width:100%;border-collapse:collapse;font-size:9.4pt}.apr-t th{width:34%;text-align:left;vertical-align:top;padding:1.2mm 1.6mm;border:1px solid #CBD2E6;background:#EEF0F8;font:800 9pt 'Nunito Sans',sans-serif}.apr-t td{vertical-align:top;padding:1.2mm 1.8mm;border:1px solid #CBD2E6;line-height:1.35}
+.apr-o,.apr-u{margin:0;padding-left:5mm;font-size:9.6pt;line-height:1.4}.apr-o li,.apr-u li{margin:1mm 0}
+.apr .small{margin:1.6mm 0 0}.acp .small,.chead .small{font-size:9pt}

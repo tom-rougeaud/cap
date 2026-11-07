@@ -1,7 +1,7 @@
 {
  "name": "Maths · CAP",
  "short_name": "Maths CAP",
- "description": "Mathématiques de CAP : scènes de pop culture, leçons, exercices corrigés, fiches de révision et CCF blancs.",
+ "description": "Mathématiques : leçons, exercices corrigés et fiches de révision.",
  "lang": "fr",
  "start_url": "./",
  "scope": "./",

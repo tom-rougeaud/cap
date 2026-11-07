@@ -24,13 +24,16 @@ const pct = (x, d = null) => fr(x, d) + '\u00A0%';
 const cm = x => fr(rnd(x, 6));
 
 /* trou à compléter : largeur en mm, réponse (affichée en rouge dans la version professeur) */
-const bl = (w, a = '') => `<span class="bl" style="width:${w}mm"${a !== '' ? ` data-a="${esc(a)}"` : ''}></span>`;
+/* version détaillée d’une réponse (manuel professeur calqué) : texte brut, fractions en a/b ; rien si elle ne dit pas plus que la réponse courte */
+const plain = h => String(h).replace(/<span class="fn">([^<]*)<\/span><span class="fd">([^<]*)<\/span>/g, '$1/$2').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '\u00A0').replace(/\s+/g, ' ').trim();
+const xat = (a, x, k) => (x && plain(x) !== plain(a) ? ` data-x="${esc(plain(x))}"${k ? ` data-xk="${esc(k)}"` : ''}` : '');
+const bl = (w, a = '', x = '', k = '') => `<span class="bl" style="width:${w}mm"${a !== '' ? ` data-a="${esc(a)}"` : ''}${a !== '' ? xat(a, x, k) : ''}></span>`;
 /* lignes d’écriture */
 const lines = (n, a = '') => `<div class="lines">${Array.from({ length: n }, (_, i) => `<i${i === 0 && a ? ` data-a="${esc(a)}"` : ''}></i>`).join('')}</div>`;
 /* zone de calcul (cadre pointillé) */
 const work = (h = 13, a = '') => `<div class="work" style="height:${h}mm"${a ? ` data-a="${esc(a)}"` : ''}></div>`;
 /* case à cocher (ok = bonne réponse) */
-const opt = (t, ok = false) => `<span class="opt${ok ? ' ok' : ''}"><span class="box"></span>${t}</span>`;
+const opt = (t, ok = false) => `<span class="opt${ok ? ' ok' : ''}"><span class="box"></span><span class="ot">${t}</span></span>`;
 /* fraction sur deux étages */
 const frac = (n, d) => `<span class="fr"><span class="fn">${n}</span><span class="fd">${d}</span></span>`;
 /* verbe de consigne souligné */
@@ -44,4 +47,4 @@ const cp = k => `<span class="cp cp-${k}">${COMP[k]}</span>`;
 const PAL = { 1: ['●', 'S’échauffer'], 2: ['●●', 'S’entraîner'], 3: ['●●●', 'Approfondir'] };
 const pal = n => `<span class="pal pal-${n}" title="${PAL[n][1]}">${PAL[n][0]}</span>`;
 
-module.exports = { NB, esc, rnd, fr, eur, pct, cm, bl, lines, work, opt, frac, V, K, COMP, cp, PAL, pal };
+module.exports = { xat, plain, NB, esc, rnd, fr, eur, pct, cm, bl, lines, work, opt, frac, V, K, COMP, cp, PAL, pal };

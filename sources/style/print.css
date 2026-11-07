@@ -2,10 +2,10 @@
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#fff}
-body{font-family:'Andika','Noto Color Emoji',sans-serif;font-size:12pt;line-height:1.36;color:#1D2240;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.c-brand{--cc:#4F5E00;--tt:#FFEFD1}
-h1,h2,h3,h4,.ext,.num,.lv,.cv-title,.cv-sub,.cv-k,.cv-tome,.cv-n2,.gc-w,.az-w,.foot,.run,.ch-k,.qrbox,.tc,.hw b,.fam,.lab,.lab2,.sec-h,.cb-t,.me-t,.st-n,.pq-n,.calc-n{font-family:'Inter','Noto Color Emoji',sans-serif}
-svg text{font-family:'Inter','Andika',sans-serif}
+body{font-family:'Nunito Sans','Noto Color Emoji',sans-serif;font-size:12pt;line-height:1.36;color:#1D2240;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.c-brand{--cc:#9A5B00;--tt:#FFEFD1}
+h1,h2,h3,h4,.ext,.num,.lv,.cv-title,.cv-sub,.cv-k,.cv-tome,.cv-n2,.gc-w,.az-w,.foot,.run,.ch-k,.qrbox,.tc,.hw b,.fam,.lab,.lab2,.sec-h,.cb-t,.me-t,.st-n,.pq-n,.calc-n{font-family:'Nunito Sans','Noto Color Emoji',sans-serif}
+svg text{font-family:'Nunito Sans','Nunito Sans',sans-serif}
 p{margin:1.2mm 0}
 #flow{width:210mm}
 .nw{white-space:nowrap}
@@ -15,14 +15,14 @@ p{margin:1.2mm 0}
 .fr .fd{padding:.04em .18em 0}
 /* ---------- pages ---------- */
 .page{width:210mm;height:297mm;position:relative;overflow:hidden;display:flex;flex-direction:column;page-break-after:always;break-after:page;background:#fff}
-.page .inner{flex:1;overflow:hidden;padding:11mm 13mm 15mm}
-.page.cont .inner{padding-top:4mm}
+.page>.inner{flex:1;overflow:hidden;padding:11mm 13mm 15mm}
+.page.cont>.inner{padding-top:4mm}
 .run{margin:7mm 13mm 0;padding:1.4mm 4mm;border-radius:99px;background:var(--tt);color:var(--cc);font-weight:800;font-size:9.5pt}
 .foot{position:absolute;left:13mm;right:13mm;bottom:6.5mm;display:flex;justify-content:space-between;align-items:center;font-size:8.5pt;color:#7d84a6}
-.foot b{display:inline-grid;place-items:center;min-width:8mm;height:8mm;border-radius:99px;background:var(--tt,#FFEFD1);color:var(--cc,#4F5E00);font-size:10pt}
+.foot b{display:inline-grid;place-items:center;min-width:8mm;height:8mm;border-radius:99px;background:var(--tt,#FFEFD1);color:var(--cc,#9A5B00);font-size:10pt}
 .page.even .foot{flex-direction:row-reverse}
 /* ---------- consignes ---------- */
-strong.v{font-weight:700;text-decoration:underline;text-decoration-thickness:.11em;text-underline-offset:.17em;text-decoration-color:var(--cc,#4F5E00)}
+strong.v{font-weight:700;text-decoration:underline;text-decoration-thickness:.11em;text-underline-offset:.17em;text-decoration-color:var(--cc,#9A5B00)}
 .cs{margin:.6mm 0 2mm}
 .small{font-size:10.5pt}
 .kc{color:var(--kc,var(--cc));font-weight:700}
@@ -51,7 +51,7 @@ strong.v{font-weight:700;text-decoration:underline;text-decoration-thickness:.11
 .obj{margin:2mm 0 0;padding:0;list-style:none;font-size:11pt}
 .obj li{margin:.5mm 0}.obj li::before{content:"🎯 "}
 .glink{font-size:10pt;margin-top:1.6mm!important;color:#545B7A}
-.qrbox{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1mm;background:#fff;border-radius:4mm;padding:2mm 2mm 1.4mm;border:2px solid var(--cc,#4F5E00);flex:none;width:30mm;text-align:center;font-weight:800;font-size:8.2pt;line-height:1.15;color:var(--cc,#4F5E00)}
+.qrbox{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:1mm;background:#fff;border-radius:4mm;padding:2mm 2mm 1.4mm;border:2px solid var(--cc,#9A5B00);flex:none;width:30mm;text-align:center;font-weight:800;font-size:8.2pt;line-height:1.15;color:var(--cc,#9A5B00)}
 .qrbox svg{width:25mm;height:25mm;display:block;shape-rendering:crispEdges}
 .qrbox.big{width:38mm}.qrbox.big svg{width:32mm;height:32mm}
 .qrbox.sm{width:24mm;font-size:7.4pt}.qrbox.sm svg{width:19mm;height:19mm}
@@ -73,7 +73,7 @@ strong.v{font-weight:700;text-decoration:underline;text-decoration-thickness:.11
 .cb-ill{background:var(--tt);border-radius:3mm;padding:1mm;align-self:start}
 .cb-ill svg{width:100%;height:auto;display:block}
 .exm{background:#F4F7FE;border-radius:2.6mm;padding:1.4mm 3mm;margin-top:1.4mm;font-size:11pt}
-.exm b{color:var(--cc);font-family:'Inter';font-size:9pt;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.exm b{color:var(--cc);font-family:'Nunito Sans';font-size:9pt;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .exm p{margin:.4mm 0}
 .att{background:#FFF6D8;border-left:2.4mm solid #FFC233;border-radius:2mm;padding:1.2mm 3mm;margin-top:1.4mm;font-size:11pt}
 .tbl{border-collapse:collapse;margin:1mm 0 2mm}
@@ -85,7 +85,7 @@ strong.v{font-weight:700;text-decoration:underline;text-decoration-thickness:.11
 .me-t span{display:inline-block;background:var(--cc);color:#fff;border-radius:99px;font-size:9pt;padding:.3mm 2.6mm;margin-right:2mm;vertical-align:2px}
 ol.steps{list-style:none;margin:0 0 2mm;padding:0;counter-reset:st}
 ol.steps li{counter-increment:st;display:flex;gap:2.4mm;align-items:flex-start;margin:1mm 0;font-size:11.5pt}
-ol.steps li::before{content:counter(st);display:grid;place-items:center;flex:none;width:6.2mm;height:6.2mm;border-radius:50%;background:var(--tt);color:var(--cc);font:800 9.5pt 'Inter'}
+ol.steps li::before{content:counter(st);display:grid;place-items:center;flex:none;width:6.2mm;height:6.2mm;border-radius:50%;background:var(--tt);color:var(--cc);font:800 9.5pt 'Nunito Sans'}
 .solved{background:#F4F7FE;border-radius:3.4mm;padding:2.4mm 3.4mm}
 .solved h4{margin:0 0 1mm;font-size:10pt;font-weight:800;color:var(--cc);text-transform:uppercase;letter-spacing:.04em}
 .solved .en{font-size:11.5pt;margin:0 0 1.6mm}
@@ -163,7 +163,7 @@ ol.steps li::before{content:counter(st);display:grid;place-items:center;flex:non
 .pl>span:first-child{min-width:20mm;padding-top:4.6mm}
 .pl .lines{flex:1;margin:0}
 .pouce{clear:both;margin-top:2.4mm;border:1.4px dashed #A9B2D3;border-radius:2.6mm;padding:1.2mm 3mm;font-size:9.5pt;color:#454c6e;background:#FAFBFF}
-.pouce b{font-family:'Inter';font-weight:800;color:#545B7A}
+.pouce b{font-family:'Nunito Sans';font-weight:800;color:#545B7A}
 .pouce span{display:inline-block;margin-right:3mm}
 /* rédaction */
 .rdg{margin:0 0 2.6mm}
@@ -189,7 +189,7 @@ table.sais td:last-child{text-align:right;white-space:nowrap}
 .cw{display:grid;grid-template-columns:auto 1fr;gap:5mm;align-items:start}
 .cwg{position:relative}
 .cwc{position:absolute;width:6.6mm;height:6.6mm;border:1.2px solid #1D2240;background:#fff;margin:-.6px 0 0 -.6px}
-.cwn{position:absolute;left:.4mm;top:.1mm;font:800 5.6pt 'Inter';color:#545B7A}
+.cwn{position:absolute;left:.4mm;top:.1mm;font:800 5.6pt 'Nunito Sans';color:#545B7A}
 .cwl{display:none}
 .cwclues{font-size:10pt;line-height:1.28}
 .cwclues h4{margin:0 0 .8mm;font-size:10.5pt;color:var(--cc)}
@@ -198,16 +198,16 @@ table.sais td:last-child{text-align:right;white-space:nowrap}
 /* mots mêlés */
 .mmw{display:grid;grid-template-columns:auto 1fr;gap:6mm;align-items:start}
 .mmg{display:grid;grid-template-columns:repeat(12,6.4mm);border:1.6px solid #1D2240;border-radius:2mm;padding:1mm}
-.mm{display:grid;place-items:center;width:6.4mm;height:6.4mm;font:700 10.5pt 'Inter';color:#1D2240}
+.mm{display:grid;place-items:center;width:6.4mm;height:6.4mm;font:700 10.5pt 'Nunito Sans';color:#1D2240}
 .prof .mm.ok{color:#D0021B;background:#FDE3E0}
 ul.mml{list-style:none;margin:0;padding:0;font-size:11.5pt;font-weight:700}ul.mml li{margin:1.4mm 0}
 /* ---------- pages fixes ---------- */
-.pg-t{font-weight:800;font-size:22pt;color:#4F5E00;margin:2mm 0 4mm}
-.pg-s{font-weight:800;font-size:14pt;color:#4F5E00;margin:5mm 0 2mm}
+.pg-t{font-weight:800;font-size:22pt;color:#9A5B00;margin:2mm 0 4mm}
+.pg-s{font-weight:800;font-size:14pt;color:#9A5B00;margin:5mm 0 2mm}
 .pg-p{margin:1mm 0 2mm}
 .howto{display:grid;gap:2mm}
 .hw{display:grid;grid-template-columns:13mm 34mm 1fr;align-items:center;background:#F3F6FE;border-radius:4mm;padding:2mm 4mm}
-.hw .hi{font-size:19pt}.hw b{font-weight:800;font-size:12.5pt;color:#4F5E00}
+.hw .hi{font-size:19pt}.hw b{font-weight:800;font-size:12.5pt;color:#9A5B00}
 .lvls{display:flex;flex-wrap:wrap;gap:2.4mm}.lvls .lv{font-size:11pt;padding:1.2mm 3.6mm}
 .legend{display:flex;flex-wrap:wrap;gap:2mm}
 .qrhow{display:grid;grid-template-columns:38mm 1fr;gap:9mm;align-items:center}
@@ -219,17 +219,17 @@ ul.mml{list-style:none;margin:0;padding:0;font-size:11.5pt;font-weight:700}ul.mm
 .tp{font-weight:800;color:var(--cc);min-width:8mm;text-align:right}
 .tc.rv{margin-left:8mm;font-size:10pt}
 table.phr2{width:100%;border-collapse:separate;border-spacing:0 1.4mm;font-size:10.8pt}
-table.phr2 th{font-family:'Inter';font-weight:800;color:#fff;background:#4F5E00;padding:1.6mm 3mm;text-align:left;font-size:10pt}
+table.phr2 th{font-family:'Nunito Sans';font-weight:800;color:#fff;background:#9A5B00;padding:1.6mm 3mm;text-align:left;font-size:10pt}
 table.phr2 th:first-child{background:none}
 table.phr2 th span{font-weight:700;opacity:.8}
 table.phr2 td{background:#F3F6FE;padding:1.5mm 3mm;vertical-align:middle}
-table.phr2 td.pk{background:#FFF6D8;font-family:'Inter';font-weight:800;font-size:9.5pt;color:#6B4600;width:36mm}
+table.phr2 td.pk{background:#FFF6D8;font-family:'Nunito Sans';font-weight:800;font-size:9.5pt;color:#6B4600;width:36mm}
 table.phr2 td.pk span{font-size:13pt;margin-right:1.6mm}
 .jst{display:grid;grid-template-columns:1fr 1fr;gap:2mm 5mm}
 .jst div{background:#EEF8F1;border-left:2.4mm solid #1E7F45;border-radius:0 2.4mm 2.4mm 0;padding:1.2mm 3mm;font-size:11pt}
-.jst div b{display:block;font-family:'Inter';font-weight:800;font-size:9pt;color:#14572F}
+.jst div b{display:block;font-family:'Nunito Sans';font-weight:800;font-size:9pt;color:#14572F}
 table.nw{width:100%;border-collapse:collapse;margin-top:3mm}
-table.nw th{background:#FFEFD1;color:#4F5E00;font-family:'Inter';font-weight:800;padding:2mm;border:1.5px solid #9aa3c7}
+table.nw th{background:#FFEFD1;color:#9A5B00;font-family:'Nunito Sans';font-weight:800;padding:2mm;border:1.5px solid #9aa3c7}
 table.nw td{height:14mm;border:1.5px solid #C9D1EA}
 /* formulaire */
 .fm{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
@@ -242,15 +242,15 @@ table.nw td{height:14mm;border:1.5px solid #C9D1EA}
 .fb.span{grid-column:1/-1}
 .fb p{margin:.6mm 0;font-size:10.4pt}
 /* ---------- couverture ---------- */
-.cover .inner{padding:12mm 13mm 12mm;display:flex;flex-direction:column;gap:6mm}
-.author{position:absolute;top:6.5mm;right:13mm;font-family:'Inter';font-weight:800;font-size:9pt;color:#545B7A;letter-spacing:.03em}
-.cv-panel{position:relative;background:#4F5E00;border-radius:11mm;height:168mm;overflow:hidden;color:#fff;padding:18mm 14mm 0;margin-top:3mm}
+.cover>.inner{padding:12mm 13mm 12mm;display:flex;flex-direction:column;gap:6mm}
+.author{position:absolute;top:6.5mm;right:13mm;font-family:'Nunito Sans';font-weight:800;font-size:9pt;color:#545B7A;letter-spacing:.03em}
+.cv-panel{position:relative;background:#9A5B00;border-radius:11mm;height:168mm;overflow:hidden;color:#fff;padding:18mm 14mm 0;margin-top:3mm}
 .cv-panel::before{content:"";position:absolute;width:120mm;height:120mm;border-radius:50%;background:#4446B8;right:-42mm;top:-38mm}
 .cv-panel::after{content:"";position:absolute;width:70mm;height:70mm;border-radius:50%;background:#FFC233;left:-22mm;bottom:-30mm;opacity:.95}
 .cv-k,.cv-title,.cv-sub,.cv-tome,.cv-n2{position:relative;z-index:2}
 .cv-k{font-weight:800;font-size:12pt;color:#FFC233;letter-spacing:.22em;text-transform:uppercase}
 .cv-title{font-weight:800;font-size:68pt;line-height:.95;letter-spacing:.02em;margin:2mm 0 1mm}
-.cv-n2{display:inline-block;background:#fff;color:#4F5E00;font-weight:800;font-size:17pt;border-radius:99px;padding:1mm 5mm;margin:1mm 0 3mm}
+.cv-n2{display:inline-block;background:#fff;color:#9A5B00;font-weight:800;font-size:17pt;border-radius:99px;padding:1mm 5mm;margin:1mm 0 3mm}
 .cv-sub{font-weight:800;font-size:19pt;line-height:1.15}
 .cv-tome{display:inline-block;margin-top:5mm;background:#FFC233;color:#3F2A00;font-weight:800;font-size:13pt;padding:2mm 6mm;border-radius:99px}
 .cv-fam{position:absolute;z-index:2;left:50mm;bottom:9mm;display:flex;gap:2.4mm}
@@ -259,12 +259,12 @@ table.nw td{height:14mm;border:1.5px solid #C9D1EA}
 .dc svg{width:100%;height:100%}
 .d0{right:9mm;top:12mm;transform:rotate(6deg)}.d1{right:11mm;top:46mm;transform:rotate(-5deg)}
 .d2{right:8mm;top:80mm;transform:rotate(4deg)}.d3{right:12mm;top:114mm;transform:rotate(-6deg)}.d4,.d5{display:none}
-.cv-id{display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center;border:2.5px solid #4F5E00;border-radius:8mm;padding:6mm 7mm}
-.cv-classe{grid-column:1/-1;font-family:'Inter';font-weight:800;font-size:14pt;color:#545B7A;margin-bottom:-3mm}
-.cv-classe b{font-weight:800;font-size:19pt;color:#4F5E00;background:#FFC233;border-radius:3mm;padding:0 3mm;margin-left:1mm}
+.cv-id{display:grid;grid-template-columns:1fr auto;gap:8mm;align-items:center;border:2.5px solid #9A5B00;border-radius:8mm;padding:6mm 7mm}
+.cv-classe{grid-column:1/-1;font-family:'Nunito Sans';font-weight:800;font-size:14pt;color:#545B7A;margin-bottom:-3mm}
+.cv-classe b{font-weight:800;font-size:19pt;color:#9A5B00;background:#FFC233;border-radius:3mm;padding:0 3mm;margin-left:1mm}
 .cv-fields{display:grid;gap:4.4mm}
 .cv-fields div{display:flex;align-items:flex-end;gap:3mm}
-.cv-fields span{font-family:'Inter';font-weight:800;font-size:12pt;color:#4F5E00;min-width:34mm}
+.cv-fields span{font-family:'Nunito Sans';font-weight:800;font-size:12pt;color:#9A5B00;min-width:34mm}
 .cv-fields i{flex:1;border-bottom:2px dashed #9aa3c7;height:8mm}
 /* ---------- glossaire ---------- */
 .gcard{display:grid;grid-template-columns:31mm 1fr;gap:4mm;border:1.8px solid color-mix(in srgb,var(--cc) 45%,#fff);border-left:3.2mm solid var(--cc);border-radius:4mm;padding:2.6mm 3.4mm;margin-bottom:2.8mm;background:#fff}
@@ -285,7 +285,7 @@ table.nw td{height:14mm;border:1.5px solid #C9D1EA}
 .sample{margin:2mm 0 3mm}
 ul.annot{list-style:none;padding:0;margin:0 0 2mm;display:grid;grid-template-columns:1fr 1fr;gap:1.4mm 6mm;font-size:11pt}
 .az-l{margin:1.6mm 0 1.4mm}
-.az-l span{display:inline-grid;place-items:center;min-width:11mm;height:11mm;border-radius:3mm;background:#4F5E00;color:#FFC233;font:800 16pt 'Inter'}
+.az-l span{display:inline-grid;place-items:center;min-width:11mm;height:11mm;border-radius:3mm;background:#9A5B00;color:#FFC233;font:800 16pt 'Nunito Sans'}
 .azb{margin-bottom:1.6mm}
 .az{border-left:2.6mm solid var(--cc);background:color-mix(in srgb,var(--tt) 45%,#fff);border-radius:0 2.5mm 2.5mm 0;padding:1mm 3mm;font-size:10pt;line-height:1.28}
 .az-h{display:flex;align-items:baseline;gap:1.6mm;flex-wrap:wrap}
@@ -306,8 +306,8 @@ ul.annot{list-style:none;padding:0;margin:0 0 2mm;display:grid;grid-template-col
 /* ---------- version professeur : réponses en rouge ---------- */
 .prof-only{display:none}
 .prof .prof-only{display:block}
-.prof .stamp{position:absolute;top:5mm;left:13mm;background:#D0021B;color:#fff;font:800 9pt 'Inter';padding:1mm 3mm;border-radius:99px;z-index:5}
-.prof [data-a]::after{content:attr(data-a);color:#D0021B;font-family:'Andika';font-weight:700;font-size:10.5pt;position:absolute;white-space:nowrap}
+.prof .stamp{position:absolute;top:5mm;left:13mm;background:#D0021B;color:#fff;font:800 9pt 'Nunito Sans';padding:1mm 3mm;border-radius:99px;z-index:5}
+.prof [data-a]::after{content:attr(data-a);color:#D0021B;font-family:'Nunito Sans';font-weight:700;font-size:10.5pt;position:absolute;white-space:nowrap}
 .prof .bl[data-a]::after{left:.4em;bottom:.15em}
 .prof .lines i[data-a]::after{left:2mm;bottom:1mm;white-space:normal;right:0;line-height:1.15}
 .prof .work[data-a]::after{left:2mm;top:1mm;right:2mm;white-space:normal;font-size:9.5pt;line-height:1.2}
@@ -318,7 +318,7 @@ ul.annot{list-style:none;padding:0;margin:0 0 2mm;display:grid;grid-template-col
 .prof .ok .box{color:#D0021B}
 .prof .ok .box::after{content:"✔";position:absolute;left:.08em;top:-.12em;color:#D0021B;font-size:12pt;font-weight:700}
 .prof .opt.ok{outline:2px solid #D0021B;border-radius:99px;outline-offset:1px;padding:0 1mm}
-.prof .cwl{display:grid;place-items:center;width:100%;height:100%;font:700 9pt 'Inter';color:#D0021B}
+.prof .cwl{display:grid;place-items:center;width:100%;height:100%;font:700 9pt 'Nunito Sans';color:#D0021B}
 .prof .frb i[data-a]::after{left:0;right:0;text-align:center;top:.2mm}
 .prof .pouce{display:none}
 .prof .corrq{display:block;color:#D0021B;font-size:9.6pt;margin:.4mm 0 0 8.4mm;line-height:1.3}

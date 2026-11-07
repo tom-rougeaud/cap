@@ -5,7 +5,7 @@ Programme : mathématiques des classes préparant au CAP (BOEN spécial n° 5 du
 Tous les résultats sont calculés et contrôlés par programme (`chk`) : une erreur de calcul arrête la construction.
 
 ## Organisation
-- `content/` : les chapitres (`c1.js` … `c10.js`), le glossaire visuel (`gl_c1.js` …), les évaluations sur 10 (`evals3.js`), les CCF blancs (`ccf3.js`), « Ce que tu sais déjà » (`pont3.js`), les métiers (`metiers3.js`), les dessins et les données réelles (`sk3.js`, `kit3e.js`), les corrigés détaillés de la version professeur (`det3.js`) ; `index.js` charge et vérifie le tout.
+- `content/` : les chapitres (`c1.js` … `c9.js` ; `c10.js` — Pythagore, Thalès, trigonométrie — n’est plus dans le manuel), le glossaire visuel (`gl_c1.js` …), les évaluations sur 10 (`evals3.js`), les deux CCF blancs (`ccf3.js`), les tolérances des réponses numériques (`tolfix.js`), « Ce que tu sais déjà » (`pont3.js`), les métiers (`metiers3.js`), les dessins et les données réelles (`sk3.js`, `kit3e.js`), les corrigés détaillés de la version professeur (`det3.js`) ; `index.js` charge et vérifie le tout.
 - `shared/` : `train.js` (moteur des exercices), `t1.js` … `t10.js` (documents de départ et exercices à support visuel, communs au manuel et à l’appli), `pie.js` (diagrammes circulaires et en bâtons), `g1.js` (graphiques avec lignes de lecture), `auto3.js` (automatismes).
 - `lib/` : scènes au trait, pagination A4 (`paginate.js`), `svgfit.js` (aucune étiquette ne se superpose à un trait ou à un autre texte), couverture, QR codes (`qr.json`, vers `tom-rougeaud.github.io/cap/`), KaTeX.
 - `app/` : l’appli (`app3.js`, `app3.css`, `widgets.js` pour les simulateurs « Je manipule »).
@@ -13,7 +13,13 @@ Tous les résultats sont calculés et contrôlés par programme (`chk`) : une er
 - `style/` : charte du manuel et polices embarquées. `notice/` : la notice d’installation.
 
 ## Une notion, une page
-🔎 Je découvre → 🧭 La méthode (étapes numérotées, reprises sur le dessin) → ✅ La solution → 📌 Je retiens et ⚠️ Attention → ✏️ À moi. Chaque chapitre : un point de départ, la leçon, des méthodes (un exercice résolu, un à compléter), 9 exercices (courant, 🌱 guidé, 🚀 défi), 5 problèmes, une fiche de révision, une évaluation au format du CCF.
+🔎 Je découvre → 🧭 La méthode → ✅ La solution → 📌 Je retiens et ⚠️ Attention → ✏️ À moi, puis 🔧 « Je m’entraîne à la mécanique » (4 calculs sans contexte, `shared/mech.js`). Le manuel tient en 120 pages : 9 chapitres (le chapitre 9, périmètres, aires et volumes, est court), un exercice-guide et des exercices par notion, un seul problème « vers le CCF » par chapitre, une évaluation au format du CCF sur 10, deux CCF blancs, un glossaire de 2 mots par chapitre. L’appli garde les exercices guidés 🌱 et défis 🚀 et tire de nouveaux nombres à chaque essai ; « Données du manuel » redonne ceux du PDF.
+
+## Règle d’exactitude des réponses
+Une valeur exacte n’est acceptée qu’exacte ; une valeur arrondie n’existe que si l’énoncé annonce l’arrondi, et n’est acceptée qu’à la demi-unité du rang demandé. Les tolérances ne sont jamais écrites à la main (`tools/audtol.js`, `content/tolfix.js`, `shared/train.js`).
+
+## Version professeur calquée
+`make3.py --calque` reconstruit le manuel professeur à partir du même flux que le manuel élève : mêmes pages, réponses en rouge, annexes à la suite. `ref-extract.py` relève la pagination du PDF élève ; `cmp-calque.py` vérifie bloc par bloc que les pages coïncident ; `cmp-app-pdf.py` compare les énoncés de l’appli (données du manuel) au PDF élève.
 
 ## Lisibilité des schémas
 Tous les graphiques portent leurs valeurs et des lignes de lecture ; les diagrammes circulaires ont des couleurs contrastées et des frontières noires ; un contrôle automatique repère les étiquettes qui se superposent (`lib/svgfit.js`).
@@ -22,9 +28,12 @@ Tous les graphiques portent leurs valeurs et des lignes de lecture ; les diagram
 Prérequis : Node.js 18 ou plus, Python 3 avec `playwright` et `pypdf`, un Chromium ; `npm install` (KaTeX).
 
 ```
-node test-train.js                     # documents de départ, exercices visuels et automatismes
+node tools/chk3.js mcvC                # exercices visuels, points de départ
+node tools/chkmech-lvl.js mcvC         # 36 séries de mécanique : bonnes réponses acceptées, fausses refusées
+node tools/audtol.js                   # tolérances des évaluations et des CCF blancs
 node lint3.js                          # contrôles pédagogiques (phrases, consignes, mots interdits, barèmes, supports)
-python3 make3.py                       # manuel élève + professeur + PDF par chapitre + fiches + CCF blancs → build/
+python3 make3.py --eleve               # manuel élève + PDF par chapitre + CCF blancs + glossaire → build/
+python3 ref-extract.py && python3 make3.py --calque && python3 cmp-calque.py   # manuel professeur calqué
 node build-app3.js ../cap/index.html   # l’appli en un seul fichier
 python3 pwa/make-pwa.py ../cap "Maths · CAP" "Maths CAP" "#E9F797" "#1D2240" "#E9F797"   # manifeste, service worker, icônes
 python3 test-app3.py "$PWD/../cap/index.html"   # test de bout en bout (ordinateur et téléphone)

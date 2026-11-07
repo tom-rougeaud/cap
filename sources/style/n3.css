@@ -1,5 +1,5 @@
 /* ===== Niveau 3 : compléments ===== */
-.cp{font-family:'Inter';font-weight:800;font-size:8.6pt;padding:.6mm 2.4mm;border-radius:99px;white-space:nowrap}
+.cp{font-family:'Nunito Sans';font-weight:800;font-size:8.6pt;padding:.6mm 2.4mm;border-radius:99px;white-space:nowrap}
 .cp-app{background:#E0EBFD;color:#173F86}.cp-ana{background:#EEE3FB;color:#4F2390}.cp-rea{background:#DCF4E4;color:#14572F}
 .cp-val{background:#FFE7D1;color:#7A3A00}.cp-com{background:#FBE0EF;color:#7A1850}.cp-auto{background:#D6F2F2;color:#05585C}.cp-mots{background:#FFF0B8;color:#5C4700}
 .exh{flex-wrap:wrap}
@@ -11,8 +11,8 @@
 .qrbox.big.qrsoon{min-height:38mm}
 /* guide */
 .vers3{display:flex;flex-wrap:wrap;gap:2mm 3mm;align-items:center;font-size:10.5pt;margin:1mm 0 2mm}
-.v1,.v2,.v3,.v0{display:inline-block;font-family:'Inter';font-weight:800;font-size:10pt;border-radius:99px;padding:.6mm 3.4mm;color:#fff}
-.v1{background:#2E9D5B}.v2{background:#2F6FD6}.v3{background:#C2332A}.v0{background:#4F5E00}
+.v1,.v2,.v3,.v0{display:inline-block;font-family:'Nunito Sans';font-weight:800;font-size:10pt;border-radius:99px;padding:.6mm 3.4mm;color:#fff}
+.v1{background:#2E9D5B}.v2{background:#2F6FD6}.v3{background:#C2332A}.v0{background:#9A5B00}
 .tbl.cons{border:none}.tbl.cons td{border:none;border-bottom:1px dotted #C9D1EA;padding:1mm 3mm;text-align:left}
 /* cours sur deux colonnes */
 .cb3{border:1.8px solid color-mix(in srgb,var(--cc) 35%,#fff);border-left:3.4mm solid var(--cc);border-radius:4mm;padding:2.6mm 3.4mm;margin-bottom:3mm;background:#fff}
@@ -21,7 +21,7 @@
 .fac,.man{border-radius:3mm;padding:1.6mm 2.6mm;font-size:10.8pt;line-height:1.32}
 .fac{background:#F0FAF3}.man{background:#F4F5FA}
 .fac p,.man p{margin:.6mm 0}
-.tg-f,.tg-m{display:inline-block;font:800 8pt 'Inter';text-transform:uppercase;letter-spacing:.04em;border-radius:99px;padding:.2mm 2.2mm;margin-bottom:.6mm}
+.tg-f,.tg-m{display:inline-block;font:800 8pt 'Nunito Sans';text-transform:uppercase;letter-spacing:.04em;border-radius:99px;padding:.2mm 2.2mm;margin-bottom:.6mm}
 .tg-f{background:#2E9D5B;color:#fff}.tg-m{background:#5B6478;color:#fff}
 .man{color:#2d3356}
 .cill{background:var(--tt);border-radius:3mm;padding:1mm;align-self:start}.cill svg{width:100%;height:auto;display:block}
@@ -29,7 +29,7 @@
 .demo{margin:1mm 0 2mm}
 /* situation */
 .sit{border:2.4px solid #FFC233;border-radius:5mm;background:#FFFBEF;margin-bottom:3.4mm;overflow:hidden}
-.sit-h{background:#FFC233;color:#3F2A00;font:800 12pt 'Inter';padding:1.6mm 4mm}
+.sit-h{background:#FFC233;color:#3F2A00;font:800 12pt 'Nunito Sans';padding:1.6mm 4mm}
 .sit-b{display:grid;grid-template-columns:1fr 54mm;gap:4mm;padding:2.4mm 4mm 3mm;font-size:11.2pt}
 .sit-b p{margin:.8mm 0}
 .sit-q{font-weight:700;color:#8E1F18;font-size:12pt}
@@ -89,7 +89,7 @@ table.sheet td{border:1px solid #C9D1EA;padding:.6mm 2.4mm;text-align:right;min-
 .obj2{background:#EEF8F1;border-radius:2.4mm;padding:1.4mm 3mm;font-size:11pt}
 .lex{background:#F4F5FA;border-radius:2.4mm;padding:1.4mm 3mm;font-size:9.8pt;margin-bottom:2mm}
 .doc{border:1.4px solid #C9D1EA;border-radius:2.4mm;padding:1.6mm 3mm;margin-bottom:1.8mm;font-size:10.5pt}
-.doc>b{display:block;font-family:'Inter';font-size:9.5pt;color:#8E1F18}
+.doc>b{display:block;font-family:'Nunito Sans';font-size:9.5pt;color:#8E1F18}
 .doc p{margin:.4mm 0}
 .pq-n.x{width:auto;padding:0 1.6mm;background:#C2332A}
 .msg{border:1.4px dashed #A9B2D3;border-radius:3mm;padding:1.6mm 3.6mm;margin-left:8.4mm;font-size:11pt;line-height:1.8}.msg p{margin:.4mm 0}
@@ -105,13 +105,13 @@ table.sheet td{border:1px solid #C9D1EA;padding:.6mm 2.4mm;text-align:right;min-
 .gc-ex{margin:.4mm 0;font-size:10pt}
 /* ===== Manuels niveau 3 ===== */
 .sit-b1{padding:2.4mm 4.4mm 3mm;font-size:11.2pt}.sit-b1 p{margin:.8mm 0}.sit-b1 .small{color:#6b5a1e;font-size:9.6pt}
-.grp{display:inline-block;margin:.6mm 0 1mm;background:#FFF0B8;color:#5C4700;font:800 9.5pt 'Inter';border-radius:99px;padding:.5mm 3mm}
-.sec-qr{margin-left:auto;font:700 8.6pt 'Inter';color:#7d84a6}
-.outil{margin-left:auto;font:700 8.6pt 'Inter';background:#EEF1F8;color:#4F5E00;border-radius:99px;padding:.3mm 2.6mm;white-space:nowrap}
+.grp{display:inline-block;margin:.6mm 0 1mm;background:#FFF0B8;color:#5C4700;font:800 9.5pt 'Nunito Sans';border-radius:99px;padding:.5mm 3mm}
+.sec-qr{margin-left:auto;font:700 8.6pt 'Nunito Sans';color:#7d84a6}
+.outil{margin-left:auto;font:700 8.6pt 'Nunito Sans';background:#EEF1F8;color:#9A5B00;border-radius:99px;padding:.3mm 2.6mm;white-space:nowrap}
 .me-t{display:flex;align-items:center;gap:2mm;flex-wrap:wrap}
 .solved pre.code{margin:1.6mm 0}
 .vline{display:flex;align-items:center;gap:3mm;margin:0 0 1.6mm}
-.pb-src{font:700 9pt 'Inter';color:#545B7A}
+.pb-src{font:700 9pt 'Nunito Sans';color:#545B7A}
 .aides{margin:.8mm 0 .4mm 8.4mm;background:#EEF8F1;border-radius:2.4mm;padding:1mm 3mm;font-size:10.2pt;color:#14572F}
 .aides p{margin:.3mm 0}
 .frm{margin:0;font-size:11pt;line-height:1.9;flex:1}
@@ -121,14 +121,14 @@ table.sheet td{border:1px solid #C9D1EA;padding:.6mm 2.4mm;text-align:right;min-
 .ds{border:1.2px solid #DCE2F2;border-radius:3mm;padding:1.4mm 3mm;margin:1.4mm 0}
 .ds-w{margin:0 0 .6mm;font-size:11.5pt}
 .ds-r{display:grid;grid-template-columns:6mm 1fr auto;gap:2mm;align-items:center;font-size:10.5pt;margin:.6mm 0}
-.ds-n{display:inline-grid;place-items:center;width:5mm;height:5mm;border-radius:50%;background:var(--tt,#EEF1F8);color:var(--cc,#4F5E00);font:800 8pt 'Inter'}
+.ds-n{display:inline-grid;place-items:center;width:5mm;height:5mm;border-radius:50%;background:var(--tt,#EEF1F8);color:var(--cc,#9A5B00);font:800 8pt 'Nunito Sans'}
 .ds-r .opts{gap:1mm 3mm;flex-wrap:nowrap}.ds-r .opt{font-size:10pt}
 .sais td.sc{width:1%;white-space:nowrap}
-.ess3h{display:flex;gap:2mm;align-items:center;margin:2.4mm 0 1mm;padding:1mm 3mm;border-radius:2.4mm;background:var(--tt);color:var(--cc);font:800 11pt 'Inter'}
+.ess3h{display:flex;gap:2mm;align-items:center;margin:2.4mm 0 1mm;padding:1mm 3mm;border-radius:2.4mm;background:var(--tt);color:var(--cc);font:800 11pt 'Nunito Sans'}
 .ess3{border-left:1.6mm solid var(--cc);background:#fff;padding:.6mm 0 .6mm 2.6mm;margin:0 0 1.6mm;font-size:9.6pt;line-height:1.3;break-inside:avoid}
-.ess3 p{margin:.3mm 0}.ess3 .et{font:800 9.6pt 'Inter';color:var(--cc)}
-.rapn{font:700 7.4pt 'Inter';color:#7d84a6;background:#EEF1F8;border-radius:99px;padding:0 1.6mm}
-.tgrp{font:700 7.6pt 'Inter';color:#5C4700;background:#FFF0B8;border-radius:99px;padding:0 2mm;white-space:nowrap}
+.ess3 p{margin:.3mm 0}.ess3 .et{font:800 9.6pt 'Nunito Sans';color:var(--cc)}
+.rapn{font:700 7.4pt 'Nunito Sans';color:#7d84a6;background:#EEF1F8;border-radius:99px;padding:0 1.6mm}
+.tgrp{font:700 7.6pt 'Nunito Sans';color:#5C4700;background:#FFF0B8;border-radius:99px;padding:0 2mm;white-space:nowrap}
 .cv-fields{gap:3.6mm}
 .howto.two{grid-template-columns:1fr 1fr}
 .howto.two .hw{grid-template-columns:11mm 1fr;grid-template-rows:auto auto;padding:1.8mm 3mm;row-gap:.3mm}
@@ -138,7 +138,7 @@ table.sheet td{border:1px solid #C9D1EA;padding:.6mm 2.4mm;text-align:right;min-
 .ex.cont .exh{padding-top:.6mm;padding-bottom:.6mm}
 /* glossaire sur deux colonnes */
 .gh2{display:flex;align-items:center;gap:2.4mm;background:var(--tt);border-radius:3mm;padding:1.6mm 3mm;margin:0 0 2.4mm;color:var(--cc)}
-.gh2-i{font-size:16pt}.gh2-t{font:800 12pt 'Inter';line-height:1.15}.gh2-t small{display:block;font:700 8pt 'Inter';color:#545B7A}
+.gh2-i{font-size:16pt}.gh2-t{font:800 12pt 'Nunito Sans';line-height:1.15}.gh2-t small{display:block;font:700 8pt 'Nunito Sans';color:#545B7A}
 .colbox .gcard,.cols2 .gcard{grid-template-columns:17mm 1fr;gap:2.2mm;padding:1.8mm 2.4mm 1.6mm;margin-bottom:2.2mm;border-left-width:2.4mm}
 .colbox .gc-ill,.cols2 .gc-ill{height:14mm;padding:.5mm}
 .colbox .gc-w,.cols2 .gc-w{font-size:12.4pt}

@@ -27,7 +27,7 @@ function Sketch(seed = 3, ink = '#2B2D7C') {
   const curve = (fn, x1, x2, n = 24) => { let d = ''; for (let i = 0; i <= n; i++) { const x = x1 + (x2 - x1) * i / n; d += (i ? 'L' : 'M') + f(x) + ' ' + f(fn(x) + j(.6)); } return d; };
   const P = (d, o = {}) => `<path d="${d}" fill="${o.fill || 'none'}" stroke="${o.c || ink}" stroke-width="${o.w || 2.6}" stroke-linecap="round" stroke-linejoin="round"${o.op ? ` opacity="${o.op}"` : ''}/>`;
   const fillR = (x, y, w, h, col, op = 1) => `<rect x="${x + 2}" y="${y + 2}" width="${w - 4}" height="${h - 4}" rx="3" fill="${col}" opacity="${op}"/>`;
-  const tx = (x, y, s, fs = 16, o = {}) => `<text x="${x}" y="${y}" font-family="Andika" font-size="${fs}" font-weight="700" fill="${o.c || ink}" text-anchor="${o.a || 'middle'}"${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
+  const tx = (x, y, s, fs = 16, o = {}) => `<text x="${x}" y="${y}" font-family="Nunito Sans" font-size="${fs}" font-weight="700" fill="${o.c || ink}" text-anchor="${o.a || 'middle'}"${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
   return { line, poly, rect, circ, curve, P, fillR, tx, j };
 }
 module.exports = { S, T, Rc, Ln, Ar, Br, st, Sketch, esc };

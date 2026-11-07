@@ -77,6 +77,6 @@ function css() {
   c = c.replace(/@font-face\{[^}]*\}/g, ff => { const m = ff.match(/KaTeX_([A-Za-z0-9]+)-([A-Za-z]+)\.woff2/); const name = m && `${m[1]}-${m[2]}`; if (!m || !keep.includes(name)) return '';
     const b64 = fs.readFileSync(path.join(dir, 'fonts', `KaTeX_${name}.woff2`)).toString('base64');
     return ff.replace(/src:[^;}]*/, `src:url(data:font/woff2;base64,${b64}) format("woff2")`); });
-  return c + `\n.katex{font-size:1.06em}.katex .text,.katex .text .mord{font-family:'Andika','Noto Color Emoji','DejaVu Sans',sans-serif!important}.fx .katex{font-size:1em}.kx{display:inline-block}`;
+  return c + `\n.katex{font-size:1.06em}.katex .text,.katex .text .mord{font-family:'Nunito Sans','Noto Color Emoji','DejaVu Sans',sans-serif!important}.fx .katex{font-size:1em}.kx{display:inline-block}`;
 }
 module.exports = { texify, deep, kx, css, FXTEX, stats: () => used };

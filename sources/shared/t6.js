@@ -9,7 +9,7 @@
   const eh = x => fr(rnd(x, 3), Number.isInteger(rnd(x, 3)) ? 0 : (Number.isInteger(rnd(x * 10, 2)) ? 1 : (Number.isInteger(rnd(x * 100, 2)) ? 2 : 3)));
   /* temps de passage de Bolt, finale du 100 m, Berlin 2009 (World Athletics ; arXiv:0911.1952) : [distance (m), temps (s)] */
   const BOLT = [[10, 1.89], [20, 2.88], [30, 3.78], [40, 4.64], [50, 5.47], [60, 6.29], [70, 7.10], [80, 7.92], [90, 8.75], [100, 9.58]];
-  const gt = (x, y, s, col, a = 'start', fs = 12) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Inter" font-size="${fs}" font-weight="800" text-anchor="${a}" fill="${col}">${s}</text>`;
+  const gt = (x, y, s, col, a = 'start', fs = 12) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Nunito Sans" font-size="${fs}" font-weight="800" text-anchor="${a}" fill="${col}">${s}</text>`;
 
   DEP.c6 = R => {
     const rows = shuffle(R, BOLT.filter(r => [20, 30, 50, 60, 70, 80, 90, 100].includes(r[0]))).slice(0, 5).sort((a, b) => a[0] - b[0]);

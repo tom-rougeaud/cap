@@ -1,5 +1,5 @@
-/* Couverture « CAP Maths » : page jaune (#E9F797), motifs dessinés à main levée, peu opaques,
-   qui évoquent la pop culture et les chapitres du CAP (dé, clap de cinéma, écran, statistiques, figures…). Jamais de personnage ni de logo.
+/* Couverture « Maths · 3ème Prépa-Métiers » : page jaune (#FFEC73), motifs dessinés à main levée, peu opaques,
+   qui évoquent la pop culture et les 10 chapitres de 3e (cartes, dé, clap de cinéma, bulle, écran, figurine…). Jamais de personnage ni de logo.
    Titre, nom de l’auteur en bas, QR code vers l’appli. viewBox 840 × 1188 (1 unité = 0,25 mm). */
 'use strict';
 const YEL = '#E9F797', W = '#FFFFFF', MOT = '#5A4700';
@@ -23,7 +23,7 @@ function circle(cx, cy, r, k = 1.6) {
 }
 const curve = (fn, x1, x2, n = 30) => { let d = ''; for (let i = 0; i <= n; i++) { const x = x1 + (x2 - x1) * i / n, y = fn(x) + j(.8); d += (i ? 'L' : 'M') + f1(x) + ' ' + f1(y); } return d; };
 const P = (d, o = {}) => `<path d="${d}" fill="none" stroke="${o.c || MOT}" stroke-width="${o.w || 4}" stroke-linecap="round" stroke-linejoin="round"/>`;
-const TX = (x, y, s, fs, o = {}) => `<text x="${x}" y="${y}" font-family="Andika" font-size="${fs}" font-weight="700" fill="${o.c || MOT}"${o.a ? ` text-anchor="${o.a}"` : ''}${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
+const TX = (x, y, s, fs, o = {}) => `<text x="${x}" y="${y}" font-family="Nunito Sans" font-size="${fs}" font-weight="700" fill="${o.c || MOT}"${o.a ? ` text-anchor="${o.a}"` : ''}${o.r ? ` transform="rotate(${o.r} ${x} ${y})"` : ''}>${s}</text>`;
 const G = (x, y, rot, sc, op, body) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${sc})" opacity="${op}">${body}</g>`;
 
 /* ---------- les motifs (dessinés autour de (0,0), environ 200 × 160) ---------- */
@@ -72,28 +72,35 @@ const M = {
   star: () => P(line(-20, 0, 20, 0) + line(0, -20, 0, 20) + line(-12, -12, 12, 12, 1) + line(-12, 12, 12, -12, 1), { w: 3 })
 };
 
+/* version « spécimen enseignant » : fond rouge brique sombre, bandeau discret, pastille aux couleurs du niveau */
+const PR = { bg: '#9B2335', ink: '#3B0F18', cream: '#FFF1DC', rose: '#F6CFC6' };
+function profLayer(book) { return ''; }
+
 function cover(o = {}) {
   R = rng(7);
   const qr = o.qr || '';
-  let s = `<svg viewBox="0 0 840 1188" xmlns="http://www.w3.org/2000/svg" class="cvsvg"><rect width="840" height="1188" fill="#E9F797"/>`;
+  const NAVY = o.prof ? PR.ink : '#1D2240';
+  let s = `<svg viewBox="0 0 840 1188" xmlns="http://www.w3.org/2000/svg" class="cvsvg"><rect width="840" height="1188" fill="${o.prof ? PR.bg : '#E9F797'}"/>`;
   // motifs : [nom, x, y, rotation, échelle, opacité]
   const L = [['card', 140, 160, -8, .95, .24], ['ecran', 640, 150, 5, .95, .22], ['facto', 400, 120, -4, .7, .18], ['star', 290, 50, 0, 1, .3],
     ['d20', 130, 360, 6, .85, .22], ['clap', 720, 370, -6, .9, .22], ['sqrt', 330, 320, -6, .7, .16], ['pct', 560, 300, 10, .8, .16],
     ['bulle', 120, 830, 6, .85, .22], ['figurine', 720, 830, -4, .95, .22], ['pixel', 330, 880, 0, .8, .2], ['tree', 500, 960, 6, .75, .18],
     ['bars', 200, 1000, -3, .7, .16], ['star', 760, 270, 0, .8, .3], ['star', 60, 560, 0, .7, .26], ['star', 560, 800, 0, .9, .24]];
   L.forEach(([k, x, y, r, sc, op]) => { s += G(x, y, r, sc, op, M[k]()); });
+  if (o.prof && typeof MOT !== 'undefined') s = s.split(MOT).join(PR.rose);
   // titre
-  s += `<g font-family="Inter">`;
-  s += `<rect x="70" y="420" width="700" height="300" rx="40" fill="#1D2240" opacity=".92"/>`;
-  s += `<text x="110" y="492" font-weight="800" fill="${YEL}" letter-spacing="2" font-size="22">MATHÉMATIQUES · CLASSES PRÉPARANT AU CAP</text>`;
-  s += `<text x="106" y="606" font-size="120" font-weight="800" fill="${W}" letter-spacing="-2">CAP Maths</text>`;
+  s += `<g font-family="Nunito Sans">`;
+  s += `<rect x="70" y="420" width="700" height="300" rx="40" fill="${NAVY}" opacity=".92"/>`;
+  s += `<text x="110" y="492" style="font-family:'Outfit',sans-serif;font-style:italic" font-size="24" font-weight="800" fill="${YEL}" letter-spacing="3" textLength="660" lengthAdjust="spacingAndGlyphs">MATHÉMATIQUES · CLASSES PRÉPARANT AU CAP</text>`;
+  s += `<text x="106" y="612" style="font-family:'Outfit',sans-serif;font-style:italic" font-size="124" font-weight="800" fill="${W}" letter-spacing="-2">CAP Maths</text>`;
   s += `</g>` + `<path d="${line(110, 628, 470, 622, 2.5)}" fill="none" stroke="${YEL}" stroke-width="9" stroke-linecap="round"/>`;
-  s += `<g font-family="Inter"><text x="110" y="690" font-size="38" font-weight="700" fill="${W}">Programme officiel 2019</text></g>`;
+  s += `<g font-family="Nunito Sans"><text x="110" y="690" font-size="36" font-weight="700" fill="${W}">Programme officiel 2019</text></g>`;
   // bas de page : auteur et QR code
-  s += `<rect x="0" y="1040" width="840" height="148" fill="#1D2240" opacity=".9"/>`;
-  s += `<g font-family="Inter"><text x="70" y="1108" font-size="26" font-weight="800" fill="${W}">Tom Rougeaud</text>`;
-  s += `<text x="70" y="1140" font-size="20" font-weight="700" fill="#E9F797">Manuel de l’élève et appli en ligne</text></g>`;
-  if (qr) { s += `<rect x="636" y="958" width="152" height="182" rx="18" fill="${W}"/><g transform="translate(648 970) scale(${(128 / +qr.vb.split(' ')[2]).toFixed(4)})">${qr.body}</g><text x="712" y="1124" font-family="Inter" font-size="17" font-weight="800" fill="#1D2240" text-anchor="middle">L’appli · CAP</text>`; }
+  s += `<rect x="0" y="1040" width="840" height="148" fill="${NAVY}" opacity=".9"/>`;
+  s += `<rect x="70" y="748" width="${o.prof ? 330 : 290}" height="52" rx="26" fill="${o.prof ? '#E9F797' : NAVY}"/><text x="${o.prof ? 235 : 215}" y="783" font-family="Nunito Sans" font-size="24" font-weight="800" fill="${o.prof ? '#1D2240' : W}" text-anchor="middle">${o.prof ? 'Spécimen enseignant' : 'Manuel de l’élève'}</text>`;
+  s += `<text x="70" y="1124" font-family="Nunito Sans" font-size="22" font-weight="700" fill="#E9F797">Tom Rougeaud</text>`;
+  if (qr) { const Q = 214, bx = 840 - 56 - (Q + 28); s += `<rect x="${bx}" y="880" width="${Q + 28}" height="${Q + 78}" rx="22" fill="${W}"/><g transform="translate(${bx + 14} 894) scale(${(Q / +qr.vb.split(' ')[2]).toFixed(4)})">${qr.body}</g><text x="${bx + (Q + 28) / 2}" y="${894 + Q + 38}" font-family="Nunito Sans" font-size="23" font-weight="800" fill="#1D2240" text-anchor="middle">Ouvrir l’appli</text>`; }
+  if (o.prof) s += profLayer('#E9F797');
   return s + '</svg>';
 }
 module.exports = { cover, M };

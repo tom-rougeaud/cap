@@ -4,9 +4,11 @@ const fs = require('fs'), path = require('path');
 const METIERS = require('./metiers3');
 const PONT = require('./pont3');
 const TEX = require('../lib/tex');
+const TOL = require('./tolfix');
 module.exports = chk => {
   const EVALS = require('./evals3')(chk);
-  const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => fs.existsSync(path.join(__dirname, `c${n}.js`)));
+  /* ordre du manuel : neuf chapitres (la trigonométrie, c10, n’est plus au programme du manuel) */
+  const ids = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(n => fs.existsSync(path.join(__dirname, `c${n}.js`)));
   return ids.map(n => {
     const c = require(`./c${n}.js`)(chk);
     c.metier = METIERS[c.id]; c.eval = EVALS[c.id]; c.pont = PONT[c.id];
@@ -14,12 +16,14 @@ module.exports = chk => {
     chk(!!c.metier && !!c.metier.job && c.metier.job.apres.length >= 1 && !!c.eval, `métier ou évaluation manquant : ${c.id}`);
     chk(c.notions.length >= 3 && c.notions.length <= 6, `${c.id} : 3 à 6 notions`);
     chk(!!c.parties && c.parties.flatMap(p => p.n).join() === c.notions.map((_, i) => i + 1).join(), `${c.id} : les parties couvrent toutes les notions, dans l’ordre`);
-    /* 3 exercices × 3 niveaux (courant, 🌱 guidé, 🚀 défi) et 5 problèmes (dont un 🌱 et un 🚀) */
-    { const n0 = c.entraine.filter(e => e.niv === 0).length; chk(n0 >= 3 && c.entraine.length === 3 * n0 && c.entraine.filter(e => e.niv < 0).length === n0 && c.entraine.filter(e => e.niv > 0).length === n0, `${c.id} : au moins 3 exercices, chacun à 3 niveaux`); }
-    chk(c.entraine.filter(e => e.niv).every(e => c.entraine.some(b => b.id === e.base && b.niv === 0)), `${c.id} : chaque variante renvoie à un exercice courant`);
-    chk(c.probs.length === 5 && c.probs.filter(p => p.niv < 0).length === 1 && c.probs.filter(p => p.niv > 0).length === 1, `${c.id} : 5 problèmes dont un guidé et un défi`);
+    chk(c.entraine.filter(e => !e.niv).length >= 3, `${c.id} : au moins 3 exercices`);
+    /* un seul problème par chapitre : le sujet « vers le CCF » (p3) ; pas de Scratch dans le manuel */
+    c.probs = c.probs.filter(p => p.id === 'p3');
+    c.bilan = c.bilan.map(([t, es]) => { const r = es.filter(e => !['p1', 'p2', 'pa', 'pd'].includes(e)); return [t, r.length ? r : ['p3']]; });
+    c.scratch = [];
+    if (c.id === 'c9') c.court = true; /* chapitre court du manuel : notions et mécaniques, sans exercices contextualisés ni problème (l’appli garde tout) */
     chk(c.resolus.length === 2 && !!c.resolus[1].trous, `${c.id} : un résolu complet et un à trous`);
-    chk(!!c.fiche && c.fiche.essentiel.length >= 3 && c.fiche.methode.length >= 3 && c.fiche.pieges.length >= 2 && c.fiche.flash.length === 4 && !!c.fiche.exemple, `${c.id} : fiche de révision complète`);
+    TOL.all(c.eval, chk, c.id + ' évaluation');
     const e = c.eval, tot = [...e.auto, ...e.exos.flatMap(x => x.qs)].reduce((a, q) => a + q.pts, 0) + e.redac;
     chk(Math.abs(tot - 10) < 1e-9 && Math.abs(e.auto.reduce((a, q) => a + q.pts, 0) - 3) < 1e-9, `${c.id} : l’évaluation vaut 10 points (3 de partie 1)`);
     return TEX.deep(c);

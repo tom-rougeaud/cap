@@ -7,7 +7,7 @@ const { MCVG } = require('../shared/gens.js');
 const fr = (x, d) => MCVG.fr(x, d), rnd = MCVG.rnd;
 const RED = '#C2332A', BLUE = '#1D5FC2', INK = '#1D2240';
 const SM = '<svg style="max-width:108mm;height:auto" ';
-const gtxt = (x, y, str, col, an = 'start', fs = 11.5) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Inter" font-size="${fs}" font-weight="800" text-anchor="${an}" fill="${col}">${str}</text>`;
+const gtxt = (x, y, str, col, an = 'start', fs = 11.5) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Nunito Sans" font-size="${fs}" font-weight="800" text-anchor="${an}" fill="${col}">${str}</text>`;
 const dsh = (d, col, w = 2) => `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-dasharray="6 4"/>`;
 
 module.exports = function (chk) {

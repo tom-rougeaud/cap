@@ -7,7 +7,7 @@
   const BORDER = '#111111';
   const num = x => +x.toFixed(1);
   const lines = l => Array.isArray(l) ? l : String(l).split('\n');
-  const FF = 'font-family="Inter,Andika,sans-serif"';
+  const FF = 'font-family="Nunito Sans,sans-serif"';
   const text = (x, y, l, o) => { const ls = lines(l), lh = o.fs * 1.18, y0 = y - (ls.length - 1) * lh / 2 + o.fs * .34;
     return `<text x="${num(x)}" y="${num(y0)}" font-size="${o.fs}" font-weight="${o.w || 800}" text-anchor="${o.a || 'middle'}" fill="${o.fill}" ${FF}>` + ls.map((t, i) => `<tspan x="${num(x)}" dy="${i ? lh : 0}">${t}</tspan>`).join('') + '</text>'; };
   /* parts : [{ a : angle en degrés, in : texte dans le secteur (« \n » = nouvelle ligne), out : texte à côté du secteur }] */

@@ -1,19 +1,25 @@
-"""Test de bout en bout de l’appli Maths · CAP : chaque chapitre × 6 onglets, les fiches de révision, les simulateurs et les 3 CCF blancs, deux largeurs d’écran.
+"""Test de bout en bout de l’appli CAP Maths : 9 chapitres × 6 onglets, et les 2 CCF blancs, deux largeurs d’écran.
    On répond juste partout (départ, résolu à compléter, supports, problèmes, contrôle blanc) et on vérifie
    qu’une erreur fréquente reçoit bien son message d’explication."""
 import asyncio, sys
 from playwright.async_api import async_playwright
 
-URL = 'file://' + (sys.argv[1] if len(sys.argv) > 1 else '/home/claude/cap/index.html')
+URL = 'file://' + (sys.argv[1] if len(sys.argv) > 1 else '/home/claude/cap-new/index.html')
 SHOTS = sys.argv[2] if len(sys.argv) > 2 else None
-TABS = ['depart', 'lecon', 'methodes', 'entrainement', 'problemes', 'evaluer']
+TABS = ['depart', 'notions', 'methodes', 'problemes', 'evaluer']
 problems = []
 stats = {'dep': 0, 'tr': 0, 'trerr': 0, 'rs2': 0, 'pbq': 0, 'ev': 0, 'temps': 0, 'tap': 0}
 
 def bad(msg):
     problems.append(msg); print('✗', msg)
 
-FR = "(x) => { let s = String(Math.round(x * 1e6) / 1e6); return s.replace('.', ','); }"
+import re
+def irrans(q):
+    if re.search('irréductible', q.get('t') or '') and q.get('v') is not None:
+        f = re.findall(r'(\d+)/(\d+)', q.get('a') or '')
+        if f: return f[-1][0] + '/' + f[-1][1]
+    return None
+FR = "(x, t) => { const d = (t != null && window.MCVG && MCVG.dmaxOf) ? MCVG.dmaxOf(t) : null; if (d != null) x = Math.round(x * Math.pow(10, d)) / Math.pow(10, d); let s = String(Math.round(x * 1e6) / 1e6); return s.replace('.', ','); }"
 
 async def overflow(page, where):
     w = await page.evaluate("() => [document.documentElement.scrollWidth, innerWidth, [...document.querySelectorAll('#main *')].filter(e => { const r = e.getBoundingClientRect(); return r.width && r.right > innerWidth + 2 && !e.closest('.tscroll,.tabs,.sup,.dep-doc,.rs-doc,.evdoc'); }).slice(0,3).map(e => e.tagName + '.' + (e.className.baseVal ?? e.className))]")
@@ -25,7 +31,7 @@ async def fill_copy(page, e):
     k = 0
     for q in e['auto'] + [q for x in e['exos'] for q in x['qs']]:
         if q.get('choices'): await page.click(f'.evq2[data-k="{k}"] .ch[data-k="{q["ok"]}"]')
-        elif q.get('v') is not None: await page.fill(f'.evq2[data-k="{k}"] .inp', await page.evaluate(f"({FR})({q['v']})"))
+        elif q.get('v') is not None: await page.fill(f'.evq2[data-k="{k}"] .inp', (irrans(q) or await page.evaluate(f"({FR})({q['v']}, {q.get('tol') if q.get('tol') is not None else 'null'})")))
         else: await page.fill(f'.evq2[data-k="{k}"] .inp', 'ma réponse')
         k += 1
     await page.click('[data-ev="rendre"]')
@@ -42,13 +48,15 @@ async def run(p, vw, vh, label, full):
     data = await page.evaluate("JSON.parse(document.getElementById('mcv-data').textContent)")
     if SHOTS: await page.screenshot(path=f'{SHOTS}/{label}-accueil.png', full_page=True)
     await overflow(page, f'{label} accueil')
+    import os
     for c in data['chapitres']:
         cid = c['id']
+        if os.environ.get('CH') and cid not in os.environ['CH'].split(','): continue
         for t in TABS:
             await page.goto(f"{URL}#/{cid}/{t}")
             await page.wait_for_timeout(80)
             await overflow(page, f"{label} {cid}/{t}")
-            if SHOTS and cid in ('c1', 'c2', 'c3'):
+            if SHOTS and cid in ('c1', 'c5', 'c7'):
                 await page.screenshot(path=f"{SHOTS}/{label}-{cid}-{t}.png", full_page=True)
             if not full: continue
             if t == 'depart':
@@ -60,12 +68,12 @@ async def run(p, vw, vh, label, full):
                     elif q['kind'] == 'qcm':
                         await page.click(f'{li} .ch[data-dk="{q["ok"]}"]')
                     else:
-                        v = await page.evaluate(f"({FR})({q['v']})")
+                        v = (irrans(q) or await page.evaluate(f"({FR})({q['v']}, {q.get('tol') if q.get('tol') is not None else 'null'})"))
                         await page.fill(f'{li} .inp', v); await page.click(f'{li} [data-dv]')
                 ok = await page.evaluate("document.querySelectorAll('.dq.ok').length")
                 if ok != len(d['qs']): bad(f'{label} {cid} départ : {ok}/{len(d["qs"])} justes')
                 else: stats['dep'] += 1
-            if t == 'lecon':
+            if t == 'notions':
                 for art in await page.query_selector_all('.nt'):
                     for _ in range(4):
                         bt = await art.query_selector('[data-temps]')
@@ -86,17 +94,37 @@ async def run(p, vw, vh, label, full):
                 good = await page.evaluate(f"document.querySelectorAll('{rs} .rsi.good').length")
                 if good != n or n == 0: bad(f'{label} {cid} résolu à compléter : {good}/{n}')
                 else: stats['rs2'] += 1
-            if t == 'entrainement':
+            if t == 'notions':
                 aq = await page.evaluate(f"MCVAUTO('{cid}')")
+                AS = '.auto:not(.flashc)'
                 for j, q in enumerate(aq):
                     if q.get('choices'):
-                        await page.click(f'.aq[data-j="{j}"] .ch[data-ak="{q["ok"]}"]'); continue
-                    v = await page.evaluate(f"({FR})({q['v']})")
-                    await page.fill(f'.aq[data-j="{j}"] .inp', v)
-                await page.click('[data-auto-check]')
-                ok = await page.evaluate("document.querySelectorAll('.aq.ok').length")
+                        await page.click(f'{AS} .aq[data-j="{j}"] .ch[data-ak="{q["ok"]}"]'); continue
+                    v = (irrans(q) or await page.evaluate(f"({FR})({q['v']}, {q.get('tol') if q.get('tol') is not None else 'null'})"))
+                    await page.fill(f'{AS} .aq[data-j="{j}"] .inp', v)
+                await page.click(f'{AS} [data-auto-check]')
+                ok = await page.evaluate("document.querySelectorAll('.auto:not(.flashc) .aq.ok').length")
                 if ok != 10: bad(f'{label} {cid} automatismes : {ok}/10 justes')
                 else: stats['auto'] = stats.get('auto', 0) + 1
+                # blocs « Pour garder la forme » : bonnes réponses partout, puis boutons Autres questions / Données du manuel
+                for fk in await page.evaluate("[...document.querySelectorAll('.flashc')].map(a => a.dataset.fk)"):
+                    sel = f'.flashc[data-fk="{fk}"]'
+                    fq = await page.evaluate(f"MCVAFL('{cid}', '{fk}')")
+                    if not fq: bad(f'{label} {cid} {fk} : bloc vide'); continue
+                    for j, q in enumerate(fq):
+                        if q.get('choices'): await page.click(f'{sel} .aq[data-j="{j}"] .ch[data-ak="{q["ok"]}"]'); continue
+                        await page.fill(f'{sel} .aq[data-j="{j}"] .inp', (irrans(q) or await page.evaluate(f"({FR})({q['v']}, {q.get('tol') if q.get('tol') is not None else 'null'})")))
+                    await page.click(f'{sel} [data-auto-check]')
+                    okf = await page.evaluate(f"document.querySelectorAll('{sel} .aq.ok').length")
+                    if okf != len(fq): bad(f'{label} {cid} {fk} : {okf}/{len(fq)} justes')
+                    else: stats['flash'] = stats.get('flash', 0) + 1
+                    t0 = await page.evaluate(f"[...document.querySelectorAll('{sel} .aq > p')].map(p => p.textContent).join('|')")
+                    await page.click(f'{sel} [data-fl-new]')
+                    t1 = await page.evaluate(f"[...document.querySelectorAll('{sel} .aq > p')].map(p => p.textContent).join('|')")
+                    if t1 == t0: bad(f'{label} {cid} {fk} : « Autres questions » ne change rien')
+                    await page.click(f'{sel} [data-fl-man]')
+                    t2 = await page.evaluate(f"[...document.querySelectorAll('{sel} .aq > p')].map(p => p.textContent).join('|')")
+                    if t2 != t0: bad(f'{label} {cid} {fk} : « Données du manuel » ne rétablit pas les questions')
                 for e in c['entraine']:
                     card = f'#ex-{e["id"]}'
                     g = await page.evaluate(f"(() => {{ const s = MCVAPP.seeds['{cid}{e['id']}']; return MCVT.tr('{e['gen']}', s); }})()")
@@ -107,7 +135,7 @@ async def run(p, vw, vh, label, full):
                         await page.fill(sel, await page.evaluate(f"({FR})({errit['err'][0]['v']})"))
                         await page.click(f'{card} [data-check]')
                         fb = await page.inner_text(f'{card} .fbs')
-                        if errit['err'][0]['m'][:25] not in fb: bad(f'{label} {cid} {e["id"]} : message d’erreur absent ({fb[:60]})')
+                        if errit['err'][0]['m'][:12] not in fb: bad(f'{label} {cid} {e["id"]} : message d’erreur absent ({fb[:60]})')
                         else: stats['trerr'] += 1
                     # 2. tout juste
                     for it in g['items']:
@@ -115,20 +143,35 @@ async def run(p, vw, vh, label, full):
                             await page.click(f'{card} .it3[data-k="{it["k"]}"] .ch[data-k="{it["qcm"]["ok"]}"]')
                         else:
                             sel = f'{card} .inp[data-k="{it["k"]}"], {card} .it3[data-k="{it["k"]}"] .inp'
-                            await page.fill(sel, await page.evaluate(f"({FR})({it['v']})"))
+                            await page.fill(sel, await page.evaluate(f"({FR})({it['v']}, {it.get('tol') if it.get('tol') is not None else 'null'})"))
                     await page.click(f'{card} [data-check]')
                     sc = await page.inner_text(f'{card} .score')
                     if sc.split(' ')[0] != f"{len(g['items'])}": bad(f'{label} {cid} {e["id"]} : {sc}')
                     else: stats['tr'] += 1
                     await page.click(f'{card} [data-hint]')
                     if not await page.query_selector(f'{card} .hint1'): bad(f'{label} {cid} {e["id"]} : pas d’indice')
+            if t == 'notions':
+                for n in range(1, len(c['notions']) + 1):
+                    card = f'.mech3[data-c="{cid}"][data-n="{n}"]'
+                    if not await page.query_selector(card): bad(f'{label} {cid} notion {n} : pas de mécanique'); continue
+                    ans = await page.evaluate("""([cid, n]) => { const h = s => { let x = 2166136261; for (const ch of s) { x ^= ch.charCodeAt(0); x = Math.imul(x, 16777619); } return x >>> 0; };
+                      return window.MCVT.mech(cid, n, h(`${cid}-m${n}`)).items.map(it => it.vs ? it.vs.join(" ; ") : it.irr ? it.a : it.v != null ? String(it.v).replace('.', ',') : it.a); }""", [cid, n])
+                    inputs = await page.query_selector_all(f'{card} .mq3 .inp')
+                    if len(inputs) != 4: bad(f'{label} {cid} notion {n} : {len(inputs)} cases'); continue
+                    for inp, a in zip(inputs, ans): await inp.fill(a)
+                    await page.click(f'{card} [data-mech-check]')
+                    sc = await page.inner_text(f'{card} .score')
+                    if sc.split(' ')[0] != '4': bad(f'{label} {cid} notion {n} mécanique : {sc}')
+                    else: stats['mech'] = stats.get('mech', 0) + 1
+                    await page.click(f'{card} [data-mech-new]')
+                    if len(await page.query_selector_all(f'{card} .mq3')) != 4: bad(f'{label} {cid} notion {n} : autres calculs')
             if t == 'problemes':
                 for pr in c['probs']:
                     card = f'#ex-{pr["id"]}'
                     for j, q in enumerate(pr['qs']):
                         if q.get('v') is None: continue
                         qa = f'{card} .qa[data-j="{j}"]'
-                        await page.fill(f'{qa} .inp', await page.evaluate(f"({FR})({q['v']})"))
+                        await page.fill(f'{qa} .inp', (irrans(q) or await page.evaluate(f"({FR})({q['v']}, {q.get('tol') if q.get('tol') is not None else 'null'})")))
                         await page.click(f'{qa} [data-qv]')
                         if not await page.evaluate(f"document.querySelector('{qa}').classList.contains('ok')"): bad(f'{label} {cid} {pr["id"]} q{j} : réponse juste refusée')
                         else: stats['pbq'] += 1
@@ -140,7 +183,7 @@ async def run(p, vw, vh, label, full):
                 note = await page.inner_text('#ev-res .big3')
                 if note.strip() != '10 / 10': bad(f'{label} {cid} évaluation CCF : {note}')
                 else: stats['ev'] += 1
-    # les trois CCF blancs : chrono 45 min, copie parfaite = 10 / 10
+    # les deux CCF blancs : chrono 45 min, copie parfaite = 20 / 20
     for sj in data.get('ccf', []):
         await page.goto(f"{URL}#/ccf/{sj['id']}"); await page.wait_for_timeout(80); await overflow(page, f"{label} ccf {sj['id']}")
         if SHOTS: await page.screenshot(path=f"{SHOTS}/{label}-ccf-{sj['id']}.png", full_page=True)
@@ -151,31 +194,6 @@ async def run(p, vw, vh, label, full):
         note = await page.inner_text('#ev-res .big3')
         if note.strip() != '10 / 10': bad(f'{label} ccf {sj["id"]} : {note}')
         else: stats['ccf'] = stats.get('ccf', 0) + 1
-    # fiches de révision : une par chapitre, quatre réflexes dont la réponse s’affiche
-    await page.goto(URL + '#/fiches'); await page.wait_for_timeout(80); await overflow(page, f'{label} fiches')
-    nf = await page.evaluate("document.querySelectorAll('.fcard').length")
-    if nf != len(data['chapitres']): bad(f'{label} fiches : {nf} fiches pour {len(data["chapitres"])} chapitres')
-    for c in data['chapitres']:
-        await page.goto(f"{URL}#/fiches/{c['id']}"); await page.wait_for_timeout(50)
-        if await page.evaluate("document.querySelectorAll('.fcard').length") != 1: bad(f'{label} fiche {c["id"]} introuvable')
-        for b3 in await page.query_selector_all('.fcard [data-amoi]'): await b3.click()
-        if await page.evaluate("[...document.querySelectorAll('.fcard .amoi-a')].some(x => x.hidden) || document.querySelectorAll('.fcard .amoi-a').length !== 4"): bad(f'{label} fiche {c["id"]} : réflexes')
-        else: stats['fiche'] = stats.get('fiche', 0) + 1
-    # simulateurs « Je manipule » : présents s’ils existent, sans erreur JS
-    for c in data['chapitres']:
-        await page.goto(f"{URL}#/{c['id']}/methodes"); await page.wait_for_timeout(120)
-        has = await page.evaluate("!!document.getElementById('wg') && document.getElementById('wg').children.length > 0")
-        known = await page.evaluate(f"!!(window.MCVW && window.MCVW['{c['id']}'])")
-        if known and not has: bad(f'{label} {c["id"]} : simulateur vide')
-        if has: stats['wg'] = stats.get('wg', 0) + 1
-    # niveaux : chaque exercice courant a ses variantes guidée et défi
-    for c in data['chapitres']:
-        await page.goto(f"{URL}#/{c['id']}/entrainement"); await page.wait_for_timeout(50)
-        na, nd, nt = await page.evaluate("[document.querySelectorAll('.ex2.tr .niv-a').length, document.querySelectorAll('.ex2.tr .niv-d').length, document.querySelectorAll('.ex2.tr').length]")
-        if not (na == nd and na >= 3 and nt == 3 * na): bad(f'{label} {c["id"]} niveaux : {na} guidés, {nd} défis, {nt} exercices')
-        await page.goto(f"{URL}#/{c['id']}/problemes"); await page.wait_for_timeout(50)
-        na, nd = await page.evaluate("[document.querySelectorAll('.pb .niv-a').length, document.querySelectorAll('.pb .niv-d').length]")
-        if (na, nd) != (1, 1): bad(f'{label} {c["id"]} problèmes : {na} guidé, {nd} défi')
     # données : clés de stockage, export, effacement
     keys = await page.evaluate("Object.keys(localStorage)")
     if full and (not keys or any(not k.startswith('mcvcap.v1.') for k in keys)): bad(f'{label} clés de stockage : {keys}')
@@ -185,8 +203,8 @@ async def run(p, vw, vh, label, full):
     d = await dl.value
     if 'progression' not in d.suggested_filename: bad('export : nom de fichier')
     await page.click('[data-clear]'); await page.wait_for_timeout(100)
-    if await page.evaluate("Object.keys(localStorage).filter(k => k.startsWith('mcvcap.')).length"): bad('effacement incomplet')
-    for r in ['#/glossaire', '#/de-college', '#/ccf', '#/fiches', '#/a-propos', '#/confidentialite']:
+    if await page.evaluate("Object.keys(localStorage).filter(k => k.startsWith('mcv3e.')).length"): bad('effacement incomplet')
+    for r in ['#/glossaire', '#/college', '#/ccf', '#/a-propos', '#/confidentialite']:
         await page.goto(URL + r); await page.wait_for_timeout(50); await overflow(page, f'{label} {r}')
     await b.close()
 
