@@ -16,7 +16,7 @@ const L = 'abcdefghijkl';
 
 /* question d’un problème : texte, réponse affichée, valeur attendue (null : réponse rédigée), largeur ou lignes */
 function Q(n, t, a, v = null, o = {}) {
-  const html = `<div class="qq">${q(n, t) + (o.lines ? lines(o.lines, a) : o.none ? '' : rep(o.lab || '', o.w || 34, a))}</div>`;
+  const html = `<div class="qq">${q(n, t) + (o.none ? '' : lines(o.lines || (/Justifi|Expliqu|raison|Pourquoi/i.test(t) ? 3 : 2), a))}</div>`;
   return { html, app: { l: n, t, a, v, tol: o.tol != null ? o.tol : (v == null ? null : 0.006), lab: o.lab } };
 }
 /* problème : corps (HTML) + questions */
@@ -29,8 +29,8 @@ function prob(o) {
 }
 /* question type bac (consigne à l’infinitif) */
 function BQ(n, t, comp, a, v = null, o = {}) {
-  const cps = { che: 'Chercher', mod: 'Modéliser', rep: 'Représenter', rai: 'Raisonner', cal: 'Calculer', com: 'Communiquer' };
-  const html = `<div class="pq"><div class="pq-h"><span class="pq-n">${n}</span><span class="pq-q">${t}</span><span class="cp cp-${comp}">${cps[comp]}</span></div>${o.lines ? lines(o.lines, a) : rep(o.lab || '', o.w || 34, a)}</div>`;
+  const cps = { app: 'S’approprier', ana: 'Analyser', rea: 'Réaliser', val: 'Valider', com: 'Communiquer' };
+  const html = `<div class="pq"><div class="pq-h"><span class="pq-n">${n}</span><span class="pq-q">${t}</span><span class="cp cp-${comp}">${cps[comp]}</span></div>${lines(o.lines || (/Justifi|Expliqu|raison/i.test(t) ? 3 : 2), a)}</div>`;
   return { html, app: { l: n + '.', t, a, v, tol: o.tol != null ? o.tol : (v == null ? null : 0.006) } };
 }
 const X = html => ({ html, app: null });

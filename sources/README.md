@@ -34,9 +34,9 @@ node tools/audtol.js                   # tolérances des évaluations et des CCF
 node lint3.js                          # contrôles pédagogiques (phrases, consignes, mots interdits, barèmes, supports)
 python3 make3.py --eleve               # manuel élève + PDF par chapitre + CCF blancs + glossaire → build/
 python3 ref-extract.py && python3 make3.py --calque && python3 cmp-calque.py   # manuel professeur calqué
-node build-app3.js ../cap/index.html   # l’appli en un seul fichier
-python3 pwa/make-pwa.py ../cap "Maths · CAP" "Maths CAP" "#E9F797" "#1D2240" "#E9F797"   # manifeste, service worker, icônes
-python3 test-app3.py "$PWD/../cap/index.html"   # test de bout en bout (ordinateur et téléphone)
+node build-app3.js ../index.html   # l’appli en un seul fichier
+python3 pwa/make-pwa.py .. "Maths · CAP" "Maths CAP" "#DCEBC8" "#1D2240" "#DCEBC8"   # manifeste, service worker, icônes
+python3 test-app3.py "$PWD/../index.html"   # test de bout en bout (ordinateur et téléphone)
 ```
 
 La version professeur (`build/maths-cap-professeur.pdf`) n’est pas publiée.

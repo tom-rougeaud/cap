@@ -4,7 +4,7 @@
   'use strict';
   const MC = typeof module !== 'undefined' ? require('./gens.js').MCVG : root.MCVG;
   const { fr } = MC;
-  const INK = '#1D2240', SOFT = '#545B7A', GRID = '#C4CCE4', RED = '#C2332A', BLUE = '#1D5FC2', ORG = '#B05200', GRN = '#1E7F45', VIO = '#7438C0';
+  const INK = '#1D2240', SOFT = '#545B7A', GRID = '#B9C2D0', GRIDM = '#E1E6EE', RED = '#C2332A', BLUE = '#1D5FC2', ORG = '#B05200', GRN = '#1E7F45', VIO = '#7438C0';
   const HALO = ' data-tk="1" style="paint-order:stroke;stroke:#fff;stroke-width:3.4px;stroke-linejoin:round"';
   const f1 = n => (Math.round(n * 10) / 10).toString();
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -16,6 +16,9 @@
     const inY = y => Number.isFinite(y) && y >= y0 - 1e-9 && y <= y1 + 1e-9;
     let base = '';
     if (o.grid !== false) {
+      const sx = o.sx || 1, sy = o.sy || 1;
+      if (sx > 1) for (let x = x0; x < x1 - 1e-9; x += dx) for (let k = 1; k < sx; k++) base += `<line x1="${f1(X(x + dx * k / sx))}" y1="${f1(Y(y0))}" x2="${f1(X(x + dx * k / sx))}" y2="${f1(Y(y1))}" stroke="${GRIDM}" stroke-width=".8"/>`;
+      if (sy > 1) for (let y = y0; y < y1 - 1e-9; y += dy) for (let k = 1; k < sy; k++) base += `<line x1="${f1(X(x0))}" y1="${f1(Y(y + dy * k / sy))}" x2="${f1(X(x1))}" y2="${f1(Y(y + dy * k / sy))}" stroke="${GRIDM}" stroke-width=".8"/>`;
       for (let x = x0; x <= x1 + 1e-9; x += dx) base += `<line x1="${f1(X(x))}" y1="${f1(Y(y0))}" x2="${f1(X(x))}" y2="${f1(Y(y1))}" stroke="${GRID}" stroke-width="${o.fine ? .7 : 1}"/>`;
       for (let y = y0; y <= y1 + 1e-9; y += dy) base += `<line x1="${f1(X(x0))}" y1="${f1(Y(y))}" x2="${f1(X(x1))}" y2="${f1(Y(y))}" stroke="${GRID}" stroke-width="${o.fine ? .7 : 1}"/>`;
     }

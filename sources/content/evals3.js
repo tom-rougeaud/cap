@@ -77,7 +77,7 @@ const sum = a => a.reduce((x, y) => x + y, 0);
         { t: 'Avec 20 €, combien de badges peut-on acheter ?', comp: 'ana', pts: 1, a: '20 ÷ 2,50 = 8 badges', v: 8, tol: .01, w: 20 }] },
       { t: 'Les 100 m de Bolt', intro: `<p>Le 16 août 2009 à Berlin, Usain Bolt a couru le 100 m en ${H('9,58 s')}. Son temps de passage à ${H('20 m')} est ${H('2,88 s')}.</p><p class="srcl">${D.srcBolt}</p>`, qs: [
         { t: 'Calculer le quotient temps ÷ distance à 20 m (au millième).', comp: 'rea', pts: 1, a: '2,88 ÷ 20 = 0,144', v: .144, tol: .0006, w: 20 },
-        { t: 'Si le temps était proportionnel à la distance, quel serait son temps pour 100 m ? (100 m = 5 × 20 m)', comp: 'rea', pts: 1, a: '5 × 2,88 = 14,40 s', v: 14.4, tol: .006, w: 20 },
+        { t: 'Si le temps était proportionnel à la distance, quel serait son temps pour 100 m ?', comp: 'rea', pts: 1, a: '5 × 2,88 = 14,40 s', v: 14.4, tol: .006, w: 20 },
         { t: 'Comparer avec son vrai temps de 9,58 s. Le temps est-il proportionnel à la distance ? Justifier.', comp: 'val', pts: 1, a: 'Non : 14,40 s est très différent de 9,58 s (4,82 s d’écart). Au départ Bolt accélère.', v: null, lines: 2 }] }] };
 }
 

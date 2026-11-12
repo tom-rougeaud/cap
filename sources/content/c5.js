@@ -50,28 +50,28 @@ module.exports = function (chk) {
   'Le triangle de la puissance P égale U fois I : avec P égal 2 300 watts et U égal 230 volts, I est égal à 2 300 divisé par 230, soit 10 ampères');
 
   c.notions = [
-    { titre: 'Calculer avec une formule', decouvre: { txt: `Une salle de cinéma facture ${H('7,50 €')} par place plus ${H('2 €')} de réservation. Avec ${H('n')} places, le prix est ${H('P = 7,5 × n + 2')}. Combien coûtent 4 places ?`, img: SK.formule() },
+    { titre: 'Calculer avec une formule', decouvre: { txt: `Une salle de cinéma facture ${H('7,50 €')} par place plus ${H('2 €')} de réservation. Avec ${H('n')} places, le prix est ${H('P = 7,5 × n + 2')}. Combien coûtent 4 places ?`, img: '' },
       methode: ['Je repère la formule et la lettre : P = 7,5 × n + 2, avec n le nombre de places.', 'Je remplace la lettre par sa valeur : n = 4, donc P = 7,5 × 4 + 2.', 'Je calcule en respectant les priorités : je multiplie avant d’additionner, 30 + 2.', 'J’écris le résultat avec son unité : 32 €.'],
       vois: frm,
       solution: `<p>Pour 4 places : ${FM(R`P=7{,}5\times4+2=30+2=32`)}.</p><p>Les 4 places coûtent <b>32 €</b>.</p>`,
       retiens: `<p>Une <b>formule</b> relie des grandeurs écrites avec des lettres.</p><p>Pour la calculer, on <b>remplace chaque lettre par sa valeur</b>.</p><p>Puis on calcule dans l’ordre : parenthèses, puis × et ÷, puis + et −.</p>`,
       attention: 'On multiplie avant d’additionner : 7,5 × 4 + 2 = 32. Si on additionnait d’abord, on calculerait 7,5 × 6 = 45, ce qui est faux.',
       amoi: [['Avec P = 7,5 × n + 2, calcule P pour n = 6.', '7,5 × 6 = 45 ; 45 + 2 = 47 €'], ['L’aire d’un rectangle est A = L × l. Calcule A pour L = 8 m et l = 5 m.', '8 × 5 = 40 m²']] },
-    { titre: 'Résoudre x + a = b et a × x = b', decouvre: { txt: `Dans un jeu vidéo, ${H('4 coffres')} identiques contiennent ${H('96 pièces')} en tout. Combien de pièces y a-t-il dans un coffre ? On note x ce nombre : ${H('4 × x = 96')}.`, img: SK.balance() },
+    { titre: 'Résoudre x + a = b et a × x = b', decouvre: { txt: `Dans un jeu vidéo, ${H('4 coffres')} identiques contiennent ${H('96 pièces')} en tout. Combien de pièces y a-t-il dans un coffre ? On note x ce nombre : ${H('4 × x = 96')}.`, img: '' },
       methode: ['J’écris l’équation : 4 × x = 96. L’inconnue est x.', 'Je repère l’opération faite sur x : x est multiplié par 4.', 'Je fais l’opération inverse des deux côtés : je divise par 4, donc x = 96 ÷ 4 = 24.', 'Je vérifie en remplaçant x : 4 × 24 = 96 ✓.'],
       vois: eq1,
       solution: `<p>${FM(R`4\times x=96`)} donne ${FM(R`x=96\div4=24`)}.</p><p>Chaque coffre contient <b>24 pièces</b>. Vérification : 4 × 24 = 96.</p>`,
       retiens: `<p>Une <b>équation</b> est une égalité avec une <b>inconnue</b>. La <b>solution</b> est la valeur de l’inconnue qui rend l’égalité vraie.</p><p>Pour la résoudre, on fait la <b>même opération des deux côtés</b> : l’addition se défait par la soustraction, la multiplication par la division.</p>`,
       attention: 'On fait toujours la même opération des deux côtés du signe égal. Vérifie la solution en remplaçant x dans l’équation de départ.',
       amoi: [['Résous x + 12 = 40.', 'x = 40 − 12 = 28'], ['Résous 5x = 60.', 'x = 60 ÷ 5 = 12']] },
-    { titre: 'Résoudre a × x + b = c', decouvre: { txt: `Un club de jeux demande ${H('5 €')} d’inscription puis ${H('2,50 €')} par séance. Avec ${H('30 €')}, combien de séances peut-on payer ? On note x le nombre de séances : ${H('2,5 × x + 5 = 30')}.`, img: SK.ticket() },
+    { titre: 'Résoudre a × x + b = c', decouvre: { txt: `Un club de jeux demande ${H('5 €')} d’inscription puis ${H('2,50 €')} par séance. Avec ${H('30 €')}, combien de séances peut-on payer ? On note x le nombre de séances : ${H('2,5 × x + 5 = 30')}.`, img: '' },
       methode: ['J’écris l’équation : 2,5 × x + 5 = 30.', 'Je retire 5 des deux côtés pour isoler le terme en x : 2,5 × x = 25.', 'Je divise les deux côtés par 2,5 : x = 25 ÷ 2,5 = 10.', 'Je vérifie : 2,5 × 10 + 5 = 30 ✓.'],
       vois: eq2,
       solution: `<p>${FM(R`2{,}5x+5=30`)} donne ${FM(R`2{,}5x=25`)}, puis ${FM(R`x=25\div2{,}5=10`)}.</p><p>On peut payer <b>10 séances</b>. Vérification : 2,5 × 10 + 5 = 30.</p>`,
       retiens: `<p>Pour résoudre ${FM(R`a\times x+b=c`)} :</p><p>1. je retire <b>b</b> des deux côtés : ${FM(R`a\times x=c-b`)} ;</p><p>2. je divise par <b>a</b> : ${FM(R`x=\dfrac{c-b}{a}`)}.</p>`,
       attention: 'On défait d’abord l’addition ou la soustraction (le nombre seul), puis la multiplication. Si l’équation est a × x − b = c, on ajoute b des deux côtés.',
       amoi: [['Résous 3x + 4 = 19.', '3x = 19 − 4 = 15 ; x = 15 ÷ 3 = 5'], ['Résous 2x − 6 = 10.', '2x = 10 + 6 = 16 ; x = 16 ÷ 2 = 8']] },
-    { titre: 'Isoler une grandeur dans une formule', decouvre: { txt: `En électricité, la puissance est ${H('P = U × I')} (P en watts, U en volts, I en ampères). Un four de ${H('2 300 W')} fonctionne sous ${H('230 V')}. Quelle est l’intensité I ?`, img: SK.prise() },
+    { titre: 'Isoler une grandeur dans une formule', decouvre: { txt: `En électricité, la puissance est ${H('P = U × I')} (P en watts, U en volts, I en ampères). Un four de ${H('2 300 W')} fonctionne sous ${H('230 V')}. Quelle est l’intensité I ?`, img: '' },
       methode: ['J’écris la formule : P = U × I.', 'Je remplace les grandeurs connues : 2 300 = 230 × I.', 'Je résous l’équation en divisant par 230 : I = 2 300 ÷ 230 = 10.', 'J’écris le résultat avec son unité : 10 A.'],
       vois: tri,
       solution: `<p>${FM(R`P=U\times I`)} donne ${FM(R`I=\dfrac{P}{U}=\dfrac{2300}{230}=10`)}.</p><p>Le four consomme <b>10 A</b>.</p>`,
@@ -129,6 +129,26 @@ module.exports = function (chk) {
       hints: ['d = v × t : multiplie la vitesse par le temps.', 't = d ÷ v.', '1 h = 60 min : multiplie par 60.', 'v = d ÷ t.', '0,5 h = 30 min : 2,5 h = 2 h 30 min.'], pouce: '240 × 2,5 ; 450 ÷ 180 ; 2,5 × 60 ; 300 ÷ 1,5.',
       det: ['240 × 2,5 = 600 km.', '450 ÷ 180 = 2,5 h.', '2,5 × 60 = 150 min.', '300 ÷ 1,5 = 200 km/h.', '2,5 h = 2 h + 0,5 h = 2 h 30 min. 8 h 45 + 2 h = 10 h 45 ; 10 h 45 + 30 min = 11 h 15.'], corr: 'a. 600 km. b. 2,5 h. c. 150 min. d. 200 km/h. e. 11 h 15.' })];
 
+
+  /* ---------- problèmes du manuel, standard 2026-11 ---------- */
+  c.probs.push(
+    PB({ id: 'q1', etape: 3, lc: 3, comps: ['app', 'ana', 'rea', 'val'], titre: 'La trottinette en libre-service',
+      intro: `<p>Une trottinette électrique en libre-service coûte ${H('1 € de déblocage')}, puis ${H('0,20 € par minute')}. Ces tarifs ont été inventés pour l’exercice. Pour un trajet de x minutes, le prix en euros est P = 0,2 × x + 1.</p>`,
+      qs: [Q('a.', 'Calcule le prix d’un trajet de 15 minutes, en euros.', '0,2 × 15 + 1 = 4 €', 4), Q('b.', 'Un trajet a coûté 6,40 €. Écris l’équation qui donne sa durée x, puis résous-la.', '0,2x + 1 = 6,4 ; 0,2x = 5,4 ; x = 27 min', 27, { lines: 3 }), Q('c.', 'Avec 10 €, pendant combien de minutes peut-on rouler ?', '(10 − 1) ÷ 0,2 = 45 min', 45, { lines: 3 }), Q('d.', 'Samia affirme : « Un trajet de 30 minutes coûte le double d’un trajet de 15 minutes. » A-t-elle raison ? Justifie ta réponse par un calcul.', 'Non : 0,2 × 30 + 1 = 7 €, alors que le double de 4 € est 8 €.', null, { lines: 3 })],
+      hints: ['Remplace x par 15 dans la formule.', 'Retire 1 des deux côtés, puis divise par 0,2.', 'Résous 0,2x + 1 = 10.', 'Calcule le prix de 30 minutes et compare.'],
+      det: ['P = 0,2 × 15 + 1 = 3 + 1 = 4 €.', '0,2x + 1 = 6,4 ; 0,2x = 5,4 ; x = 5,4 ÷ 0,2 = 27 minutes. Vérification : 0,2 × 27 + 1 = 6,4.', '0,2x + 1 = 10 ; 0,2x = 9 ; x = 9 ÷ 0,2 = 45 minutes.', '0,2 × 30 + 1 = 7 €. Le double de 4 € est 8 €. Comme 7 ≠ 8, Samia a tort : le déblocage n’est payé qu’une fois.'], corr: 'a. 4 €. b. 27 min. c. 45 min. d. Non.' }),
+    PB({ id: 'q2', etape: 3, lc: 4, comps: ['app', 'rea', 'val', 'com'], titre: 'Les appareils de la cuisine', autravail: { comp: 'val', txt: 'vérifier qu’un circuit ou une prise supporte les appareils branchés.' },
+      intro: `<p>La tension du secteur est ${H('230 V')}. La puissance d’un appareil est P = U × I, avec P en watts, U en volts et I en ampères. Une prise de cuisine supporte au maximum ${H('16 A')}.</p>${tab(['Appareil', 'Micro-ondes', 'Bouilloire', 'Grille-pain'], [['Puissance (en W)', '920', '1 840', '1 380']])}`,
+      qs: [Q('a.', 'Calcule l’intensité du courant dans le micro-ondes, en ampères.', '920 ÷ 230 = 4 A', 4), Q('b.', 'Calcule l’intensité du courant dans la bouilloire, en ampères.', '1 840 ÷ 230 = 8 A', 8), Q('c.', 'Calcule l’intensité du courant dans le grille-pain, en ampères.', '1 380 ÷ 230 = 6 A', 6), Q('d.', 'Peut-on brancher les trois appareils en même temps sur cette prise ? Justifie ta réponse.', 'Non : 4 + 8 + 6 = 18 A, et 18 A > 16 A.', null, { lines: 3 }), Q('e.', 'Calcule la puissance maximale que cette prise peut fournir, en watts.', '230 × 16 = 3 680 W', 3680)],
+      hints: ['I = P ÷ U.', 'Même formule avec 1 840 W.', 'Même formule avec 1 380 W.', 'Additionne les trois intensités et compare à 16 A.', 'P = U × I avec I = 16 A.'],
+      det: ['I = 920 ÷ 230 = 4 A.', 'I = 1 840 ÷ 230 = 8 A.', 'I = 1 380 ÷ 230 = 6 A.', '4 + 8 + 6 = 18 A. Comme 18 A > 16 A, on ne peut pas brancher les trois appareils en même temps.', 'P = 230 × 16 = 3 680 W.'], corr: 'a. 4 A. b. 8 A. c. 6 A. d. Non. e. 3 680 W.' }),
+    PB({ id: 'q3', etape: 3, lc: 4, comps: ['app', 'rea', 'com'], titre: 'Des trajets en train',
+      intro: `<p>Pour un train qui roule à vitesse constante, la distance est d = v × t, avec d en kilomètres, v en kilomètres par heure et t en heures.</p>`,
+      qs: [Q('a.', 'Un train roule à 240 km/h pendant 1,5 h. Calcule la distance parcourue, en kilomètres.', '240 × 1,5 = 360 km', 360), Q('b.', 'Un trajet de 450 km est parcouru à 180 km/h. Calcule sa durée, en heures.', '450 ÷ 180 = 2,5 h', 2.5), Q('c.', 'Un autre trajet dure 1,75 h. Écris cette durée en heures et minutes.', '1,75 h = 1 h 45 min', null), Q('d.', 'Un train parcourt 330 km en 1,5 h. Calcule sa vitesse, en kilomètres par heure.', '330 ÷ 1,5 = 220 km/h', 220), Q('e.', 'Un train part à 8 h 45 et roule pendant 2 h 30. À quelle heure arrive-t-il ? Justifie ta réponse.', '8 h 45 + 2 h 30 = 11 h 15', null, { lines: 3 })],
+      hints: ['d = v × t.', 't = d ÷ v.', 'Un quart d’heure, c’est 15 minutes : 0,75 h = 3 quarts d’heure.', 'v = d ÷ t.', 'Ajoute la durée du trajet à l’heure de départ.'],
+      det: ['d = 240 × 1,5 = 360 km.', 't = 450 ÷ 180 = 2,5 h.', '0,75 h = 45 min, donc 1,75 h = 1 h 45 min.', 'v = 330 ÷ 1,5 = 220 km/h.', '8 h 45 + 2 h 30 = 10 h 75, soit 11 h 15.'], corr: 'a. 360 km. b. 2,5 h. c. 1 h 45 min. d. 220 km/h. e. 11 h 15.' }));
+  chk(rnd(.2 * 15 + 1, 2) === 4 && rnd((6.4 - 1) / .2, 6) === 27 && rnd((10 - 1) / .2, 6) === 45 && rnd(.2 * 30 + 1, 2) === 7 && 920 / 230 === 4 && 1840 / 230 === 8 && 1380 / 230 === 6 && 230 * 16 === 3680 && 240 * 1.5 === 360 && 450 / 180 === 2.5 && 330 / 1.5 === 220, 'c5 problèmes du manuel (standard 2026-11)');
+  c.probsManuel = ['q1', 'q2', 'q3'];
   c.bilan = [['Je sais calculer la valeur d’une formule.', ['e1', 'p2']], ['Je sais résoudre x + a = b et a × x = b.', ['e2', 'pa']], ['Je sais résoudre a × x + b = c.', ['e2', 'p1', 'p3']], ['Je sais isoler une grandeur dans une formule.', ['e3', 'p2', 'pd']]];
   c.fiche = {
     essentiel: ['<b>Formule</b> : on remplace les lettres par les valeurs, puis on calcule (× et ÷ avant + et −).', '<b>Équation</b> : on fait la même opération des deux côtés du signe égal.', '<b>a × x + b = c</b> : x = (c − b) ÷ a.', '<b>Formules à retenir</b> : P = U × I ; U = R × I ; d = v × t ; A = L × l.', 'Toujours : <b>vérifier</b> en remplaçant x par la solution.'],

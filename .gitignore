@@ -1,0 +1,4 @@
+sources/build/
+sources/node_modules/
+*.log
+sources/notice/

@@ -4,6 +4,7 @@ const K = require('./kit3e');
 const { H, FM, R, Q, BQ, PB, ENT, tab, S, T, Rc, Ar, st, SN } = K;
 const { SK, D } = require('./sk3');
 const { MCVG } = require('../shared/gens.js');
+const FIG = require('../lib/figs.js').c3;
 const fr = (x, d) => MCVG.fr(x, d), rnd = MCVG.rnd, f1 = x => fr(rnd(x, 1), 1), f2 = x => fr(rnd(x, 2), 2), f3 = x => fr(rnd(x, 3), 3);
 
 module.exports = function (chk) {
@@ -58,30 +59,30 @@ module.exports = function (chk) {
   'Dix barres : durées de chaque tranche de 10 m de Bolt, de 1,89 s à 0,81 s, comparées à la ligne de 0,958 s d’une vitesse constante');
 
   c.notions = [
-    { titre: 'Reconnaître une situation de proportionnalité', decouvre: { txt: `À ${H('50 m')}, Usain Bolt a mis ${H('5,47 s')}. A-t-il mis ${H('2 × 5,47 s')} pour les ${H('100 m')} ? Et si 3 places de cinéma coûtent 27 €, combien coûtent 5 places ?`, img: SK.courbe() },
+    { titre: 'Reconnaître une situation de proportionnalité', decouvre: { txt: `À ${H('50 m')}, Usain Bolt a mis ${H('5,47 s')}. A-t-il mis ${H('2 × 5,47 s')} pour les ${H('100 m')} ? Et si 3 places de cinéma coûtent 27 €, combien coûtent 5 places ?`, img: '' },
       methode: ['Je range les deux grandeurs dans un tableau à deux lignes.', 'Pour chaque colonne, je calcule le quotient « 2e ligne ÷ 1re ligne ».', 'Si tous les quotients sont égaux, c’est un tableau de proportionnalité.', 'Si un seul quotient est différent, ce n’est pas proportionnel.'],
-      vois: prop,
+      vois: FIG.quotients(),
       solution: `<p>Places de cinéma : 18 ÷ 2, 27 ÷ 3 et 45 ÷ 5 valent tous 9 : proportionnel.</p><p>Bolt : 5,47 ÷ 50 ≈ 0,109 et 9,58 ÷ 100 ≈ 0,096 : quotients différents, donc pas proportionnel. Il n’a pas mis 2 × 5,47 = 10,94 s, mais 9,58 s.</p><p class="srcl">${D.srcBoltC}</p>`,
       retiens: `<p>Deux suites de nombres sont <b>proportionnelles</b> quand on passe de l’une à l’autre en multipliant toujours par le même nombre : le <b>coefficient de proportionnalité</b>.</p><p>Test : ${FM(R`\dfrac{\text{2e ligne}}{\text{1re ligne}}\text{ est le même dans toutes les colonnes}`)}</p>`,
       attention: 'Un seul quotient différent suffit à prouver que ce n’est pas proportionnel. Pour prouver que c’est proportionnel, tous les quotients doivent être égaux.',
       amoi: [['3 places coûtent 27 €. Combien coûtent 6 places si le prix est proportionnel ?', '6 = 2 × 3, donc 2 × 27 = 54 €'], ['2 → 5 et 4 → 9 : ce tableau est-il proportionnel ?', 'Non : 5 ÷ 2 = 2,5 et 9 ÷ 4 = 2,25']] },
-    { titre: 'Le coefficient de proportionnalité', decouvre: { txt: `Une recette de ramen demande ${H('160 g de nouilles')} pour ${H('2 personnes')}. Combien de nouilles faut-il pour 4, 5 ou 8 personnes ?`, img: SK.coef() },
+    { titre: 'Le coefficient de proportionnalité', decouvre: { txt: `Une recette de ramen demande ${H('160 g de nouilles')} pour ${H('2 personnes')}. Combien de nouilles faut-il pour 4, 5 ou 8 personnes ?`, img: '' },
       methode: ['Je repère une colonne complète : 2 personnes → 160 g.', 'Je calcule le coefficient : 160 ÷ 2 = 80 g par personne.', 'Je multiplie la 1re ligne par 80 pour trouver la 2e : 4 × 80, 5 × 80, 8 × 80.', 'Je contrôle avec une autre propriété : 4 personnes, c’est 2 fois 2 personnes, donc 2 × 160 g.'],
-      vois: ramen,
+      vois: FIG.coefficient(),
       solution: `<p>Le coefficient est ${FM(R`160\div2=80`)} g par personne. Pour 4 personnes : 320 g ; pour 5 personnes : 400 g ; pour 8 personnes : 640 g.</p><p>Contrôle : 8 personnes = 4 × 2 personnes, donc 4 × 160 = 640 g ✓.</p>`,
       retiens: `<p>Dans un tableau de proportionnalité, on passe de la 1re ligne à la 2e en <b>multipliant par le coefficient</b>. Pour revenir de la 2e à la 1re, on <b>divise</b> par le coefficient.</p><p>On peut aussi <b>additionner</b> deux colonnes ou <b>multiplier</b> une colonne par un nombre : cela donne une nouvelle colonne du tableau.</p>`,
       attention: 'Pour trouver le coefficient, on divise la 2e ligne par la 1re (160 ÷ 2), pas l’inverse. Et on garde l’unité : ici des grammes par personne.',
       amoi: [['Le coefficient est 80 g par personne. Quelle quantité pour 10 personnes ?', '10 × 80 = 800 g'], ['Avec 480 g de nouilles, pour combien de personnes la recette suffit-elle ?', '480 ÷ 80 = 6 personnes']] },
-    { titre: 'La quatrième proportionnelle', decouvre: { txt: `${H('3 places')} de cinéma coûtent ${H('22,50 €')}. Combien coûtent 8 places ? Et combien de places peut-on acheter avec 45 € ?`, img: SK.croix() },
+    { titre: 'La quatrième proportionnelle', decouvre: { txt: `${H('3 places')} de cinéma coûtent ${H('22,50 €')}. Combien coûtent 8 places ? Et combien de places peut-on acheter avec 45 € ?`, img: '' },
       methode: ['Je construis le tableau : 3 places → 22,50 €.', 'Je passe par l’unité : 1 place coûte 22,50 ÷ 3 = 7,50 €.', 'Je calcule la valeur cherchée : 8 × 7,50 = 60 €. Pour 45 € : 45 ÷ 7,50 = 6 places.', 'Je contrôle avec le produit en croix : 8 × 22,50 ÷ 3 = 60 €.'],
-      vois: cinema,
+      vois: FIG.quatrieme(),
       solution: `<p>1 place coûte 22,50 ÷ 3 = 7,50 €. Donc 8 places coûtent 8 × 7,50 = <b>60 €</b>, et 45 € permettent d’acheter 45 ÷ 7,50 = <b>6 places</b>.</p><p>Produit en croix : 8 × 22,50 ÷ 3 = 60 € ✓.</p>`,
       retiens: `<p>Une <b>quatrième proportionnelle</b> est la valeur manquante d’un tableau de proportionnalité à deux colonnes.</p><p><b>Passage par l’unité</b> : on calcule la valeur pour 1, puis pour la quantité demandée.</p><p><b>Produit en croix</b> : ${FM(R`\dfrac{a}{b}=\dfrac{c}{d}\ \Rightarrow\ a\times d=b\times c`)}, d’où ${FM(R`d=\dfrac{b\times c}{a}`)}</p>`,
       attention: 'Pour le produit en croix, on multiplie les deux nombres opposés (en diagonale) et on divise par le troisième. On ne multiplie pas les nombres d’une même ligne. Vérifie que la réponse est vraisemblable : 8 places coûtent plus cher que 3.',
       amoi: [['1 place coûte 7,50 €. Combien coûtent 4 places ?', '4 × 7,50 = 30 €'], ['Avec 30 €, combien de places à 7,50 € ?', '30 ÷ 7,50 = 4 places']] },
-    { titre: 'Vitesse moyenne et proportionnalité', decouvre: { txt: `Usain Bolt a couru ${H('100 m')} en ${H('9,58 s')}. Quelle est sa vitesse moyenne, en m/s puis en km/h ? A-t-il couru à vitesse constante ?`, img: SK.piste() },
+    { titre: 'Vitesse moyenne et proportionnalité', decouvre: { txt: `Usain Bolt a couru ${H('100 m')} en ${H('9,58 s')}. Quelle est sa vitesse moyenne, en m/s puis en km/h ? A-t-il couru à vitesse constante ?`, img: '' },
       methode: ['Je note la distance (100 m) et la durée (9,58 s).', 'Je calcule la vitesse moyenne : 100 ÷ 9,58 ≈ 10,44 m/s.', 'Je convertis en km/h : 1 m/s = 3,6 km/h, donc 10,44 × 3,6 ≈ 37,6 km/h.', 'Je compare les tranches de 10 m : de 0,81 s à 1,89 s, donc la vitesse varie.'],
-      vois: vite,
+      vois: FIG.tranches(DUR),
       solution: `<p>La vitesse moyenne de Bolt est 100 ÷ 9,58 ≈ ${H('10,44 m/s')}, soit environ ${H('37,6 km/h')}.</p><p>Mais sa vitesse varie : la 1re tranche de 10 m a duré 1,89 s (environ 19,0 km/h) et la plus rapide 0,81 s (environ 44,4 km/h). La distance n’est donc pas proportionnelle au temps.</p><p class="srcl">${D.srcBoltC}</p>`,
       retiens: `<p>${FM(R`\text{vitesse moyenne}=\dfrac{\text{distance}}{\text{durée}}`)}</p><p>Si la vitesse est constante, la distance est <b>proportionnelle</b> au temps et la vitesse est le coefficient de proportionnalité. Pour passer des m/s aux km/h, on multiplie par 3,6.</p>`,
       attention: 'Une vitesse moyenne n’est pas la vitesse à chaque instant. Utilise des unités cohérentes : mètres et secondes donnent des m/s, kilomètres et heures des km/h.',
@@ -141,6 +142,33 @@ module.exports = function (chk) {
       det: ['7,10 − 6,29 = 0,81 s.', '10 ÷ 0,81 ≈ 12,35 m/s.', '100 ÷ 12,35 ≈ 8,10 s. Contrôle : 10 tranches de 0,81 s = 8,10 s ✓.', '9,58 − 8,10 = 1,48 s : à cette vitesse il aurait gagné près d’une seconde et demie.', 'Pour courir à 12,35 m/s dès le départ, il faudrait partir lancé. Or la 1re tranche dure 1,89 s (2,3 fois plus que 0,81 s) : il accélère d’abord. La vitesse n’est pas constante.'], corr: 'a. 0,81 s. b. 12,35 m/s. c. 8,10 s. d. 1,48 s. e. Il accélère au départ.' })];
   chk(f3(5.47 / 50) === '0,109' && f3(9.58 / 100) === '0,096' && rnd(5.47 / 50, 4) === .1094 && rnd(9.58 / 100, 4) === .0958 && 1.89 / .81 > 2.3 && rnd(1.89 / .81, 1) === 2.3, 'c3 problèmes');
 
+
+  /* ---------- problèmes du manuel, standard 2026-11 : aucune donnée reprise d’un exemple du cours, aucune réponse dans l’énoncé ---------- */
+  const SRC_FLOJO = 'Source : World Athletics, records du monde du 100 m (Indianapolis, 16 juillet 1988) et du 200 m (Séoul, 29 septembre 1988), consultée le 12 novembre 2026.';
+  c.probs.push(
+    PB({ id: 'q1', etape: 2, lc: 3, comps: ['app', 'rea', 'val'], titre: 'Des blocs de fer dans Minecraft',
+      intro: `<p>Dans le jeu vidéo ${H('Minecraft')}, on fabrique ${H('1 bloc de fer')} avec ${H('9 lingots de fer')}. Le nombre de lingots est proportionnel au nombre de blocs.</p><p class="srcl">${D.srcMc}</p>`,
+      qs: [Q('a.', 'Combien de lingots faut-il pour fabriquer 8 blocs de fer ?', '8 × 9 = 72 lingots', 72), Q('b.', 'Combien de blocs de fer fabrique-t-on avec 99 lingots ?', '99 ÷ 9 = 11 blocs', 11), Q('c.', 'Un joueur possède 150 lingots. Combien de blocs entiers peut-il fabriquer ?', '150 ÷ 9 ≈ 16,7 : 16 blocs entiers', 16), Q('d.', 'Combien de lingots lui reste-t-il après avoir fabriqué ces blocs ? Justifie ta réponse par un calcul.', '16 × 9 = 144 ; 150 − 144 = 6 lingots', 6, { lines: 3 })],
+      err: { 0: [{ v: 17, m: 'Tu as additionné 8 et 9. Il faut multiplier : 8 × 9.' }], 1: [{ v: 891, m: 'Tu as multiplié. Pour trouver un nombre de blocs, divise par 9.' }], 2: [{ v: 17, m: 'Un bloc incomplet ne se fabrique pas : garde seulement le nombre entier de blocs.' }] },
+      hints: ['Lingots = blocs × 9.', 'Blocs = lingots ÷ 9.', 'Divise 150 par 9 et garde la partie entière.', 'Calcule les lingots utilisés, puis soustrais.'],
+      det: ['8 × 9 = 72 lingots.', '99 ÷ 9 = 11 blocs. Contrôle : 11 × 9 = 99 ✓.', '150 ÷ 9 ≈ 16,7 : il peut fabriquer 16 blocs entiers.', '16 × 9 = 144 lingots utilisés ; 150 − 144 = 6 lingots restent.'], corr: 'a. 72. b. 11. c. 16. d. 6.' }),
+    PB({ id: 'q2', etape: 3, lc: 2, comps: ['app', 'ana', 'rea', 'val'], titre: 'Le punch de la soirée jeux', autravail: { comp: 'rea', txt: 'adapter une quantité de peinture, de colle ou de produit à la taille du chantier.' },
+      intro: `<p>Pour une soirée jeux vidéo, on prépare un punch sans alcool. La recette est écrite pour ${H('4 personnes')}. On veut la préparer pour ${H('10 personnes')}. Les quantités sont proportionnelles au nombre de personnes.</p>${tab(['Ingrédient', 'Jus d’orange', 'Jus d’ananas', 'Sirop de grenadine'], [['Quantité pour 4 personnes (en cL)', '60', '40', '8']])}`,
+      qs: [Q('a.', 'Par quel nombre faut-il multiplier les quantités pour passer de 4 à 10 personnes ?', '10 ÷ 4 = 2,5', 2.5), Q('b.', 'Calcule la quantité de jus d’orange pour 10 personnes, en centilitres.', '60 × 2,5 = 150 cL', 150), Q('c.', 'Calcule la quantité de jus d’ananas pour 10 personnes, en centilitres.', '40 × 2,5 = 100 cL', 100), Q('d.', 'Calcule la quantité de sirop de grenadine pour 10 personnes, en centilitres.', '8 × 2,5 = 20 cL', 20), Q('e.', 'Le saladier contient 3 L, soit 300 cL. Peut-il contenir tout le punch préparé pour 10 personnes ? Justifie ta réponse.', 'Oui : 150 + 100 + 20 = 270 cL, et 270 cL < 300 cL', null, { lines: 3 })],
+      err: { 0: [{ v: 6, m: 'Tu as soustrait 10 − 4. Le coefficient est le quotient 10 ÷ 4.' }, { v: .4, m: 'Tu as divisé à l’envers : 10 ÷ 4.' }] },
+      hints: ['Coefficient = nombre de personnes voulu ÷ nombre de personnes de la recette.', 'Quantité = 60 × coefficient.', 'Même méthode avec 40 cL.', 'Même méthode avec 8 cL.', 'Additionne les trois quantités et compare à 300 cL.'],
+      det: ['10 ÷ 4 = 2,5.', '60 × 2,5 = 150 cL.', '40 × 2,5 = 100 cL.', '8 × 2,5 = 20 cL.', '150 + 100 + 20 = 270 cL. Comme 270 cL < 300 cL, le saladier suffit.'], corr: 'a. 2,5. b. 150 cL. c. 100 cL. d. 20 cL. e. Oui : 270 cL < 300 cL.' }),
+    PB({ id: 'q3', etape: 4, lc: 4, cls: 'bac', comps: ['app', 'ana', 'rea', 'val', 'com'], titre: 'Les deux records de Florence Griffith-Joyner', autravail: { comp: 'val', txt: 'vérifier qu’un relevé (consommation, production, vitesse) est proportionnel avant d’utiliser un coefficient.' },
+      intro: `<p>L’Américaine ${H('Florence Griffith-Joyner')} détient depuis 1988 les records du monde féminins du 100 m et du 200 m.</p>${tab(['Distance (en m)', '100', '200'], [['Temps du record (en s)', '10,49', '21,34']])}<p class="srcl">${SRC_FLOJO}</p>`,
+      qs: [BQ('1', 'Calculer sa vitesse moyenne sur le 100 m, en mètres par seconde, arrondie au centième.', 'rea', '100 ÷ 10,49 ≈ 9,53 m/s', rnd(100 / 10.49, 2), { tol: .006 }),
+        BQ('2', 'Convertir cette vitesse en kilomètres par heure, arrondie au dixième. On rappelle que 1 m/s = 3,6 km/h.', 'rea', '9,53 × 3,6 ≈ 34,3 km/h', 34.3, { tol: .06 }),
+        BQ('3', 'Si le temps était proportionnel à la distance, quel serait son temps sur le 200 m, en secondes ?', 'ana', '2 × 10,49 = 20,98 s', 20.98, { tol: .006 }),
+        BQ('4', 'Le temps de ses records est-il proportionnel à la distance ? Justifier la réponse.', 'val', 'Non : 21,34 s ≠ 20,98 s', null, { lines: 3 }),
+        BQ('5', 'Sur quelle course sa vitesse moyenne est-elle la plus grande ? Justifier par un calcul et rédiger une phrase de réponse.', 'com', 'Sur le 100 m : 200 ÷ 21,34 ≈ 9,37 m/s, et 9,37 < 9,53', null, { lines: 4 })],
+      hints: ['Vitesse = distance ÷ durée.', 'Multiplie la vitesse en m/s par 3,6.', '200 m, c’est 2 fois 100 m.', 'Compare le temps calculé au temps réel.', 'Calcule 200 ÷ 21,34 et compare.'],
+      det: ['100 ÷ 10,49 ≈ 9,533, soit 9,53 m/s au centième.', '9,53 × 3,6 = 34,308, soit 34,3 km/h au dixième.', '200 m = 2 × 100 m, donc 2 × 10,49 = 20,98 s.', '21,34 s ≠ 20,98 s : le temps n’est pas proportionnel à la distance (quotients 0,1049 et 0,1067).', '200 ÷ 21,34 ≈ 9,37 m/s, plus petit que 9,53 m/s : sa vitesse moyenne est la plus grande sur le 100 m.'], corr: '1. 9,53 m/s. 2. 34,3 km/h. 3. 20,98 s. 4. Non. 5. Sur le 100 m.' }));
+  chk(8 * 9 === 72 && 99 / 9 === 11 && Math.floor(150 / 9) === 16 && 150 - 144 === 6 && 10 / 4 === 2.5 && 60 * 2.5 === 150 && 40 * 2.5 === 100 && 8 * 2.5 === 20 && 150 + 100 + 20 === 270 && f2(100 / 10.49) === '9,53' && f1(100 / 10.49 * 3.6) === '34,3' && f1(9.53 * 3.6) === '34,3' && rnd(2 * 10.49, 2) === 20.98 && f2(200 / 21.34) === '9,37' && rnd(10.49 / 100, 4) === .1049 && rnd(21.34 / 200, 4) === .1067, 'c3 problèmes du manuel (standard 2026-11)');
+  c.probsManuel = ['q1', 'q2', 'q3'];
   c.bilan = [['Je sais reconnaître un tableau de proportionnalité.', ['e1', 'p1', 'p3']], ['Je sais trouver le coefficient et compléter un tableau.', ['e2', 'pa', 'p2']], ['Je sais calculer une quatrième proportionnelle.', ['e3', 'p1', 'p2']], ['Je sais calculer une vitesse moyenne.', ['e3', 'p3', 'pd']]];
   c.fiche = {
     essentiel: ['<b>Proportionnalité</b> : on passe d’une ligne à l’autre en multipliant par un même nombre, le <b>coefficient</b>.', '<b>Test</b> : tous les quotients (2e ligne ÷ 1re ligne) sont égaux. Un seul différent : pas proportionnel.', '<b>Passage par l’unité</b> : valeur pour 1, puis pour la quantité demandée.', '<b>Produit en croix</b> : a/b = c/d donne d = b × c ÷ a.', '<b>Vitesse moyenne</b> = distance ÷ durée ; 1 m/s = 3,6 km/h.'],

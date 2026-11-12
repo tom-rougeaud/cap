@@ -2,7 +2,7 @@
    qui évoquent la pop culture et les 10 chapitres de 3e (cartes, dé, clap de cinéma, bulle, écran, figurine…). Jamais de personnage ni de logo.
    Titre, nom de l’auteur en bas, QR code vers l’appli. viewBox 840 × 1188 (1 unité = 0,25 mm). */
 'use strict';
-const YEL = '#E9F797', W = '#FFFFFF', MOT = '#5A4700';
+const YEL = '#DCEBC8', W = '#FFFFFF', MOT = '#5A4700';
 /* tirage reproductible pour le tremblé du trait */
 function rng(seed) { let a = seed >>> 0; return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 let R = rng(7);
@@ -66,7 +66,7 @@ const M = {
   bulle: () => P(poly([[-90, -60], [90, -60], [90, 40], [-10, 40], [-50, 80], [-40, 40], [-90, 40]], true)) + TX(0, 8, '!', 70, { a: 'middle' }),
   ecran: () => P(rect(-100, -60, 200, 112) + line(-30, 74, 30, 74) + line(0, 52, 0, 74) + poly([[-18, -24], [-18, 18], [22, -3]], true)) + TX(70, -70, '16:9', 30, { a: 'middle' }),
   pixel: () => [[-2, -1], [-1, -2], [1, -2], [2, -1], [-3, 0], [-2, 0], [-1, 0], [0, -1], [1, 0], [2, 0], [3, 0], [-2, 1], [-1, 1], [0, 1], [1, 1], [2, 1], [-1, 2], [0, 2], [1, 2], [0, 3]].map(([x, y]) => P(rect(x * 22 - 10, y * 22 - 10, 20, 20, 1), { w: 3 })).join(''),
-  figurine: () => P(rect(-20, -90, 40, 40) + rect(-30, -46, 60, 70) + line(-14, 24, -18, 90) + line(14, 24, 18, 90) + line(-60, 96, 60, 96)) + TX(80, -40, '1/144', 30, { a: 'middle' }),
+  figurine: () => P(rect(-20, -90, 40, 40) + rect(-30, -46, 60, 70) + line(-14, 24, -18, 90) + line(14, 24, 18, 90) + line(-60, 96, 60, 96)),
   facto: () => TX(0, 0, '2³ × 5', 64, { a: 'middle' }),
   sqrt: () => TX(0, 0, '√49', 70, { a: 'middle' }),
   star: () => P(line(-20, 0, 20, 0) + line(0, -20, 0, 20) + line(-12, -12, 12, 12, 1) + line(-12, 12, 12, -12, 1), { w: 3 })
@@ -80,7 +80,7 @@ function cover(o = {}) {
   R = rng(7);
   const qr = o.qr || '';
   const NAVY = o.prof ? PR.ink : '#1D2240';
-  let s = `<svg viewBox="0 0 840 1188" xmlns="http://www.w3.org/2000/svg" class="cvsvg"><rect width="840" height="1188" fill="${o.prof ? PR.bg : '#E9F797'}"/>`;
+  let s = `<svg viewBox="0 0 840 1188" xmlns="http://www.w3.org/2000/svg" class="cvsvg"><rect width="840" height="1188" fill="${o.prof ? PR.bg : '#DCEBC8'}"/>`;
   // motifs : [nom, x, y, rotation, échelle, opacité]
   const L = [['card', 140, 160, -8, .95, .24], ['ecran', 640, 150, 5, .95, .22], ['facto', 400, 120, -4, .7, .18], ['star', 290, 50, 0, 1, .3],
     ['d20', 130, 360, 6, .85, .22], ['clap', 720, 370, -6, .9, .22], ['sqrt', 330, 320, -6, .7, .16], ['pct', 560, 300, 10, .8, .16],
@@ -97,10 +97,10 @@ function cover(o = {}) {
   s += `<g font-family="Nunito Sans"><text x="110" y="690" font-size="36" font-weight="700" fill="${W}">Programme officiel 2019</text></g>`;
   // bas de page : auteur et QR code
   s += `<rect x="0" y="1040" width="840" height="148" fill="${NAVY}" opacity=".9"/>`;
-  s += `<rect x="70" y="748" width="${o.prof ? 330 : 290}" height="52" rx="26" fill="${o.prof ? '#E9F797' : NAVY}"/><text x="${o.prof ? 235 : 215}" y="783" font-family="Nunito Sans" font-size="24" font-weight="800" fill="${o.prof ? '#1D2240' : W}" text-anchor="middle">${o.prof ? 'Spécimen enseignant' : 'Manuel de l’élève'}</text>`;
-  s += `<text x="70" y="1124" font-family="Nunito Sans" font-size="22" font-weight="700" fill="#E9F797">Tom Rougeaud</text>`;
+  s += `<rect x="70" y="748" width="${o.prof ? 330 : 290}" height="52" rx="26" fill="${o.prof ? '#DCEBC8' : NAVY}"/><text x="${o.prof ? 235 : 215}" y="783" font-family="Nunito Sans" font-size="24" font-weight="800" fill="${o.prof ? '#1D2240' : W}" text-anchor="middle">${o.prof ? 'Spécimen enseignant' : 'Manuel de l’élève'}</text>`;
+  s += `<text x="70" y="1124" font-family="Nunito Sans" font-size="22" font-weight="700" fill="#DCEBC8">Tom Rougeaud</text>`;
   if (qr) { const Q = 214, bx = 840 - 56 - (Q + 28); s += `<rect x="${bx}" y="880" width="${Q + 28}" height="${Q + 78}" rx="22" fill="${W}"/><g transform="translate(${bx + 14} 894) scale(${(Q / +qr.vb.split(' ')[2]).toFixed(4)})">${qr.body}</g><text x="${bx + (Q + 28) / 2}" y="${894 + Q + 38}" font-family="Nunito Sans" font-size="23" font-weight="800" fill="#1D2240" text-anchor="middle">Ouvrir l’appli</text>`; }
-  if (o.prof) s += profLayer('#E9F797');
+  if (o.prof) s += profLayer('#DCEBC8');
   return s + '</svg>';
 }
 module.exports = { cover, M };

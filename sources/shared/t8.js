@@ -33,20 +33,20 @@
       const items = [num('a', TVA, 2, eu(TVA), [{ v: HT, m: 'C’est le prix HT. Multiplie-le par 0,20.' }]), num('b', TTC, 2, eu(TTC), [{ v: TVA, m: 'C’est la TVA. Ajoute-la au prix HT.' }]), qcm('c', ['on ajoute la TVA au prix HT', 'on retire la TVA du prix HT'], 0, 'on ajoute la TVA au prix HT')];
       xs(items, { a: `${HT} × 0,20 = ${eu(TVA)}`, b: `${HT} + ${eu(TVA)} = ${eu(TTC)} €`, c: 'le prix TTC est plus grand que le prix HT' });
       return { titre: 'Le prix TTC, pas à pas', consigne: `Un article coûte ${HT} € HT. La TVA est de 20 %.`,
-        support: table(['Ligne', 'Montant'], [['Prix HT', `${HT} €`], ['TVA de 20 %', '?'], ['Prix TTC', '?']]) + `<p class="tr-l">Début du calcul : TVA = ${HT} × 0,20</p>` + ln('a', 'TVA', eu(TVA), 14, '€') + ln('b', 'Prix TTC', eu(TTC), 14, '€') + `<p class="tr-l">c. Pour trouver le TTC, que fait-on ? (voir la case en dessous)</p>`, items,
+        support: table(['Ligne', 'Montant'], [['Prix HT', `${HT} €`], ['TVA de 20 %', '?'], ['Prix TTC', '?']]) + `<p class="tr-l">Début du calcul : TVA = ${HT} × 0,20</p>` + ln('a', 'TVA', eu(TVA), 14, '€') + ln('b', 'Prix TTC', eu(TTC), 14, '€') + `<p class="tr-l">c. Pour trouver le TTC, que fait-on ?</p>`, items,
         hints: ['Multiplie le prix HT par 0,20.', 'Additionne le prix HT et la TVA.', 'Le TTC est plus grand que le HT.'] };
     }
     const hA = pick(R, [40, 60, 80, 100]), hB = pick(R, [40, 50, 60, 75]), tA = rnd(hA * 1.1, 2), tB = rnd(hB * 1.2, 2), cheap = tA < tB ? 0 : 1, T3 = rnd(H2 * 1.2, 2);
     const items = [num('a', tA, 2, eu(tA), [{ v: rnd(hA * 1.2, 2), m: 'Pour ce produit, la TVA est de 10 % : multiplie par 1,10.' }]), num('b', tB, 2, eu(tB)), qcm('c', ['le produit A', 'le produit B'], cheap, cheap ? 'le produit B' : 'le produit A'), num('d', H2, 2, eu(H2), [{ v: rnd(T3 * .8, 2), m: 'Tu as retiré 20 % du TTC. Pour retrouver le HT, divise par 1,20.' }])];
     xs(items, { a: `${hA} × 1,10 = ${eu(tA)} €`, b: `${hB} × 1,20 = ${eu(tB)} €`, c: `${eu(Math.min(tA, tB))} < ${eu(Math.max(tA, tB))} : ${cheap ? 'B' : 'A'} est moins cher TTC`, d: `${eu(T3)} ÷ 1,20 = ${eu(H2)} €` });
     return { titre: 'Deux produits, deux taux', consigne: `Le produit A coûte ${hA} € HT avec 10 % de TVA. Le produit B coûte ${hB} € HT avec 20 % de TVA.`,
-      support: table(['Produit', 'Prix HT', 'TVA'], [['A', `${hA} €`, '10 %'], ['B', `${hB} €`, '20 %']]) + ln('a', 'Prix TTC de A', eu(tA), 14, '€') + ln('b', 'Prix TTC de B', eu(tB), 14, '€') + `<p class="tr-l">c. Quel produit est le moins cher en TTC ? (voir la case en dessous)</p><p class="tr-l">Un produit C coûte ${eu(T3)} € TTC avec 20 % de TVA.</p>` + ln('d', 'Prix HT de C', eu(H2), 14, '€'), items,
+      support: table(['Produit', 'Prix HT', 'TVA'], [['A', `${hA} €`, '10 %'], ['B', `${hB} €`, '20 %']]) + ln('a', 'Prix TTC de A', eu(tA), 14, '€') + ln('b', 'Prix TTC de B', eu(tB), 14, '€') + `<p class="tr-l">c. Quel produit est le moins cher en TTC ?</p><p class="tr-l">Un produit C coûte ${eu(T3)} € TTC avec 20 % de TVA.</p>` + ln('d', 'Prix HT de C', eu(H2), 14, '€'), items,
       hints: ['A : multiplie par 1,10. B : multiplie par 1,20.', 'Calcule chaque prix TTC.', 'Compare les deux prix TTC.', 'Divise le TTC par 1,20.'] };
   });
 
   /* e2 · remise et facture */
   lv('c8e2', (R, niv) => {
-    const brut = pick(R, [50, 60, 80, 100, 120, 150]), rp = pick(R, [10, 15, 20, 25]), rem = rnd(brut * rp / 100, 2), net = rnd(brut - rem, 2), tva = rnd(net * .2, 2), ttc = rnd(net + tva, 2);
+    const brut = pick(R, [60, 100, 120, 140, 150, 160]), rp = pick(R, [10, 25, 30, 35]), rem = rnd(brut * rp / 100, 2), net = rnd(brut - rem, 2), tva = rnd(net * .2, 2), ttc = rnd(net + tva, 2);
     if (niv === 0) {
       const items = [num('a', rem, 2, eu(rem), [{ v: brut, m: 'C’est le prix brut. La remise est ' + rp + ' % de ce prix : multiplie par ' + fr(rp / 100, 2) + '.' }]), num('b', net, 2, eu(net), [{ v: rem, m: 'C’est la remise. Le net commercial est le prix brut moins la remise.' }]), num('c', tva, 2, eu(tva), [{ v: rnd(brut * .2, 2), m: 'Tu as calculé 20 % du prix brut. La TVA se calcule sur le net commercial.' }]), num('d', ttc, 2, eu(ttc), [{ v: rnd(brut * 1.2, 2), m: 'Tu as oublié la remise. Utilise le net commercial : net × 1,20.' }])];
       xs(items, { a: `${brut} × ${fr(rp / 100, 2)} = ${eu(rem)} €`, b: `${brut} − ${eu(rem)} = ${eu(net)} € HT`, c: `${eu(net)} × 0,20 = ${eu(tva)} €`, d: `${eu(net)} + ${eu(tva)} = ${eu(ttc)} €` });
@@ -66,13 +66,13 @@
     const items = [num('a', N2, 2, eu(N2), [{ v: rnd(TT * .8, 2), m: 'Tu as retiré 20 % du TTC. Pour retrouver le HT, divise par 1,20.' }]), num('b', B2, 2, eu(B2), [{ v: rnd(N2 * (1 + pr / 100), 2), m: 'Tu as ajouté ' + pr + ' % au net. Le net est ' + (100 - pr) + ' % du brut : divise par ' + fr(1 - pr / 100, 2) + '.' }]), num('c', rnd(B2 - N2, 2), 2, eu(B2 - N2)), qcm('d', ['le net commercial', 'le prix brut', 'le total TTC'], 0, 'le net commercial')];
     xs(items, { a: `${eu(TT)} ÷ 1,20 = ${eu(N2)} € HT`, b: `${eu(N2)} ÷ ${fr(1 - pr / 100, 2)} = ${eu(B2)} € HT`, c: `${eu(B2)} − ${eu(N2)} = ${eu(B2 - N2)} €`, d: 'la remise s’applique avant la TVA, et la TVA se calcule sur le net commercial' });
     return { titre: 'La facture à l’envers', consigne: `Une facture indique ${eu(TT)} € TTC (TVA de 20 %), après une remise de ${pr} % sur le prix brut HT.`,
-      support: table(['Ligne de la facture', 'Montant'], [['Prix brut HT', '?'], [`Remise de ${pr} %`, '?'], ['Net commercial HT', '?'], ['TVA de 20 %', '—'], ['Total TTC', `${eu(TT)} €`]]) + ln('a', 'Net commercial HT', eu(N2), 14, '€') + ln('b', 'Prix brut HT', eu(B2), 14, '€') + ln('c', 'Montant de la remise', eu(B2 - N2), 14, '€') + `<p class="tr-l">d. La TVA se calcule sur : (voir la case en dessous)</p>`, items,
+      support: table(['Ligne de la facture', 'Montant'], [['Prix brut HT', '?'], [`Remise de ${pr} %`, '?'], ['Net commercial HT', '?'], ['TVA de 20 %', '—'], ['Total TTC', `${eu(TT)} €`]]) + ln('a', 'Net commercial HT', eu(N2), 14, '€') + ln('b', 'Prix brut HT', eu(B2), 14, '€') + ln('c', 'Montant de la remise', eu(B2 - N2), 14, '€') + `<p class="tr-l">d. La TVA se calcule sur :</p>`, items,
       hints: ['Divise le TTC par 1,20.', 'Le net est ' + (100 - pr) + ' % du brut : divise par ' + fr(1 - pr / 100, 2) + '.', 'Brut − net.', 'La remise est faite avant la TVA.'] };
   });
 
   /* e3 · marge et taux de marge */
   lv('c8e3', (R, niv) => {
-    const A = pick(R, [20, 25, 40, 50, 80]), p = pick(R, [20, 25, 30, 40, 50]), V = rnd(A * (1 + p / 100), 2), M = rnd(V - A, 2), A2 = pick(R, [20, 40, 60, 80]), p2 = pick(R, [10, 25, 50]), V2 = rnd(A2 * (1 + p2 / 100), 2);
+    const A = pick(R, [24, 30, 45, 60, 75]), p = pick(R, [20, 25, 35, 45, 50]), V = rnd(A * (1 + p / 100), 2), M = rnd(V - A, 2), A2 = pick(R, [32, 48, 64, 72]), p2 = pick(R, [10, 25, 50]), V2 = rnd(A2 * (1 + p2 / 100), 2);
     if (niv === 0) {
       const items = [num('a', M, 2, eu(M), [{ v: V, m: 'C’est le prix de vente. La marge est la différence entre vente et achat.' }]), num('b', p, 1, String(p), [{ v: rnd(M / V * 100, 1), m: 'Tu as divisé par le prix de vente. On divise la marge par le prix d’achat.' }, { v: rnd(M / A, 3), m: 'Tu as oublié de multiplier par 100 pour écrire un pourcentage.' }]), num('c', V2, 2, eu(V2), [{ v: rnd(A2 * p2 / 100, 2), m: 'C’est seulement la marge. Le prix de vente est le prix d’achat plus la marge.' }])];
       xs(items, { a: `${eu(V)} − ${eu(A)} = ${eu(M)} €`, b: `${eu(M)} ÷ ${eu(A)} = ${fr(rnd(M / A, 3), 2)}, soit ${p} %`, c: `${eu(A2)} × ${fr(1 + p2 / 100, 2)} = ${eu(V2)} €` });
@@ -94,7 +94,7 @@
     const items = [num('a', t1, 1, f1(t1), [{ v: rnd(m1 / (a1 + m1) * 100, 1), m: 'Tu as divisé par le prix de vente. Divise par le prix d’achat.' }]), num('b', t2, 1, f1(t2), [{ v: rnd(m2 / (a2 + m2) * 100, 1), m: 'Tu as divisé par le prix de vente. Divise par le prix d’achat.' }]), qcm('c', ['l’article 1', 'l’article 2'], better, better ? 'l’article 2' : 'l’article 1'), num('d', vTTC, 2, eu(vTTC), [{ v: a1 + m1, m: 'C’est le prix HT. Ajoute la TVA : multiplie par 1,20.' }])];
     xs(items, { a: `${m1} ÷ ${a1} = ${fr(rnd(m1 / a1, 3), 2)}, soit ${f1(t1)} %`, b: `${m2} ÷ ${a2} = ${fr(rnd(m2 / a2, 3), 2)}, soit ${f1(t2)} %`, c: `${f1(Math.max(t1, t2))} % > ${f1(Math.min(t1, t2))} % : ${better ? 'l’article 2' : 'l’article 1'} a le meilleur taux`, d: `${a1 + m1} × 1,20 = ${eu(vTTC)} €` });
     return { titre: 'Quel article rapporte le mieux ?', consigne: 'Une boutique compare deux articles. Les prix sont HT.',
-      support: table(['Article', 'Achat HT (€)', 'Marge (€)'], [['1', String(a1), String(m1)], ['2', String(a2), String(m2)]]) + ln('a', 'Taux de marge de l’article 1', f1(t1), 14, '%') + ln('b', 'Taux de marge de l’article 2', f1(t2), 14, '%') + `<p class="tr-l">c. Quel article a le meilleur taux de marge ? (voir la case en dessous)</p>` + ln('d', 'Prix de vente TTC de l’article 1 (TVA de 20 %)', eu(vTTC), 14, '€'), items,
+      support: table(['Article', 'Achat HT (€)', 'Marge (€)'], [['1', String(a1), String(m1)], ['2', String(a2), String(m2)]]) + ln('a', 'Taux de marge de l’article 1', f1(t1), 14, '%') + ln('b', 'Taux de marge de l’article 2', f1(t2), 14, '%') + `<p class="tr-l">c. Quel article a le meilleur taux de marge ?</p>` + ln('d', 'Prix de vente TTC de l’article 1 (TVA de 20 %)', eu(vTTC), 14, '€'), items,
       hints: ['Divise la marge par le prix d’achat, puis multiplie par 100.', 'Même méthode pour l’article 2.', 'Compare les deux taux.', 'Prix de vente = achat + marge ; puis × 1,20.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};

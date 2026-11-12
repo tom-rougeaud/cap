@@ -19,6 +19,8 @@
   const num = (t, v, d, u) => {
     const r = rnd(v, d), ex = Math.abs(v - r) < 1e-9;
     if (!ex && !ROUND.test(t)) throw new Error('arrondi non annoncé : ' + t);
+    /* standard 2026-11 : un arrondi n’est annoncé que s’il existe */
+    if (ex) t = t.replace(/\s*\((arrondie?s? [^)]*|valeur exacte)\)/gi, '').replace(/,\s*arrondie?s? (au|à l’)[^.?]*([.?])/gi, '$2');
     const s = u === '€' ? fr(r, 2) : (d === 0 ? fr(r, 0) : fr(r));
     return it(t, s.replace('-', M) + (u ? ' ' + u : ''), r, { tol: ex ? 1e-9 : 0.5 * Math.pow(10, -d) + 1e-9 });
   };
@@ -92,7 +94,7 @@
     R => { const c = pick(R, [2, 2.5, 4, 5]), v = pick(R, [20, 30, 50]); return num(`Le coefficient de proportionnalité est ${fr(c)}. Quelle quantité correspond à la valeur ${v} ?`, v / c, 1); },
     R => { const [q, v] = pick(R, [[3, 4.5], [8, 6], [6, 9], [5, 12.5], [4, 7]]); return num(`Quantité ${q}, valeur ${fr(v)}. Quel est le coefficient de proportionnalité (valeur exacte) ?`, v / q, 3); }
   ]);
-  def('c3', 3, 'La quatrième proportionnelle', 'Produit en croix : a ÷ b = c ÷ d donne d = b × c ÷ a.', [
+  def('c3', 3, 'La quatrième proportionnelle', 'Dans un tableau de proportionnalité, on multiplie les deux nombres en diagonale, puis on divise par le troisième.', [
     R => { const [a, b, c] = pick(R, [[3, 12, 5], [4, 10, 6], [5, 15, 7], [2, 7, 6], [4, 9, 10]]); return num(`${a} objets coûtent ${b} €. Combien coûtent ${c} objets, en euros ? (arrondi au centime)`, b * c / a, 2, '€'); },
     R => { const [a, b, c] = pick(R, [[6, 15, 4], [8, 20, 6], [5, 12, 10], [3, 7, 9]]); return num(`${a} objets coûtent ${b} €. Combien d’objets peut-on acheter avec ${fr(b * c / a)} € ?`, c, 0); },
     R => { const [l, f, n] = pick(R, [[2, 250, 5], [3, 400, 2], [4, 500, 10], [5, 750, 4]]); return num(`Pour ${l} personnes, il faut ${f} g de farine. Combien de grammes pour ${l * n} personnes ?`, f * n, 0, 'g'); },

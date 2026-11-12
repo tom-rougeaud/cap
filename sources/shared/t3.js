@@ -3,7 +3,7 @@
 (function (root) {
   'use strict';
   const { DEP, TR, H } = typeof module !== 'undefined' ? require('./train.js').MCVT : root.MCVT;
-  const { fr, tb, T, svg, table, num, qcm, pick, int, xs, lv, shuffle, rnd } = H;
+  const { fr, tb, T, svg, table, num, qcm, pick, int, xs, lv, shuffle, rnd, ln } = H;
   const f1 = x => fr(rnd(x, 1), 1), f2 = x => fr(rnd(x, 2), 2);
   /* Usain Bolt, finale du 100 m, Berlin, 16 août 2009 : temps de passage (World Athletics ; arXiv:0911.1952, tableau I) */
   const BOLT = [[0, 0], [10, 1.89], [20, 2.88], [30, 3.78], [40, 4.64], [50, 5.47], [60, 6.29], [70, 7.10], [80, 7.92], [90, 8.75], [100, 9.58]];
@@ -29,6 +29,18 @@
   /* e1 · reconnaître une situation de proportionnalité */
   const tabXY = (xl, yl, X, Y) => `<table class="dt tcx dt-sm"><thead><tr><th>${xl}</th>${X.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody><tr><th>${yl}</th>${Y.map(y => `<td>${y}</td>`).join('')}</tr></tbody></table>`;
   lv('c3e1', (R, niv) => {
+    if (niv === 0) { /* standard 2026-11 : quotients d’abord, conclusion ensuite ; virgule décimale ; aucune méthode dans la consigne */
+      const prx = y => Number.isInteger(y) ? String(y) : fr(y, 2);
+      const [intro, xl2, obj] = pick(R, [['Une boutique affiche le prix de ses paquets de cartes à collectionner', 'Nombre de paquets', 'paquets'], ['Un bowling affiche ses tarifs', 'Nombre de parties', 'parties'], ['Un stand de convention manga affiche le prix de ses figurines', 'Nombre de figurines', 'figurines']]);
+      const k = pick(R, [2.5, 4, 6, 7.5, 9, 12]), X = [2, 3, 5, 8, 10], isP = R() < .5, Y = X.map(x => rnd(x * k, 2)), idx = int(R, 1, 3), dl = pick(R, [2, 3, -2, -3, 4]);
+      if (!isP) Y[idx] = rnd(Y[idx] + dl, 2);
+      const q1 = Y[idx] / X[idx], ar = Math.abs(q1 - rnd(q1, 2)) > 1e-9;
+      const items = [num('a', k, 2, fr(k)), num('b', rnd(q1, 2), 2, ar ? f2(q1) : fr(rnd(q1, 2))), qcm('c', ['oui', 'non'], isP ? 0 : 1, isP ? 'oui' : 'non')];
+      xs(items, { a: `${prx(Y[0])} ÷ ${X[0]} = ${fr(k)}`, b: `${prx(Y[idx])} ÷ ${X[idx]} ${ar ? '≈' : '='} ${ar ? f2(q1) : fr(rnd(q1, 2))}`, c: isP ? `les quotients sont tous égaux à ${fr(k)} : le prix est proportionnel au nombre de ${obj}` : `les quotients ${fr(k)} et ${ar ? f2(q1) : fr(rnd(q1, 2))} sont différents : le prix n’est pas proportionnel au nombre de ${obj}` });
+      return { titre: 'Proportionnel ou pas ?', consigne: `${intro}. Le tableau donne le prix payé selon le nombre de ${obj}.`,
+        support: tabXY(xl2, 'Prix (en €)', X, Y.map(prx)) + ln('a', `Quotient prix ÷ nombre dans la colonne « ${X[0]} »`, fr(k), 14) + ln('b', `Quotient prix ÷ nombre dans la colonne « ${X[idx]} »${ar ? ' (arrondi au centième)' : ''}`, items[1].a, 14) + `<p class="tr-l">c. Le prix est-il proportionnel au nombre de ${obj} ?</p>`, items,
+        hints: ['Divise le prix par le nombre, dans la colonne demandée.', 'Fais le même calcul dans l’autre colonne.', 'Compare les deux quotients.'] };
+    }
     const [nom, xl, yl] = pick(R, CTXK);
     if (niv === 0) {
       const k = pick(R, [2.5, 4, 6, 7.5, 9, 12]), X = [2, 3, 5, 8, 10], prop = R() < .5, Y = X.map(x => rnd(x * k, 2)), idx = int(R, 1, 3);
@@ -40,7 +52,7 @@
         m = { a: `les quotients ne sont pas tous égaux : ${f2(q0)} et ${f2(q1)}`, b: `${fr(Y[0])} ÷ ${X[0]} = ${f2(q0)}`, c: `${fr(Yshow[idx])} ÷ ${X[idx]} = ${f2(q1)}` }; }
       xs(items, m);
       return { titre: 'Proportionnel ou pas ?', consigne: `Un tableau relevé dans une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On veut savoir si c’est un tableau de proportionnalité : on calcule 2e ligne ÷ 1re ligne dans plusieurs colonnes.`,
-        support: tabXY(xl, yl, X, Yshow) + `<p class="tr-l">a. Est-ce un tableau de proportionnalité ? (voir la case en dessous)</p>` + (prop ? `<p class="tr-l">b. Coefficient de proportionnalité : ${tb('b', fr(k), 16)}</p><p class="tr-l">c. Valeur à mettre à la place du « ? » : ${tb('c', fr(Y[4]), 16)}</p>` : `<p class="tr-l">b. Quotient 2e ligne ÷ 1re ligne, colonne ${X[0]} : ${tb('b', f2(q0), 16)}</p><p class="tr-l">c. Quotient 2e ligne ÷ 1re ligne, colonne ${X[idx]} (arrondi au centième) : ${tb('c', f2(q1), 16)}</p>`), items,
+        support: tabXY(xl, yl, X, Yshow) + `<p class="tr-l">a. Est-ce un tableau de proportionnalité ?</p>` + (prop ? `<p class="tr-l">b. Coefficient de proportionnalité : ${tb('b', fr(k), 16)}</p><p class="tr-l">c. Valeur à mettre à la place du « ? » : ${tb('c', fr(Y[4]), 16)}</p>` : `<p class="tr-l">b. Quotient 2e ligne ÷ 1re ligne, colonne ${X[0]} : ${tb('b', f2(q0), 16)}</p><p class="tr-l">c. Quotient 2e ligne ÷ 1re ligne, colonne ${X[idx]} (arrondi au centième) : ${tb('c', f2(q1), 16)}</p>`), items,
         hints: ['Dans un tableau de proportionnalité, tous les quotients 2e ligne ÷ 1re ligne sont égaux.', 'Calcule ce quotient pour deux colonnes et compare.', 'Si c’est proportionnel, on multiplie la 1re ligne par le coefficient pour trouver la 2e.'] };
     }
     if (niv < 0) {
@@ -48,7 +60,7 @@
       const items = [num('a', k, 0, String(k), [{ v: Y[1], m: 'C’est la valeur de la 2e ligne. Divise-la par celle de la 1re ligne.' }]), num('b', Y[3], 0, String(Y[3])), qcm('c', ['oui', 'non'], 0, 'oui')];
       xs(items, { a: `${Y[1]} ÷ ${X[1]} = ${k} (ou 1 ${nom.split(' ')[0].replace(/s$/, '')} coûte ${k} €)`, b: `4 × ${k} = ${Y[3]}`, c: `tous les quotients valent ${k}` });
       return { titre: 'Proportionnel ou pas ? Pas à pas', consigne: `Un tableau relevé dans une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. On cherche le coefficient, puis on complète la case « ? ».`,
-        support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">Début du calcul : colonne 2 → ${Y[1]} ÷ 2 = ?</p><p class="tr-l">a. Coefficient de proportionnalité : ${tb('a', String(k), 14)}</p><p class="tr-l">b. Valeur à mettre à la place du « ? » (4 × coefficient) : ${tb('b', String(Y[3]), 14)}</p><p class="tr-l">c. Les quotients des colonnes 1, 2 et 3 sont égaux : est-ce proportionnel ? (voir la case en dessous)</p>`, items,
+        support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">Début du calcul : colonne 2 → ${Y[1]} ÷ 2 = ?</p><p class="tr-l">a. Coefficient de proportionnalité : ${tb('a', String(k), 14)}</p><p class="tr-l">b. Valeur à mettre à la place du « ? » (4 × coefficient) : ${tb('b', String(Y[3]), 14)}</p><p class="tr-l">c. Les quotients des colonnes 1, 2 et 3 sont égaux : est-ce proportionnel ?</p>`, items,
         hints: ['Coefficient = valeur de la 2e ligne ÷ valeur de la 1re ligne, dans une colonne.', 'Pour la case manquante : 1re ligne × coefficient.', 'Même quotient dans toutes les colonnes : proportionnel.'] };
     }
     const k = pick(R, [2.5, 4, 6, 7.5, 9]), X = [2, 4, 5, 8, 10], Y = X.map(x => rnd(x * k, 2)), idx = int(R, 0, 4), dl = pick(R, [3, 4, -3, -2, 5]), bad = rnd(Y[idx] + dl, 2), Ys = Y.slice(); Ys[idx] = bad;
@@ -56,13 +68,22 @@
     const items = [num('a', k, 2, fr(k), [{ v: rnd(bad / X[idx], 2), m: 'Cette colonne contient l’erreur. Prends le quotient d’une autre colonne.' }]), qcm('b', ch, idx, ch[idx]), num('c', Y[idx], 2, fr(Y[idx]), [{ v: bad, m: 'C’est la valeur fausse du tableau. Calcule la bonne : ' + X[idx] + ' × coefficient.' }]), qcm('d', ['oui', 'non'], 1, 'non')];
     xs(items, { a: `les colonnes ${X.filter((_, i) => i !== idx).slice(0, 2).join(' et ')} donnent ${fr(Y[X.indexOf(X.filter((_, i) => i !== idx)[0])])} ÷ ${X.filter((_, i) => i !== idx)[0]} = ${fr(k)}`, b: `${fr(bad)} ÷ ${X[idx]} = ${f2(bad / X[idx])}, qui n’est pas ${fr(k)}`, c: `${X[idx]} × ${fr(k)} = ${fr(Y[idx])}`, d: 'tant qu’une colonne ne suit pas le coefficient, le tableau n’est pas proportionnel' });
     return { titre: 'Trouver l’erreur', consigne: `Le tableau d’une boutique donne ${xl.toLowerCase()} et ${yl.toLowerCase()}. Il devrait être proportionnel, mais une seule valeur de la 2e ligne est fausse. À toi de la repérer et de la corriger.`,
-      support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">a. Coefficient de proportionnalité (celui des colonnes justes) : ${tb('a', fr(k), 16)}</p><p class="tr-l">b. Quelle colonne contient l’erreur ? (voir la case en dessous)</p><p class="tr-l">c. Valeur correcte à mettre dans cette colonne : ${tb('c', fr(Y[idx]), 16)}</p><p class="tr-l">d. Le tableau tel qu’il est écrit est-il proportionnel ? (voir la case en dessous)</p>`, items,
+      support: tabXY(xl, yl, X, Ys) + `<p class="tr-l">a. Coefficient de proportionnalité (celui des colonnes justes) : ${tb('a', fr(k), 16)}</p><p class="tr-l">b. Quelle colonne contient l’erreur ?</p><p class="tr-l">c. Valeur correcte à mettre dans cette colonne : ${tb('c', fr(Y[idx]), 16)}</p><p class="tr-l">d. Le tableau tel qu’il est écrit est-il proportionnel ?</p>`, items,
       hints: ['Calcule 2e ligne ÷ 1re ligne dans chaque colonne : le quotient qui revient le plus souvent est le coefficient.', 'La colonne dont le quotient est différent contient l’erreur.', 'La valeur correcte : 1re ligne × coefficient.'] };
   });
 
   /* e2 · coefficient et tableau : une recette */
   const REC = [['de nouilles', 'g', [80, 90, 110, 120]], ['de bouillon', 'cL', [25, 30, 35, 40]], ['de riz', 'g', [60, 70, 75, 80]]];
   lv('c3e2', (R, niv) => {
+    if (niv === 0) { /* standard 2026-11 : autre recette que celle du cours ; les deux cases « ? » sont demandées */
+      const [rec, ing2, un2, qs2] = pick(R, [['Une recette d’onigiris (boulettes de riz japonaises)', 'Riz', 'g', [60, 70, 75, 90]], ['Une recette de crêpes', 'Farine', 'g', [40, 50, 60]], ['Une recette de milk-shake', 'Lait', 'cL', [15, 20, 25]]]), q2 = pick(R, qs2);
+      const P = [2, 4, 6, 10], Q = P.map(p => p * q2), m = pick(R, [9, 12, 14]), M = q2 * m;
+      const items = [num('a', q2, 0, String(q2), [{ v: Q[1], m: 'C’est la quantité pour 4 personnes. Divise-la par 4 pour une personne.' }]), num('b', Q[2], 0, String(Q[2]), [{ v: Q[1] + 2, m: 'Ajouter 2 ne marche pas : en proportionnalité, on multiplie.' }]), num('c', Q[3], 0, String(Q[3])), num('d', m, 0, String(m), [{ v: M * q2, m: 'Tu as multiplié. Pour trouver le nombre de personnes, divise la quantité totale par la quantité d’une personne.' }])];
+      xs(items, { a: `${Q[0]} ÷ 2 = ${q2} ${un2} par personne`, b: `6 × ${q2} = ${Q[2]} ${un2}`, c: `10 × ${q2} = ${Q[3]} ${un2}`, d: `${M} ÷ ${q2} = ${m} personnes` });
+      return { titre: 'Une recette pour tout le monde', consigne: `${rec} donne la quantité de ${ing2.toLowerCase()} selon le nombre de personnes. La quantité est proportionnelle au nombre de personnes.`,
+        support: tabXY('Nombre de personnes', `${ing2} (en ${un2})`, P, [Q[0], Q[1], '?', '?']) + ln('a', `Quantité de ${ing2.toLowerCase()} pour une personne`, String(q2), 14, un2) + ln('b', 'Quantité pour 6 personnes', String(Q[2]), 14, un2) + ln('c', 'Quantité pour 10 personnes', String(Q[3]), 14, un2) + ln('d', `Nombre de personnes que l’on peut servir avec ${M} ${un2}`, String(m), 14, 'personnes'), items,
+        hints: ['Divise la quantité pour 2 personnes par 2.', 'Multiplie la quantité pour une personne par le nombre de personnes.', 'Pour trouver un nombre de personnes, divise.'] };
+    }
     const [ing, un, qs] = pick(R, REC), q = pick(R, qs);
     if (niv === 0) {
       const P = [2, 4, 6, 10], Q = P.map(p => p * q), Qs = Q.slice(), pers = 15, m = pick(R, [9, 12, 14]), M = q * m; Qs[2] = '?'; Qs[3] = '?';
@@ -89,13 +110,22 @@
 
   /* e3 · quatrième proportionnelle : passage à l’unité et produit en croix */
   lv('c3e3', (R, niv) => {
+    if (niv === 0) { /* standard 2026-11 : accords, pas de question qui en résout une autre */
+      const prx = y => Number.isInteger(y) ? String(y) : fr(y, 2);
+      const [nom, un, det] = pick(R, [['mangas', 'manga', 'un'], ['tickets de manège', 'ticket', 'un'], ['places de concert', 'place', 'une']]), u = pick(R, [4.5, 6, 6.5, 8, 9.5]), a = pick(R, [3, 4, 5, 6]), b = rnd(a * u, 2), c = pick(R, [7, 9, 10, 12]), m = pick(R, [11, 15, 20]), D = rnd(u * m, 2);
+      const items = [num('a', u, 2, fr(u, 2), [{ v: a, m: 'C’est le nombre de ' + nom + '. Divise le prix par ce nombre.' }]), num('b', rnd(u * c, 2), 2, fr(rnd(u * c, 2), 2), [{ v: rnd(b + c, 2), m: 'Tu as additionné. En proportionnalité, on multiplie le prix d’une unité.' }]), num('c', m, 0, String(m))];
+      xs(items, { a: `${prx(b)} ÷ ${a} = ${fr(u, 2)} €`, b: `${c} × ${fr(u, 2)} = ${fr(rnd(u * c, 2), 2)} €`, c: `${prx(D)} ÷ ${fr(u, 2)} = ${m} ${nom}` });
+      return { titre: 'Passer par l’unité', consigne: `${a} ${nom} coûtent ${prx(b)} €. Le prix est proportionnel au nombre de ${nom}.`,
+        support: tabXY(`Nombre de ${nom}`, 'Prix (en €)', [a, c, '?'], [prx(b), '?', prx(D)]) + ln('a', `Prix d’${det} ${un}`, fr(u, 2), 14, '€') + ln('b', `Prix de ${c} ${nom}`, fr(rnd(u * c, 2), 2), 14, '€') + ln('c', `Nombre de ${nom} achetés avec ${prx(D)} €`, String(m), 14), items,
+        hints: ['Divise le prix par le nombre.', 'Multiplie le prix d’une unité par le nombre voulu.', 'Divise la somme par le prix d’une unité.'] };
+    }
     if (niv <= 0) {
       const [nom, un] = pick(R, [['places de cinéma', 'place'], ['tickets de manège', 'ticket'], ['paquets de cartes', 'paquet']]), u = pick(R, [4.5, 6, 7.5, 8, 9.5]), a = pick(R, [3, 4, 5, 6]), b = rnd(a * u, 2), c = pick(R, [7, 9, 10, 12]), m = pick(R, [11, 12, 15, 20]), D = rnd(u * m, 2);
       const items = niv < 0 ? [num('a', u, 2, fr(u), [{ v: a, m: 'C’est le nombre de ' + nom + '. Divise le prix par ce nombre.' }]), num('b', rnd(u * c, 2), 2, fr(rnd(u * c, 2)))] : [num('a', u, 2, fr(u), [{ v: a, m: 'C’est le nombre de ' + nom + '. Divise le prix par ce nombre.' }]), num('b', rnd(u * c, 2), 2, fr(rnd(u * c, 2)), [{ v: rnd(b + c, 2), m: 'Tu as additionné. En proportionnalité, on multiplie le prix d’une unité.' }]), num('c', m, 0, String(m), [{ v: rnd(D * u, 2), m: 'Tu as multiplié. Pour trouver un nombre de ' + nom + ', divise la somme par le prix d’une ' + un + '.' }]), qcm('d', [`${fr(D)} ÷ ${fr(u)}`, `${fr(D)} × ${fr(u)}`, `${fr(D)} − ${fr(u)}`], 0, `${fr(D)} ÷ ${fr(u)}`)];
       xs(items, niv < 0 ? { a: `${fr(b)} ÷ ${a} = ${fr(u)} €`, b: `${c} × ${fr(u)} = ${fr(rnd(u * c, 2))} €` } : { a: `${fr(b)} ÷ ${a} = ${fr(u)} € la ${un}`, b: `${c} × ${fr(u)} = ${fr(rnd(u * c, 2))} €`, c: `${fr(D)} ÷ ${fr(u)} = ${m}`, d: 'pour trouver combien de fois le prix d’une unité tient dans la somme, on divise' });
       const T3 = tabXY('Nombre', 'Prix (€)', [a, 1, c, '?'], [fr(b), '?', '?', fr(D)]);
       return { titre: niv < 0 ? 'Le prix d’une unité, pas à pas' : 'Passer par l’unité', consigne: `${a} ${nom} coûtent ${fr(b)} € (le même prix pour chaque ${un}). Pour calculer, on passe par le prix d’une ${un}.`,
-        support: (niv < 0 ? tabXY('Nombre', 'Prix (€)', [a, 1, c], [fr(b), '?', '?']) : T3) + `<p class="tr-l">${niv < 0 ? 'Début du calcul : ' + fr(b) + ' ÷ ' + a + ' = ?' : ''}</p><p class="tr-l">a. Prix d’une ${un}, en € : ${tb('a', fr(u), 16)}</p><p class="tr-l">b. Prix de ${c} ${nom}, en € : ${tb('b', fr(rnd(u * c, 2)), 16)}</p>` + (niv < 0 ? '' : `<p class="tr-l">c. Avec ${fr(D)} €, combien de ${nom} peut-on acheter ? ${tb('c', String(m), 14)}</p><p class="tr-l">d. Quelle opération donne ce nombre de ${nom} ? (voir la case en dessous)</p>`), items,
+        support: (niv < 0 ? tabXY('Nombre', 'Prix (€)', [a, 1, c], [fr(b), '?', '?']) : T3) + `<p class="tr-l">${niv < 0 ? 'Début du calcul : ' + fr(b) + ' ÷ ' + a + ' = ?' : ''}</p><p class="tr-l">a. Prix d’une ${un}, en € : ${tb('a', fr(u), 16)}</p><p class="tr-l">b. Prix de ${c} ${nom}, en € : ${tb('b', fr(rnd(u * c, 2)), 16)}</p>` + (niv < 0 ? '' : `<p class="tr-l">c. Avec ${fr(D)} €, combien de ${nom} peut-on acheter ? ${tb('c', String(m), 14)}</p><p class="tr-l">d. Quelle opération donne ce nombre de ${nom} ?</p>`), items,
         hints: [`Prix d’une ${un} = ${fr(b)} ÷ ${a}.`, `Prix de ${c} ${nom} = ${c} × prix d’une ${un}.`, `Nombre de ${nom} = somme ÷ prix d’une ${un}.`] };
     }
     /* défi : la vitesse moyenne de Usain Bolt, un coefficient de proportionnalité */
@@ -118,6 +148,15 @@
     };
     lv('c3e4', (R, niv) => {
       const v = pick(R, niv > 0 ? [40, 60, 80, 100] : [30, 40, 50, 60, 80]);
+      if (niv === 0) { /* standard 2026-11 : aucune réponse dans l’énoncé ni dans une autre question */
+        let t, d, k, d2, k2, d3, ms, n = 0; do { t = pick(R, [1.5, 2.5, 3.5]); d = v * t; k = pick(R, [2, 3, 4]); d2 = v * k; k2 = pick(R, [0.5, 4.5, 6]); d3 = v * k2; ms = pick(R, [5, 8, 12, 15, 25]); } while (new Set([v, d, t, d2, k, d3, k2, ms, ms * 3.6]).size < 9 && ++n < 50);
+        return QC('Vitesse moyenne et proportionnalité', `Un autocar parcourt ${fr(d)} km en ${fr(t)} h à vitesse constante. La distance est proportionnelle à la durée.`, [
+          { lab: 'Vitesse moyenne de l’autocar', v, d: 0, w: 12, un: 'km/h', x: `${fr(d)} ÷ ${fr(t)} = ${v} km/h (coefficient de proportionnalité)`, err: [{ v: d * t, m: 'Divise la distance par la durée.' }] },
+          { lab: `Distance parcourue en ${fr(k)} h`, v: d2, d: 1, w: 12, un: 'km', x: `${v} × ${fr(k)} = ${fr(d2)} km` },
+          { lab: `Durée pour parcourir ${fr(d3)} km`, v: k2, d: 2, w: 12, un: 'h', x: `${fr(d3)} ÷ ${v} = ${fr(k2)} h`, err: [{ v: d3 * v, m: 'Durée = distance ÷ vitesse.' }] },
+          { lab: `Un vélo roule à ${ms} m/s. Sa vitesse en km/h`, v: ms * 3.6, d: 1, w: 12, un: 'km/h', x: `${ms} × 3,6 = ${fr(ms * 3.6)} km/h` }],
+          ['Vitesse = distance ÷ durée.', 'Durée = distance ÷ vitesse.', 'm/s → km/h : × 3,6.'], '');
+      }
       if (niv < 0) {
         const t = pick(R, [2, 3, 4]), d = v * t, t2 = pick(R, [5, 6]), ms = pick(R, [10, 20]);
         return QC('Vitesse moyenne, pas à pas', `Un camion parcourt ${fr(d, 0)} km en ${t} h à vitesse constante.`, [

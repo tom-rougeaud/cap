@@ -38,7 +38,7 @@ async def fill_copy(page, e):
     for b2 in await page.query_selector_all('[data-self="1"]'): await b2.click()
 
 async def run(p, vw, vh, label, full):
-    b = await p.chromium.launch()
+    b = await p.chromium.launch(**({'executable_path': __import__('os').environ['CHROME_BIN'], 'args': ['--no-sandbox']} if __import__('os').environ.get('CHROME_BIN') else {}))
     ctx = await b.new_context(viewport={'width': vw, 'height': vh}, device_scale_factor=1, has_touch=vw < 600, accept_downloads=True)
     page = await ctx.new_page()
     page.on('pageerror', lambda e: bad(f'{label} erreur JS : {e}'))

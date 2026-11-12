@@ -40,7 +40,7 @@
       const items = [num('a', A[1], 2, eu(A[1]), [{ v: A[0], m: 'C’est la distance. Descends d’une ligne pour lire le temps.' }]), num('b', A[0], 0, String(A[0]), [{ v: A[1], m: 'C’est le temps. Monte d’une ligne pour lire la distance.' }]), qcm('c', ['l’image', 'l’antécédent'], 0, 'l’image')];
       xs(items, { a: `sous ${A[0]}, on lit ${eu(A[1])}`, b: `au-dessus de ${eu(A[1])}, on lit ${A[0]}`, c: 'on part de x et on lit f(x) : c’est l’image' });
       return { titre: 'Un tableau, pas à pas', consigne: `Dans le tableau, on s’intéresse à la colonne de ${A[0]} m. On lit d’abord vers le bas, puis vers le haut.`,
-        support: tab + `<p class="tr-l">Début du calcul : je cherche ${A[0]} dans la ligne du haut.</p>` + ln('a', `Temps à ${A[0]} m`, eu(A[1]), 14, 's') + ln('b', `Distance quand le temps est ${eu(A[1])} s`, String(A[0]), 14, 'm') + `<p class="tr-l">c. Le temps à ${A[0]} m est-il l’image ou l’antécédent de ${A[0]} ? (voir la case en dessous)</p>`, items,
+        support: tab + `<p class="tr-l">Début du calcul : je cherche ${A[0]} dans la ligne du haut.</p>` + ln('a', `Temps à ${A[0]} m`, eu(A[1]), 14, 's') + ln('b', `Distance quand le temps est ${eu(A[1])} s`, String(A[0]), 14, 'm') + `<p class="tr-l">c. Le temps à ${A[0]} m est-il l’image ou l’antécédent de ${A[0]} ?</p>`, items,
         hints: ['Pour le temps, descends dans la même colonne.', 'Pour la distance, remonte dans la même colonne.', 'Quand on part de x, on cherche son image.'] };
     }
     const a = pick(R, [2, 3, 4]), b = pick(R, [1, 2, 5]), xv = [0, 1, 2, 3, 4, 5], x5 = int(R, 1, 5), y5 = a * x5 + b, xa = int(R, 0, 5), x6 = (xa + 1 + int(R, 0, 4)) % 6;
@@ -48,7 +48,7 @@
     const items = [num('a', a * x5 + b, 0, String(a * x5 + b), [{ v: a * x5, m: 'Tu as oublié d’ajouter ' + b + '.' }]), num('b', xa, 0, String(xa), [{ v: a * xa + b, m: 'C’est l’image. On demande l’antécédent : le nombre dont l’image est ' + (a * xa + b) + '.' }]), num('c', a * x6 + b, 0, String(a * x6 + b), [{ v: a * x6, m: 'Tu as oublié d’ajouter ' + b + '.' }]), qcm('d', ['oui', 'non'], 0, 'oui')];
     xs(items, { a: `f(${x5}) = ${a} × ${x5} + ${b} = ${a * x5 + b}`, b: `${a * xa + b} se lit sous ${xa} : l’antécédent est ${xa}`, c: `f(${x6}) = ${a} × ${x6} + ${b} = ${a * x6 + b}`, d: `f(${x5}) = ${a * x5 + b} : ${x5} est bien un antécédent de ${a * x5 + b}` });
     return { titre: 'Tableau et formule', consigne: `Une fonction f est donnée par la formule f(x) = ${a} × x + ${b}. Une case du tableau est cachée : retrouve-la avec la formule.`,
-      support: tab2 + ln('a', `Image de ${x5}`, String(a * x5 + b), 14) + ln('b', `Antécédent de ${a * xa + b}`, String(xa), 14) + ln('c', `Valeur cachée f(${x6})`, String(a * x6 + b), 14) + `<p class="tr-l">d. ${x5} est-il un antécédent de ${a * x5 + b} ? (voir la case en dessous)</p>`, items,
+      support: tab2 + ln('a', `Image de ${x5}`, String(a * x5 + b), 14) + ln('b', `Antécédent de ${a * xa + b}`, String(xa), 14) + ln('c', `Valeur cachée f(${x6})`, String(a * x6 + b), 14) + `<p class="tr-l">d. ${x5} est-il un antécédent de ${a * x5 + b} ?</p>`, items,
       hints: ['Image de x : calcule a × x + b.', 'Antécédent : cherche le nombre dont l’image est donnée.', 'Remplace x par la valeur cachée dans la formule.', 'Compare avec ta réponse à la question a.'] };
   });
 
@@ -59,7 +59,7 @@
     pts.forEach(p => { if (p.guide) b += `<path d="M${g.X(p.x).toFixed(1)} ${g.Y(0).toFixed(1)}V${g.Y(p.y).toFixed(1)}H${g.X(0).toFixed(1)}" fill="none" stroke="#C2332A" stroke-width="1.8" stroke-dasharray="5 4"/>`; });
     b += g.pts(pts.map(p => [p.x, p.y]), { r: 5 });
     pts.forEach(p => { b += gt(g.X(p.x) + 8, g.Y(p.y) - 8, p.n, '#1D2240', 'start', 13); });
-    return g.wrap(b).replace('<svg ', '<svg style="max-width:108mm;height:auto" ');
+    return g.wrap(b).replace('<svg ', '<svg style="max-width:150mm;height:auto" ');
   };
   lv('c6e2', (R, niv) => {
     const mk = n => { for (let t = 0; t < 400; t++) { const L = 'ABCDEF'.slice(0, n).split(''), P2 = L.map(l => ({ n: l, x: int(R, 1, 7), y: int(R, 1, 5) })); let ok = true; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) if (Math.abs(P2[i].x - P2[j].x) + Math.abs(P2[i].y - P2[j].y) < 3 || P2[i].x === P2[j].x || P2[i].y === P2[j].y) ok = false; if (ok) return P2; } return [{ n: 'A', x: 2, y: 3 }, { n: 'B', x: 5, y: 1 }, { n: 'C', x: 7, y: 4 }]; };
@@ -74,7 +74,7 @@
       const [A] = mk(1), items = [num('a', A.x, 0, String(A.x), [{ v: A.y, m: 'Tu as lu l’ordonnée. Suis la ligne pointillée verticale vers l’axe horizontal.' }]), num('b', A.y, 0, String(A.y), [{ v: A.x, m: 'Tu as lu l’abscisse. Suis la ligne pointillée horizontale vers l’axe vertical.' }]), qcm('c', ['(abscisse ; ordonnée)', '(ordonnée ; abscisse)'], 0, '(abscisse ; ordonnée)')];
       xs(items, { a: `la ligne verticale arrive sur ${A.x}`, b: `la ligne horizontale arrive sur ${A.y}`, c: 'on écrit toujours l’abscisse en premier' });
       return { titre: 'Des coordonnées, pas à pas', consigne: 'Les lignes pointillées partent du point A vers les deux axes. Lis la valeur où chaque ligne arrive.',
-        support: repere([{ ...A, guide: true }]) + `<p class="tr-l">Début du calcul : la ligne verticale arrive sur l’axe horizontal.</p>` + ln('a', 'Abscisse de A', String(A.x), 12) + ln('b', 'Ordonnée de A', String(A.y), 12) + `<p class="tr-l">c. Comment écrit-on les coordonnées de A ? (voir la case en dessous)</p>`, items,
+        support: repere([{ ...A, guide: true }]) + `<p class="tr-l">Début du calcul : la ligne verticale arrive sur l’axe horizontal.</p>` + ln('a', 'Abscisse de A', String(A.x), 12) + ln('b', 'Ordonnée de A', String(A.y), 12) + `<p class="tr-l">c. Comment écrit-on les coordonnées de A ?</p>`, items,
         hints: ['La ligne verticale arrive sur l’axe horizontal.', 'La ligne horizontale arrive sur l’axe vertical.', 'L’abscisse est écrite en premier.'] };
     }
     let A, B, C; for (let t = 0; t < 400; t++) { A = { n: 'A', x: int(R, 1, 4), y: int(R, 1, 3) }; B = { n: 'B', x: int(R, A.x + 2, 7), y: A.y }; C = { n: 'C', x: A.x, y: int(R, A.y + 2, 5) }; if (B.x !== C.x && B.y !== C.y) break; }
@@ -88,10 +88,10 @@
   /* e3 · courbe : image, antécédent, variations et maximum d’un saut h = c × t × (b − t) */
   const SAUTS = [{ b: 2, c: 2, tm: 2, hm: 2.5, dt: .5, dh: .5, pic: 2, tp: 1 }, { b: 4, c: 1, tm: 4, hm: 5, dt: 1, dh: 1, pic: 4, tp: 2 }, { b: 4, c: .5, tm: 4, hm: 2.5, dt: 1, dh: .5, pic: 2, tp: 2 }];
   const sautSvg = (s, marks = []) => {
-    const g = P.plot({ W: 360, H: 220, x: [0, s.tm, s.dt / (s.tm > 2 ? 1 : 2)], y: [0, s.hm, s.dh], ml: 38, mr: 12, mt: 16, mb: 34, fs: 10.5, lx: s.tm > 2 ? 1 : 2, ly: 1, xl: 't (s)', yl: 'h (m)', lab: 'La hauteur du saut d’un personnage de jeu vidéo en fonction du temps' });
+    const g = P.plot({ W: 360, H: 220, x: [0, s.tm, s.dt / (s.tm > 2 ? 1 : 2)], y: [0, s.hm, s.dh], ml: 38, mr: 12, mt: 16, mb: 34, fs: 10.5, sy: 5, lx: s.tm > 2 ? 1 : 2, ly: 1, xl: 't (s)', yl: 'h (m)', lab: 'La hauteur du saut d’un personnage de jeu vidéo en fonction du temps' });
     const f = t => s.c * t * (s.b - t); let b = g.base + g.curve(f, { w: 3 }) + g.pts(Array.from({ length: Math.round(s.tm / s.dt) + 1 }, (_, i) => [i * s.dt, rnd(f(i * s.dt), 3)]), { r: 4 });
     marks.forEach(m => { b += g.guide(m.t, rnd(f(m.t), 3), { stroke: m.col || '#C2332A' }); });
-    return g.wrap(b).replace('<svg ', '<svg style="max-width:108mm;height:auto" ');
+    return g.wrap(b).replace('<svg ', '<svg style="max-width:150mm;height:auto" ');
   };
   lv('c6e3', (R, niv) => {
     const s = pick(R, SAUTS), f = t => rnd(s.c * t * (s.b - t), 3), n = Math.round(s.tm / s.dt), idx = int(R, 1, Math.floor(n / 2) - 1 + (s.tm > 2 ? 0 : 0)), t1 = idx * s.dt, h1 = f(t1), t2 = rnd(s.b - t1, 3);
@@ -107,7 +107,7 @@
       const items = [num('a', s.pic, 3, eh(s.pic), [{ v: s.tp, m: 'C’est l’instant du maximum. La hauteur se lit sur l’axe vertical.' }]), qcm('b', ['croissante', 'décroissante'], 0, 'croissante'), qcm('c', ['croissante', 'décroissante'], 1, 'décroissante')];
       xs(items, { a: `le point le plus haut est à ${eh(s.pic)} m`, b: `de 0 à ${eh(s.tp)} s, la courbe monte`, c: `de ${eh(s.tp)} à ${eh(s.b)} s, la courbe descend` });
       return { titre: 'Les variations, pas à pas', consigne: 'Lis la courbe de gauche à droite. Quand elle monte, la fonction est croissante. Quand elle descend, elle est décroissante.',
-        support: tab + sautSvg(s, [{ t: s.tp }]) + `<p class="tr-l">Début du calcul : le point le plus haut est marqué par la ligne pointillée.</p>` + ln('a', 'Hauteur maximale', eh(s.pic), 14, 'm') + `<p class="tr-l">b. De 0 à ${eh(s.tp)} s, la fonction est… ? (voir la case en dessous)</p><p class="tr-l">c. De ${eh(s.tp)} à ${eh(s.b)} s, la fonction est… ? (voir la case en dessous)</p>`, items,
+        support: tab + sautSvg(s, [{ t: s.tp }]) + `<p class="tr-l">Début du calcul : le point le plus haut est marqué par la ligne pointillée.</p>` + ln('a', 'Hauteur maximale', eh(s.pic), 14, 'm') + `<p class="tr-l">b. De 0 à ${eh(s.tp)} s, la fonction est… ?</p><p class="tr-l">c. De ${eh(s.tp)} à ${eh(s.b)} s, la fonction est… ?</p>`, items,
         hints: ['Le maximum est le point le plus haut.', 'Avant le maximum, la courbe monte.', 'Après le maximum, la courbe descend.'] };
     }
     const items = [num('a', h1, 3, eh(h1)), num('b', t1, 3, eh(t1), [{ v: t2, m: 'C’est l’autre antécédent. On demande le plus petit.' }]), num('c', t2, 3, eh(t2), [{ v: t1, m: 'C’est l’autre antécédent. On demande le plus grand.' }]), num('d', rnd(t2 - t1, 3), 3, eh(t2 - t1), [{ v: rnd(t2 + t1, 3), m: 'Tu as additionné. Pour une durée, soustrais les deux instants.' }])];

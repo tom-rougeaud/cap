@@ -111,13 +111,15 @@
   };
   /* 5 du chapitre ; au-delà, d’autres automatismes du programme, tous différents ; les unités et les figures seulement pour le groupement 1 */
   /* [automatisme, premier chapitre où la notion est vue] : en début d’année, on ne tire pas une question sur une notion pas encore étudiée */
-  const POOLN = [[calcMental, 1], [mult10, 1], [signes, 1], [fracAdd, 1], [fracMul, 1], [prop, 1], [fracDec, 1], [compDec, 1], [compFr, 1], [formule, 1], [eq1, 1], [arrondi, 1], [duree, 1], [efftot, 1], [freq, 1], [moy, 1], [pctOf, 1], [proba, 2], [contraire, 2], [qprop, 3], [coefp, 3], [hausse, 4], [echelle, 4], [equa, 5], [imageF, 6], [antec, 6], [variation, 6], [coord, 6], [ttc, 8]];
+  const POOLN = [[calcMental, 0], [mult10, 0], [signes, 0], [fracAdd, 0], [fracMul, 0], [prop, 0], [fracDec, 0], [compDec, 0], [compFr, 0], [formule, 5], [eq1, 5], [arrondi, 0], [duree, 0], [efftot, 1], [freq, 1], [moy, 1], [pctOf, 0], [proba, 2], [contraire, 2], [qprop, 3], [coefp, 3], [hausse, 4], [echelle, 4], [equa, 5], [imageF, 6], [antec, 6], [variation, 6], [coord, 6], [ttc, 8]];
   const POOL = POOLN.map(x => x[0]);
   const POOL1 = [carre, racine, conv, aire, perim, volume, solide];
   const G1 = { c9: 1, c10: 1 };
   const gen = (cid, seed, n = 5) => { const R = rng(seed), own = A[cid], q = own.map(f => f(R)), num = +cid.slice(1);
     if (n > own.length) { const rest = (G1[cid] ? POOLN.concat(POOL1.map(f => [f, 1])) : POOLN).filter(([f, c]) => c <= num && !own.includes(f)).map(x => x[0]); for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; } rest.slice(0, n - own.length).forEach(f => q.push(f(R))); }
     return q; };
-  const API = { A, gen, ALL: { calcMental, mult10, signes, fracAdd, fracMul, prop, fracDec, compDec, compFr, formule, eq1, equa, arrondi, duree, moy, freq, efftot, proba, contraire, qprop, coefp, pctOf, hausse, ttc, echelle, imageF, antec, variation, coord, carre, racine, conv, aire, perim, volume, solide, pyth, thales } };
+  /* début de chapitre : seulement des notions des chapitres précédents ou du collège */
+  const genPrev = (cid, seed, n = 10) => { const R = rng(seed), num = +cid.slice(1), pool = POOLN.filter(([f, c]) => c < num).map(x => x[0]); for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; } const q = [], seen = new Set(); for (let i = 0; q.length < n && i < 6 * n; i++) { const x = pool[i % pool.length](R); if (!seen.has(x.t)) { seen.add(x.t); q.push(x); } } return q; };
+  const API = { A, gen, genPrev, ALL: { calcMental, mult10, signes, fracAdd, fracMul, prop, fracDec, compDec, compFr, formule, eq1, equa, arrondi, duree, moy, freq, efftot, proba, contraire, qprop, coefp, pctOf, hausse, ttc, echelle, imageF, antec, variation, coord, carre, racine, conv, aire, perim, volume, solide, pyth, thales } };
   if (typeof module !== 'undefined') module.exports = API; else root.MCVA = API;
 })(typeof module !== 'undefined' ? module.exports : window);

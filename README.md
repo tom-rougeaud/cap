@@ -8,8 +8,8 @@ L’appli et le manuel de mathématiques **Maths · CAP**, pour les classes pré
 - **Une notion, une page** : 🔎 Je découvre → 🧭 La méthode → ✅ La solution → 📌 Je retiens → ✏️ À moi, puis 🔧 quatre petits calculs de mécanique sans contexte ; la page « Je fais le point » porte 10 automatismes sans calculatrice
 - Situations de **pop culture avec des données réelles sourcées** (Les Simpson, cinéma en France, Netflix, statue de l’Unicorn Gundam, football…) ; un **métier par chapitre** avec ses formations
 - **Exercices** dont les nombres changent à chaque essai dans l’appli (version guidée 🌱 et défi 🚀), un problème « vers le CCF » par chapitre, simulateur « Je manipule » avec un défi
-- **Manuel PDF de 120 pages**, identique à la version imprimée de l’élève ; « Données du manuel » dans l’appli redonne les nombres du PDF
-- Chaque chapitre se termine par une **évaluation sur 10 au format du CCF** (45 minutes) ; **2 CCF blancs** avec chrono dans l’appli, et en PDF
+- **Manuel PDF de 156 pages (dont 9 fiches de révision A4 et 3 CCF blancs)**, identique à la version imprimée de l’élève ; « Données du manuel » dans l’appli redonne les nombres du PDF
+- Chaque chapitre se termine par une **évaluation sur 10 au format du CCF** (45 minutes) ; **3 CCF blancs** avec chrono dans l’appli, et en PDF
 - Réponses vérifiées : une valeur exacte n’est acceptée qu’exacte, une valeur arrondie seulement si l’énoncé annonce l’arrondi
 - Graphiques lisibles : lignes de lecture, valeurs écrites sur les diagrammes, secteurs séparés par des traits noirs
 - Installable sur l’écran d’accueil (Android : bannière ; iPhone et iPad : Partager → « Sur l’écran d’accueil »)

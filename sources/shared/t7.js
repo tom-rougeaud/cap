@@ -5,7 +5,7 @@
   const { DEP, H } = typeof module !== 'undefined' ? require('./train.js').MCVT : root.MCVT;
   const { fr, tb, T, svg, table, num, qcm, pick, int, xs, lv, shuffle, rnd, ln, tabXY, f1, f2, P } = H;
   const eu = x => fr(x, Number.isInteger(rnd(x, 2)) ? 0 : 2);
-  const SM = '<svg style="max-width:108mm;height:auto" ';
+  const SM = '<svg style="max-width:150mm;height:auto" ';
   const gt = (x, y, s, col, a = 'start', fs = 12) => `<text x="${rnd(x, 1)}" y="${rnd(y, 1)}" font-family="Nunito Sans" font-size="${fs}" font-weight="800" text-anchor="${a}" fill="${col}">${s}</text>`;
   const RED = '#C2332A', BLUE = '#1D5FC2';
 
@@ -23,26 +23,26 @@
 
   /* e1 · calculer avec f(x) = ax + b */
   lv('c7e1', (R, niv) => {
-    const a = pick(R, [3, 4, 5, 6, 7, 8]), b = pick(R, [5, 8, 10, 12, 15]), x1 = pick(R, [2, 3, 4, 5, 6]), x2 = pick(R, [6, 7, 8, 9, 10]), v1 = a * x1 + b, v2 = a * x2 + b;
+    const a = pick(R, [3, 4, 5, 6, 7, 8]), b = pick(R, [5, 8, 10, 12, 15]), x1 = pick(R, [2, 3, 4, 5, 6]), x2 = pick(R, [6, 7, 8, 9, 10]), v1 = a * x1 + b, v2 = a * x2 + b, x3 = pick(R, [11, 12, 15, 20]), v3 = a * x3 + b;
     if (niv === 0) {
-      const items = [num('a', v1, 0, String(v1), [{ v: a * (x1 + b), m: 'Tu as additionné avant de multiplier. On multiplie a par x, puis on ajoute b.' }]), num('b', b, 0, String(b), [{ v: a, m: 'C’est le coefficient a. Le nombre b est celui qui est ajouté.' }]), num('c', x2, 0, String(x2), [{ v: rnd(v2 / a, 2), m: 'Tu as divisé sans retirer b. Retire d’abord ' + b + ', puis divise par ' + a + '.' }])];
-      xs(items, { a: `P(${x1}) = ${a} × ${x1} + ${b} = ${a * x1} + ${b} = ${v1}`, b: `dans ${a}x + ${b}, le nombre ajouté est ${b}`, c: `${a}x + ${b} = ${v2} donne ${a}x = ${v2 - b}, puis x = ${v2 - b} ÷ ${a} = ${x2}` });
+      const items = [num('a', v1, 0, String(v1), [{ v: a * (x1 + b), m: 'Tu as additionné avant de multiplier. On multiplie a par x, puis on ajoute b.' }]), num('b', v3, 0, String(v3), [{ v: a * x3, m: 'C’est a × x. N’oublie pas d’ajouter ' + b + '.' }]), num('c', x2, 0, String(x2), [{ v: rnd(v2 / a, 2), m: 'Tu as divisé sans retirer b. Retire d’abord ' + b + ', puis divise par ' + a + '.' }])];
+      xs(items, { a: `P(${x1}) = ${a} × ${x1} + ${b} = ${a * x1} + ${b} = ${v1}`, b: `P(${x3}) = ${a} × ${x3} + ${b} = ${a * x3} + ${b} = ${v3}`, c: `${a}x + ${b} = ${v2} donne ${a}x = ${v2 - b}, puis x = ${v2 - b} ÷ ${a} = ${x2}` });
       return { titre: 'Une carte à prix fixe', consigne: `Un cinéma vend une carte puis un prix par séance. Le prix de x séances est P(x) = ${a}x + ${b}.`,
-        support: table(['Nombre', 'Valeur', 'Rôle'], [['a', String(a), 'prix d’une séance'], ['b', String(b), 'prix de la carte']]) + ln('a', `Prix de ${x1} séances`, String(v1), 14, '€') + ln('b', 'Prix de la carte (le nombre b)', String(b), 14, '€') + `<p class="tr-l">Un client a payé ${v2} €.</p>` + ln('c', 'Nombre de séances', String(x2), 14), items,
-        hints: ['Remplace x par la valeur, multiplie, puis ajoute b.', 'b est le nombre ajouté, le prix à 0 séance.', 'Retire b, puis divise par a.'] };
+        support: table(['Nombre', 'Valeur', 'Rôle'], [['a', String(a), 'prix d’une séance'], ['b', String(b), 'prix de la carte']]) + ln('a', `Prix de ${x1} séances`, String(v1), 14, '€') + ln('b', `Prix de ${x3} séances`, String(v3), 14, '€') + `<p class="tr-l">Un client a payé ${v2} €.</p>` + ln('c', 'Nombre de séances', String(x2), 14), items,
+        hints: ['Remplace x par la valeur, multiplie, puis ajoute b.', 'Même calcul avec le nouveau nombre de séances.', 'Retire b, puis divise par a.'] };
     }
     if (niv < 0) {
       const items = [num('a', a * x1, 0, String(a * x1), [{ v: x1, m: 'C’est le nombre de séances. Multiplie-le par ' + a + '.' }]), num('b', v1, 0, String(v1), [{ v: a * x1, m: 'C’est a × x. N’oublie pas d’ajouter ' + b + '.' }]), qcm('c', ['le prix fixe de la carte', 'le prix de chaque séance'], 0, 'le prix fixe de la carte')];
       xs(items, { a: `${a} × ${x1} = ${a * x1}`, b: `${a * x1} + ${b} = ${v1} €`, c: 'b est ajouté une seule fois : c’est le prix de la carte' });
       return { titre: 'Une formule, pas à pas', consigne: `Un cinéma vend une carte de ${b} € puis ${a} € par séance : P(x) = ${a}x + ${b}. On calcule le prix de ${x1} séances.`,
-        support: tabXY('x', 'P (€)', [String(x1)], ['?']) + `<p class="tr-l">Début du calcul : P(${x1}) = ${a} × ${x1} + ${b}</p>` + ln('a', `${a} × ${x1}`, String(a * x1), 14) + ln('b', 'Prix P, en euros', String(v1), 14, '€') + `<p class="tr-l">c. Que représente le nombre ${b} ? (voir la case en dessous)</p>`, items,
+        support: tabXY('x', 'P (€)', [String(x1)], ['?']) + `<p class="tr-l">Début du calcul : P(${x1}) = ${a} × ${x1} + ${b}</p>` + ln('a', `${a} × ${x1}`, String(a * x1), 14) + ln('b', 'Prix P, en euros', String(v1), 14, '€') + `<p class="tr-l">c. Que représente le nombre ${b} ?</p>`, items,
         hints: ['Multiplie a par x.', 'Ajoute b au résultat.', 'b est ajouté une seule fois.'] };
     }
     const c = pick(R, [3, 4, 5]), d0 = pick(R, [2, 4, 6]), y1 = c * x1, g1 = d0 * x1 + 9, xx = pick(R, [4, 6, 8]), tg = d0 * xx + 9;
     const items = [num('a', y1, 0, String(y1)), num('b', g1, 0, String(g1), [{ v: d0 * (x1 + 9), m: 'Tu as additionné avant de multiplier.' }]), num('c', xx, 0, String(xx), [{ v: rnd(tg / d0, 2), m: 'Tu as divisé sans retirer 9. Retire 9 d’abord.' }]), qcm('d', ['f', 'g'], 0, 'f')];
     xs(items, { a: `f(${x1}) = ${c} × ${x1} = ${y1}`, b: `g(${x1}) = ${d0} × ${x1} + 9 = ${g1}`, c: `${d0}x + 9 = ${tg} donne ${d0}x = ${tg - 9}, puis x = ${xx}`, d: 'f(x) = c × x n’a pas de nombre ajouté : elle est linéaire' });
     return { titre: 'Linéaire ou affine ?', consigne: `Deux formules : f(x) = ${c}x et g(x) = ${d0}x + 9. Calcule, résous, puis classe-les.`,
-      support: table(['Fonction', 'Formule'], [['f', `${c} × x`], ['g', `${d0} × x + 9`]]) + ln('a', `f(${x1})`, String(y1), 14) + ln('b', `g(${x1})`, String(g1), 14) + `<p class="tr-l">On sait que g(x) = ${tg}.</p>` + ln('c', 'x', String(xx), 14) + `<p class="tr-l">d. Laquelle est linéaire : f ou g ? (voir la case en dessous)</p>`, items,
+      support: table(['Fonction', 'Formule'], [['f', `${c} × x`], ['g', `${d0} × x + 9`]]) + ln('a', `f(${x1})`, String(y1), 14) + ln('b', `g(${x1})`, String(g1), 14) + `<p class="tr-l">On sait que g(x) = ${tg}.</p>` + ln('c', 'x', String(xx), 14) + `<p class="tr-l">d. Laquelle est linéaire : f ou g ?</p>`, items,
       hints: ['Remplace x par la valeur dans chaque formule.', 'Multiplie avant d’additionner.', 'Retire 9, puis divise.', 'Une fonction linéaire n’a pas de nombre ajouté.'] };
   });
 
@@ -70,14 +70,14 @@
       const items = [num('a', a, 0, String(a), [{ v: 0, m: 'C’est f(0). Lis f(1), au-dessus de 1.' }]), num('b', a * x3, 0, String(a * x3), [{ v: x3, m: 'C’est l’abscisse donnée. L’image se lit sur l’axe vertical.' }]), qcm('c', ['oui', 'non'], 0, 'oui')];
       xs(items, { a: `au-dessus de 1, la droite est à ${a}`, b: `au-dessus de ${x3}, la droite est à ${a * x3}`, c: 'f(0) = 0 : la droite passe par l’origine' });
       return { titre: 'Une droite, pas à pas', consigne: 'Cette droite est celle d’une fonction linéaire. Les points sont marqués pour chaque valeur entière de x.',
-        support: droite([{ a, b: 0 }], { x1: 5, y1: yM, dy, ly: 1, pts: [0, 1, 2, 3, 4, 5].map(x => [x, a * x]) }) + `<p class="tr-l">Début du calcul : au-dessus de 1, je lis la droite.</p>` + ln('a', 'Image de 1', String(a), 14) + ln('b', `Image de ${x3}`, String(a * x3), 14) + `<p class="tr-l">c. La droite passe-t-elle par l’origine ? (voir la case en dessous)</p>`, items,
+        support: droite([{ a, b: 0 }], { x1: 5, y1: yM, dy, ly: 1, pts: [0, 1, 2, 3, 4, 5].map(x => [x, a * x]) }) + `<p class="tr-l">Début du calcul : au-dessus de 1, je lis la droite.</p>` + ln('a', 'Image de 1', String(a), 14) + ln('b', `Image de ${x3}`, String(a * x3), 14) + `<p class="tr-l">c. La droite passe-t-elle par l’origine ?</p>`, items,
         hints: ['Pars de 1 sur l’axe horizontal.', 'Même méthode avec la deuxième valeur.', 'Regarde le point (0 ; 0).'] };
     }
     const xs0 = pick(R, [3, 4, 5]), dd = pick(R, [2, 3, 4]), q = 10 - dd, r = dd * xs0, pr = 10 * xs0;
     const items = [num('a', xs0, 0, String(xs0), [{ v: pr, m: 'C’est le prix. Le nombre de séances se lit sur l’axe horizontal.' }]), num('b', pr, 0, String(pr), [{ v: xs0, m: 'C’est le nombre de séances. Le prix se lit sur l’axe vertical.' }]), qcm('c', ['A', 'B'], 0, 'A'), qcm('d', ['A', 'B'], 1, 'B')];
     xs(items, { a: `les deux droites se croisent en x = ${xs0}`, b: `à l’intersection, le prix est ${pr} €`, c: `avant ${xs0} séances, la droite A est sous la droite B`, d: `après ${xs0} séances, la droite B est sous la droite A` });
     return { titre: 'Deux droites qui se croisent', consigne: `Formule A : 10 € la séance. Formule B : ${r} € puis ${q} € la séance. L’intersection est marquée par un cercle blanc. Lis les valeurs avec des lignes de lecture.`,
-      support: droite([{ a: 10, b: 0, col: BLUE, lab: 'A', dy: 4 }, { a: q, b: r, col: RED, lab: 'B', dy: 16 }], { x1: 8, y1: 80, dy: 10, ly: 1, inter: [xs0, pr], xl: 'nombre de séances x', yl: 'prix en €' }) + ln('a', 'Nombre de séances au croisement', String(xs0), 14) + ln('b', 'Prix au croisement', String(pr), 14, '€') + `<p class="tr-l">c. Avant le croisement, quelle formule est la moins chère ? (voir la case en dessous)</p><p class="tr-l">d. Après le croisement, quelle formule est la moins chère ? (voir la case en dessous)</p>`, items,
+      support: droite([{ a: 10, b: 0, col: BLUE, lab: 'A', dy: 4 }, { a: q, b: r, col: RED, lab: 'B', dy: 16 }], { x1: 8, y1: 80, dy: 10, ly: 1, inter: [xs0, pr], xl: 'nombre de séances x', yl: 'prix en €' }) + ln('a', 'Nombre de séances au croisement', String(xs0), 14) + ln('b', 'Prix au croisement', String(pr), 14, '€') + `<p class="tr-l">c. Avant le croisement, quelle formule est la moins chère ?</p><p class="tr-l">d. Après le croisement, quelle formule est la moins chère ?</p>`, items,
       hints: ['Cherche le cercle blanc : lis son abscisse.', 'Lis son ordonnée.', 'Avant, la droite la plus basse est la moins chère.', 'Après, regarde quelle droite est la plus basse.'] };
   });
 
@@ -89,21 +89,21 @@
       const items = [num('a', A(x1), 0, String(A(x1))), num('b', B(x1), 0, String(B(x1)), [{ v: q * (x1 + r), m: 'Tu as additionné avant de multiplier.' }]), num('c', xstar, 0, String(xstar), [{ v: r, m: 'Tu as pris le nombre ' + r + '. Il faut le diviser par l’écart des coefficients : ' + r + ' ÷ ' + dd + '.' }]), qcm('d', ['A', 'B'], A(x1) < B(x1) ? 0 : 1, A(x1) < B(x1) ? 'A' : 'B')];
       xs(items, { a: `A(${x1}) = ${p} × ${x1} = ${A(x1)} €`, b: `B(${x1}) = ${q} × ${x1} + ${r} = ${B(x1)} €`, c: `${p}x = ${q}x + ${r} donne ${dd}x = ${r}, puis x = ${xstar}`, d: `${A(x1)} ${A(x1) < B(x1) ? '<' : '>'} ${B(x1)} : ${A(x1) < B(x1) ? 'A' : 'B'} est moins chère` });
       return { titre: 'Deux formules de séances', consigne: `Un cinéma propose la formule A : A(x) = ${p}x, et la formule B : B(x) = ${q}x + ${r}. Compare-les pour ${x1} séance${x1 > 1 ? 's' : ''}.`,
-        support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + ln('a', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec A`, String(A(x1)), 14, '€') + ln('b', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec B`, String(B(x1)), 14, '€') + ln('c', 'Nombre de séances où les prix sont égaux (résous A = B)', String(xstar), 14) + `<p class="tr-l">d. Pour ${x1} séance${x1 > 1 ? 's' : ''}, quelle formule est la moins chère ? (voir la case en dessous)</p>`, items,
+        support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + ln('a', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec A`, String(A(x1)), 14, '€') + ln('b', `Prix de ${x1} séance${x1 > 1 ? 's' : ''} avec B`, String(B(x1)), 14, '€') + ln('c', 'Nombre de séances où les prix sont égaux (résous A = B)', String(xstar), 14) + `<p class="tr-l">d. Pour ${x1} séance${x1 > 1 ? 's' : ''}, quelle formule est la moins chère ?</p>`, items,
         hints: ['Remplace x par la valeur dans chaque formule.', 'Multiplie avant d’additionner.', 'Écris p x = q x + r, puis retire q x des deux côtés.', 'Compare les deux prix.'] };
     }
     if (niv < 0) {
       const items = [num('a', A(x2), 0, String(A(x2))), num('b', B(x2), 0, String(B(x2)), [{ v: q * x2, m: 'C’est q × x. N’oublie pas d’ajouter ' + r + '.' }]), qcm('c', ['A', 'B'], 1, 'B')];
       xs(items, { a: `A(${x2}) = ${p} × ${x2} = ${A(x2)} €`, b: `B(${x2}) = ${q} × ${x2} + ${r} = ${B(x2)} €`, c: `${B(x2)} < ${A(x2)} : B est moins chère` });
       return { titre: 'Comparer, pas à pas', consigne: `Formule A : A(x) = ${p}x. Formule B : B(x) = ${q}x + ${r}. On compare les prix pour ${x2} séances.`,
-        support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + `<p class="tr-l">Début du calcul : A(${x2}) = ${p} × ${x2}</p>` + ln('a', `Prix avec A`, String(A(x2)), 14, '€') + ln('b', `Prix avec B`, String(B(x2)), 14, '€') + `<p class="tr-l">c. Quelle formule est la moins chère pour ${x2} séances ? (voir la case en dessous)</p>`, items,
+        support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + `<p class="tr-l">Début du calcul : A(${x2}) = ${p} × ${x2}</p>` + ln('a', `Prix avec A`, String(A(x2)), 14, '€') + ln('b', `Prix avec B`, String(B(x2)), 14, '€') + `<p class="tr-l">c. Quelle formule est la moins chère pour ${x2} séances ?</p>`, items,
         hints: ['Multiplie ' + p + ' par ' + x2 + '.', 'Multiplie ' + q + ' par ' + x2 + ', puis ajoute ' + r + '.', 'Le plus petit prix est le moins cher.'] };
     }
     const Bd = pick(R, [60, 80, 100]) + 3, nA = Math.floor(Bd / p), nB = Math.floor((Bd - r) / q), better = nB > nA ? 'B' : (nA > nB ? 'A' : 'égal');
     const items = [num('a', nA, 0, String(nA), [{ v: rnd(Bd / p, 2), m: 'Le résultat doit être entier : on ne paie pas une séance incomplète.' }]), num('b', nB, 0, String(nB), [{ v: Math.floor(Bd / q), m: 'Tu as oublié de retirer ' + r + ' avant de diviser.' }, { v: rnd((Bd - r) / q, 2), m: 'Le résultat doit être entier : on ne paie pas une séance incomplète.' }]), qcm('c', ['A', 'B', 'autant avec les deux'], better === 'A' ? 0 : (better === 'B' ? 1 : 2), better === 'A' ? 'A' : (better === 'B' ? 'B' : 'autant avec les deux')), num('d', xstar, 0, String(xstar))];
     xs(items, { a: `${Bd} ÷ ${p} = ${fr(rnd(Bd / p, 2))} : ${nA} séances complètes`, b: `(${Bd} − ${r}) ÷ ${q} = ${fr(rnd((Bd - r) / q, 2))} : ${nB} séances complètes`, c: `${nB} ${nB > nA ? '>' : (nB < nA ? '<' : '=')} ${nA}`, d: `${p}x = ${q}x + ${r} donne ${dd}x = ${r}, puis x = ${xstar}` });
     return { titre: 'Un budget, deux formules', consigne: `Formule A : A(x) = ${p}x. Formule B : B(x) = ${q}x + ${r}. Un groupe a un budget de ${Bd} €. On ne paie que des séances entières.`,
-      support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + ln('a', 'Séances complètes avec A', String(nA), 14) + ln('b', 'Séances complètes avec B', String(nB), 14) + `<p class="tr-l">c. Avec quelle formule fait-on le plus de séances ? (voir la case en dessous)</p>` + ln('d', 'Nombre de séances où A et B coûtent pareil', String(xstar), 14), items,
+      support: table(['Formule', 'Prix de x séances'], [['A', `${p} × x`], ['B', `${q} × x + ${r}`]]) + ln('a', 'Séances complètes avec A', String(nA), 14) + ln('b', 'Séances complètes avec B', String(nB), 14) + `<p class="tr-l">c. Avec quelle formule fait-on le plus de séances ?</p>` + ln('d', 'Nombre de séances où A et B coûtent pareil', String(xstar), 14), items,
       hints: ['A : divise le budget par ' + p + ' et garde l’entier.', 'B : retire ' + r + ', divise par ' + q + ', garde l’entier.', 'Compare les deux nombres.', 'Résous A = B.'] };
   });
   if (typeof module !== 'undefined') module.exports = {};

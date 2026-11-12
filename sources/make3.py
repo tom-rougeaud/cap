@@ -13,7 +13,7 @@ B = HERE / 'build'
 
 async def render(name, pdf):
     async with async_playwright() as p:
-        b = await p.chromium.launch()
+        b = await p.chromium.launch(**({'executable_path': __import__('os').environ['CHROME_BIN'], 'args': ['--no-sandbox']} if __import__('os').environ.get('CHROME_BIN') else {}))
         pg = await b.new_page(viewport={'width': 794, 'height': 1123})
         await pg.goto((B / f'{name}.html').as_uri())
         await pg.wait_for_function('window.__result', timeout=900000)
@@ -67,7 +67,7 @@ def split(pdf, res, log):
     out = B / 'chapitres'; out.mkdir(exist_ok=True)
     r = PdfReader(str(pdf)); S = res['secs']; ids = [c['id'] for c in log['chapitres']]
     for i, c in enumerate(log['chapitres']):
-        a = S[c['id']]; b = (S[ids[i + 1]] - 1) if i + 1 < len(ids) else (S.get('dnb') or S['rep']) - 1
+        a = S[c['id']]; b = (S[ids[i + 1]] - 1) if i + 1 < len(ids) else (S.get('fiches') or S.get('dnb') or S['rep']) - 1
         w = PdfWriter()
         for k in range(a - 1, b): w.add_page(r.pages[k])
         w.add_metadata({'/Title': f"Maths · CAP Maths — chapitre {c['n']} · {c['titre']}", '/Author': 'Tom Rougeaud', '/Subject': 'CC BY-NC 4.0'})

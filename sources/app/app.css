@@ -1,5 +1,5 @@
 /* ===== Maths et MCV · 2de — styles de l’application (écran, mobile d’abord) ===== */
-:root{--lv:#E9F797;--lvink:#1D2240;--ink:#1D2240;--soft:#545B7A;--brand:#4F5E00;--accent:#E9F797;--bg:#F5F6FB;--line:#E1E6F5;--ok:#1E7F45;--ko:#C2332A;--r:16px;--z:1;
+:root{--lv:#DCEBC8;--lvink:#1D2240;--ink:#1D2240;--soft:#545B7A;--brand:#4F5E00;--accent:#DCEBC8;--bg:#F5F6FB;--line:#E1E6F5;--ok:#1E7F45;--ko:#C2332A;--r:16px;--z:1;
 --c-verbe:#1E7F45;--t-verbe:#DCF4E4;--c-algebre:#C2332A;--t-algebre:#FDE3E0;--c-nombre:#1D5FC2;--t-nombre:#E0EBFD;--c-fonction:#B05200;--t-fonction:#FFE7D1;
 --c-geometrie:#7438C0;--t-geometrie:#EEE3FB;--c-mesure:#08767C;--t-mesure:#D6F2F2;--c-algo:#AA2272;--t-algo:#FBE0EF;--c-donnees:#755C00;--t-donnees:#FFF0B8;--c-pop:#B8336A;--t-pop:#FCE1EC;--c-ciel:#0E6BA8;--t-ciel:#DCEFFA}
 .c-verbe{--cc:var(--c-verbe);--tt:var(--t-verbe)}.c-algebre{--cc:var(--c-algebre);--tt:var(--t-algebre)}.c-nombre{--cc:var(--c-nombre);--tt:var(--t-nombre)}

@@ -1,7 +1,7 @@
 /* Construit l’appli « Maths · CAP » en un seul fichier HTML (aucune ressource externe). */
 'use strict';
 const fs = require('fs'), path = require('path');
-const HERE = __dirname, OUT = process.argv[2] || path.join(HERE, '..', 'cap', 'index.html');
+const HERE = __dirname, OUT = process.argv[2] || path.join(HERE, '..', 'index.html');
 const rd = f => fs.readFileSync(path.join(HERE, f), 'utf8');
 
 let errs = 0;
@@ -42,7 +42,7 @@ const REFS = (() => { try {
   let AX = {}; try { AX = JSON.parse(rd('build/calque.result.json'))._annexe || {}; } catch (e) { console.error('annexe absente : ' + e.message); } const annexe = {};
   Object.entries(AX).forEach(([id, pg]) => { const k = E.pages['x|' + id] ? 'x|' + id : /-dep$/.test(id) ? 'dep|' + id.replace(/-dep$/, '') : /-auto$/.test(id) ? 'auto|' + id.replace(/-auto$/, '') : 'det|' + id; annexe[k] = pg; });
   return { pages: E.pages, annexe, num: N, flash }; } catch (e) { console.error('réf. manuel absente : ' + e.message); return { pages: {}, annexe: {}, num: {}, flash: {} }; } })();
-const DATA = { version: '1.0 · octobre 2026', pdf: HASPDF ? PDF : '', pdfch: HASCH ? PDFCH : '', pdfccf: HASCCF ? PDFCCF : '', deco: DECO, pages: PAGES, ref: REFS, chapitres: CH.map(slim), ccf: CCF };
+const DATA = { version: '1.1 · novembre 2026', pdf: HASPDF ? PDF : '', pdfch: HASCH ? PDFCH : '', pdfccf: HASCCF ? PDFCCF : '', deco: DECO, pages: PAGES, ref: REFS, chapitres: CH.map(slim), ccf: CCF };
 
 /* l’appli n’affiche pas les réponses dans les pointillés : on vide les attributs data-a */
 const nb = t => t.replace(/>([^<]*)</g, (m, x) => '>' + x.replace(/(\d) (%|€)/g, '$1 $2') + '<');
@@ -55,7 +55,7 @@ const CSS = ['print.css', 'n3.css', 'mcv.css'].map(f => rd('style/' + f)).join('
   .replace(/@page\{[^}]*\}/g, '').replace(/html,body\{margin:0;padding:0;background:#fff\}/, 'html,body{margin:0;padding:0}');
 const APPCSS = rd('app/app.css') + '\n' + rd('app/app3.css');
 const js = s => s.replace(/<\/script/gi, '<\\/script');
-const FAV = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#E9F797"/><text x="32" y="47" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#1D2240" text-anchor="middle">Σ</text></svg>`);
+const FAV = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#DCEBC8"/><text x="32" y="47" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#1D2240" text-anchor="middle">Σ</text></svg>`);
 
 const html = `<!doctype html>
 <html lang="fr">
@@ -63,8 +63,8 @@ const html = `<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Maths · CAP</title>
-<meta name="description" content="Mathématiques de CAP : des références de la pop culture avec de vraies données, des leçons pas à pas, de l’entraînement corrigé, un problème par chapitre, des évaluations au format du CCF et deux CCF blancs.">
-<meta name="theme-color" content="#E9F797">
+<meta name="description" content="Mathématiques de CAP : des références de la pop culture avec de vraies données, des leçons pas à pas, de l’entraînement corrigé, un problème par chapitre, des évaluations au format du CCF et trois CCF blancs.">
+<meta name="theme-color" content="#DCEBC8">
 <meta name="author" content="Tom Rougeaud">
 <link rel="icon" href="${FAV}">
 <link rel="manifest" href="manifest.webmanifest">
@@ -100,7 +100,7 @@ ${fs.existsSync(path.join(HERE, 'app/widgets_x.js')) ? `<script>${js(rd('app/wid
 <script>${js(rd('lib/mathrun.js'))}</script>
 <script>try { MCmathrun.watch(document.getElementById('main')); } catch (e) { }</script>
 <script>try { MCVfit.watch(document.getElementById('main')); } catch (e) { }</script>
-<script>window.MCVPWA={"name": "Maths · CAP", "short": "Maths CAP", "key": "mcvcap.v1", "color": "#E9F797", "ink": "#1D2240"};</script>
+<script>window.MCVPWA={"name": "Maths · CAP", "short": "Maths CAP", "key": "mcvcap.v1", "color": "#DCEBC8", "ink": "#1D2240"};</script>
 <script>${js(rd('pwa/pwa.js'))}</script>
 </body>
 </html>

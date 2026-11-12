@@ -20,8 +20,8 @@
   const css = `.pwa-bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:90;max-width:560px;margin:0 auto;background:#1D2240;color:#fff;border-radius:16px;padding:12px 14px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 0 #11142a,0 8px 24px rgba(29,34,64,.35);font:600 14px/1.35 'Nunito Sans',system-ui,sans-serif}
 .pwa-bar i{font-style:normal;font-size:26px;flex:none}.pwa-bar p{margin:0;flex:1}.pwa-bar small{display:block;font-weight:500;opacity:.88;font-size:12.5px}
 .pwa-bar button,.pwa-panel button{font:700 14px/1 'Nunito Sans',system-ui,sans-serif;border:0;border-radius:12px;padding:11px 14px;cursor:pointer;min-height:44px}
-.pwa-go{background:${C.color || '#E9F797'};color:${C.ink || '#1D2240'}}.pwa-no{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55)}
-.pwa-bar button:focus-visible,.pwa-panel button:focus-visible,.pwa-link:focus-visible{outline:3px solid ${C.color || '#E9F797'};outline-offset:2px}
+.pwa-go{background:${C.color || '#DCEBC8'};color:${C.ink || '#1D2240'}}.pwa-no{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55)}
+.pwa-bar button:focus-visible,.pwa-panel button:focus-visible,.pwa-link:focus-visible{outline:3px solid ${C.color || '#DCEBC8'};outline-offset:2px}
 .pwa-panel{position:fixed;inset:0;z-index:95;background:rgba(17,20,42,.62);display:flex;align-items:flex-end;justify-content:center;padding:12px}
 .pwa-card{background:#fff;color:#1D2240;border-radius:20px;max-width:520px;width:100%;padding:18px 18px 16px;max-height:88vh;overflow:auto;font:500 15px/1.5 'Nunito Sans',system-ui,sans-serif}
 .pwa-card h2{margin:0 0 8px;font-size:19px}.pwa-card ol{margin:8px 0 12px;padding-left:22px}.pwa-card li{margin:6px 0}.pwa-card .row{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}

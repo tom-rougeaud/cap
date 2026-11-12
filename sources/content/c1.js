@@ -5,6 +5,7 @@ const { H, FM, R, Q, BQ, PB, ENT, tab, S, T, Rc, Ar, Br, st, bl, SN } = K;
 const { SK, D } = require('./sk3');
 const PIE = require('../shared/pie.js');
 const { MCVG } = require('../shared/gens.js');
+const FIG = require('../lib/figs.js').c1;
 const fr = (x, d) => MCVG.fr(x, d), rnd = MCVG.rnd, f1 = x => fr(rnd(x, 1), 1), f2 = x => fr(rnd(x, 2), 2);
 const sum = a => a.reduce((x, y) => x + y, 0);
 const tally = a => { const m = {}; a.forEach(v => { m[v] = (m[v] || 0) + 1; }); return Object.keys(m).map(Number).sort((x, y) => x - y).map(v => [v, m[v]]); };
@@ -64,33 +65,33 @@ module.exports = function (chk) {
   'Douze barres mensuelles avec leur valeur en millions et la ligne de la moyenne : 156,66 ÷ 12 = 13,055 millions d’entrées par mois');
 
   c.notions = [
-    { titre: 'Effectifs, effectif total et classes', decouvre: { txt: `Les Simpson ont diffusé ${H('36 saisons')} complètes. Chaque saison compte un nombre d’épisodes. Combien de saisons ont ${H('22 épisodes')} ? Et combien de saisons en tout ?`, img: SK.saisons() },
+    { titre: 'Effectifs, effectif total et classes', decouvre: { txt: `Les Simpson ont diffusé ${H('36 saisons')} complètes. Chaque saison compte un nombre d’épisodes. Combien de saisons ont ${H('22 épisodes')} ? Et combien de saisons en tout ?`, img: '' },
       methode: ['Je repère ce que je compte : le nombre d’épisodes de chaque saison (13, 22, 24, 22…).', 'Je compte combien de fois chaque valeur apparaît : c’est son effectif.', 'J’additionne tous les effectifs : j’obtiens l’effectif total.', 'Si les valeurs sont trop nombreuses, je les regroupe en classes : [13 ; 19], [20 ; 22], [23 ; 25].'],
       vois: classes,
       solution: `<p>21 saisons comptent 22 épisodes. L’effectif total est ${FM(R`1+1+1+4+21+3+1+4=36`)} saisons.</p><p>Par classes : 2 saisons dans [13 ; 19], 26 dans [20 ; 22] et 8 dans [23 ; 25]. Et 2 + 26 + 8 = 36.</p><p class="srcl">${D.srcSimpsons}</p>`,
       retiens: `<p>L’<b>effectif</b> d’une valeur est le nombre de fois où elle apparaît. L’<b>effectif total</b> est la somme de tous les effectifs.</p><p>Une <b>classe</b> regroupe des valeurs proches. La classe [20 ; 22] contient tous les nombres x tels que 20 ≤ x ≤ 22.</p>`,
       attention: 'Une valeur ne peut être que dans une seule classe : [13 ; 19], [20 ; 22], [23 ; 25]. Jamais [20 ; 22] et [22 ; 25] : 22 serait compté deux fois.',
       amoi: [['Combien de saisons comptent 25 épisodes ?', '4 saisons'], ['Combien de saisons comptent 21 épisodes ou moins ?', '1 + 1 + 1 + 4 = 7 saisons']] },
-    { titre: 'Fréquences', decouvre: { txt: `Sur les ${H('36 saisons')} des Simpson, ${H('21')} comptent 22 épisodes. Quelle part des saisons cela représente-t-il ? Comment l’écrire de plusieurs façons ?`, img: SK.barre() },
+    { titre: 'Fréquences', decouvre: { txt: `Sur les ${H('36 saisons')} des Simpson, ${H('21')} comptent 22 épisodes. Quelle part des saisons cela représente-t-il ? Comment l’écrire de plusieurs façons ?`, img: '' },
       methode: ['J’écris l’effectif de la valeur qui m’intéresse : 21 saisons.', 'Je divise par l’effectif total : 21 ÷ 36.', 'Je lis le résultat décimal : 0,583… que j’arrondis si on me le demande.', 'Je multiplie par 100 pour avoir un pourcentage : 58,3 %.'],
       vois: freq,
       solution: `<p>La fréquence des saisons à 22 épisodes est ${FM(R`f=\dfrac{21}{36}\approx0{,}583`)}, soit environ <b>58,3 %</b> des saisons.</p><p>La classe [20 ; 22] a une fréquence de 26 ÷ 36 ≈ 0,722, soit 72,2 %.</p>`,
       retiens: `<p>${FM(R`\text{fréquence}=\dfrac{\text{effectif}}{\text{effectif total}}`)}</p><p>Une fréquence est comprise entre 0 et 1. On peut l’écrire en <b>fraction</b>, en <b>nombre décimal</b> ou en <b>pourcentage</b>. La somme de toutes les fréquences vaut 1, soit 100 %.</p>`,
       attention: 'On divise toujours par l’effectif total (36 saisons), pas par le nombre de valeurs différentes (8) ni par le plus grand effectif.',
       amoi: [['Quelle est la fréquence, arrondie au centième, des saisons à 21 épisodes (4 saisons) ?', '4 ÷ 36 ≈ 0,11'], ['Mentalement : 9 saisons sur 36, quel pourcentage ?', '9/36 = 1/4 = 25 %']] },
-    { titre: 'Diagrammes en bâtons et circulaires', decouvre: { txt: `Les ${H('36 saisons')} sont rangées en trois classes : ${H('2')}, ${H('26')} et ${H('8')} saisons. Comment montrer cette répartition d’un seul coup d’œil ?`, img: SK.secteurs() },
+    { titre: 'Diagrammes en bâtons et circulaires', decouvre: { txt: `Les ${H('36 saisons')} sont rangées en trois classes : ${H('2')}, ${H('26')} et ${H('8')} saisons. Comment montrer cette répartition d’un seul coup d’œil ?`, img: '' },
       methode: ['Bâtons : un axe pour les classes, un axe pour les effectifs. La hauteur du bâton est l’effectif.', 'Cercle : l’angle est proportionnel à l’effectif. Ici 360° ÷ 36 = 10° par saison.', 'Je calcule les angles : 20°, 260° et 80°. Je vérifie : 20 + 260 + 80 = 360.', 'Je lis : le plus haut bâton et le plus grand secteur indiquent la classe la plus fréquente.'],
       vois: batons,
       solution: `<p>Angles : 20°, 260° et 80°. Le plus grand secteur est celui de la classe [20 ; 22] : 26 saisons sur 36.</p><p>Le total des angles vaut bien 360°.</p>`,
       retiens: `<p><b>Diagramme en bâtons</b> : la hauteur de chaque bâton est l’effectif (ou la fréquence).</p><p><b>Diagramme circulaire</b> : ${FM(R`\text{angle}=\dfrac{\text{effectif}}{\text{effectif total}}\times360^\circ`)}</p><p>Un diagramme a toujours un titre, des axes avec leur unité, ou une légende.</p>`,
       attention: 'L’axe des effectifs d’un diagramme en bâtons commence à 0. Un axe qui commence plus haut fait paraître les écarts plus grands qu’ils ne sont.',
       amoi: [['Quel est l’angle du secteur pour 9 saisons sur 36 ?', '9 × 10 = 90°'], ['Un secteur de 90° représente quelle fréquence ?', '90/360 = 1/4 = 25 %']] },
-    { titre: 'La moyenne', decouvre: { txt: `Voici les entrées au cinéma en France, mois par mois, en ${H('2025')}, en millions. Combien d’entrées y a-t-il eu en moyenne chaque mois ?`, img: SK.moyenne() },
+    { titre: 'La moyenne', decouvre: { txt: `Voici les entrées au cinéma en France, mois par mois, en ${H('2025')}, en millions. Combien d’entrées y a-t-il eu en moyenne chaque mois ?`, img: '' },
       methode: ['J’additionne les 12 valeurs : 13,83 + 14,30 + … + 20,73 = 156,66 millions.', 'Je compte les valeurs : il y en a 12.', 'Je divise la somme par le nombre de valeurs : 156,66 ÷ 12 = 13,055.', 'Je contrôle : 13,055 est entre 9,46 et 20,73. Je réponds avec l’unité.'],
-      vois: moy,
-      solution: `<p>En moyenne, il y a eu <b>13,055 millions d’entrées par mois</b>, soit environ 13,06 millions.</p><p class="srcl">${D.srcCnc}</p>`,
+      vois: FIG.mois(A25),
+      solution: `<p>156,66 ÷ 12 = 13,055. En moyenne, il y a eu <b>13,055 millions d’entrées par mois</b>.</p><p>La somme des douze estimations mensuelles (156,66 millions) est un peu plus petite que le bilan officiel de l’année (156,79 millions), publié après corrections.</p><p class="srcl">${D.srcCnc}</p>`,
       retiens: `<p>${FM(R`\text{moyenne}=\dfrac{\text{somme des valeurs}}{\text{nombre de valeurs}}`)}</p><p>Quand les valeurs ont des effectifs : on multiplie chaque valeur par son effectif, on additionne, puis on divise par l’effectif total.</p>`,
-      attention: 'La moyenne n’est pas forcément une valeur de la série (21,9 épisodes n’existe pas), mais elle est toujours entre la plus petite et la plus grande valeur. Sinon, il y a une erreur.',
+      attention: 'La moyenne n’est pas forcément une valeur de la série (aucun mois n’a compté 13,055 millions d’entrées), mais elle est toujours entre la plus petite et la plus grande valeur. Sinon, il y a une erreur.',
       amoi: [['Mentalement : quelle est la moyenne de 12 ; 15 ; 18 ?', '(12 + 15 + 18) ÷ 3 = 45 ÷ 3 = 15'], ['En 2024, les 12 mois totalisent 181,54 millions. Quelle est la moyenne par mois (au centième) ?', '181,54 ÷ 12 ≈ 15,13 millions']] }];
   chk(90 / 360 === .25 && 4 / 36 > .11 && f2(4 / 36) === '0,11' && 9 / 36 === .25 && tl.filter(([v]) => v <= 21).reduce((a, [, n]) => a + n, 0) === 7 && (12 + 15 + 18) / 3 === 15, 'c1 « À moi »');
 
@@ -148,6 +149,21 @@ module.exports = function (chk) {
       hints: ['Moyenne 2024 = 181,54 ÷ 12.', 'Écart = total 2024 − total 2025.', 'Pour une moyenne de 14,5 sur 12 mois, le total doit valoir 14,5 × 12.', 'Compare le résultat au meilleur mois connu.'], pouce: 'Total visé : 14,5 × 12 = 174. Décembre : 174 − 135,93.',
       det: ['181,54 ÷ 12 ≈ 15,128, soit 15,13 millions par mois.', '181,54 − 156,66 = 24,88 millions d’entrées en moins.', 'Total visé : 14,5 × 12 = 174. Décembre : 174 − 135,93 = 38,07 millions.', '38,07 ÷ 20,73 ≈ 1,8 : il faudrait presque deux fois plus d’entrées que le vrai mois de décembre 2025. Même le meilleur mois de 2024 (20,54) en est loin : ce n’était pas réaliste.'], corr: 'a. 15,13. b. 24,88. c. 38,07. d. Non, environ 1,8 fois le vrai mois de décembre.' })];
 
+
+  /* ---------- problèmes du manuel, standard 2026-11 ---------- */
+  c.probs.push(
+    PB({ id: 'q2', etape: 3, lc: 3, comps: ['app', 'rea', 'val'], titre: 'Les mangas préférés d’une classe', autravail: { comp: 'rea', txt: 'présenter les résultats d’une enquête de satisfaction ou d’un relevé de ventes.' },
+      intro: `<p>Dans une classe, chaque élève a indiqué son genre de manga préféré. Ces réponses ont été inventées pour l’exercice.</p>${tab(['Genre préféré', 'Shōnen', 'Seinen', 'Shōjo', 'Autre'], [['Nombre d’élèves', '12', '6', '4', '2']])}`,
+      qs: [Q('a.', 'Calcule le nombre total d’élèves interrogés.', '12 + 6 + 4 + 2 = 24 élèves', 24), Q('b.', 'Calcule la fréquence du genre « Shōnen », en pourcentage.', '12 ÷ 24 = 0,5, soit 50 %', 50), Q('c.', 'On construit un diagramme circulaire. Calcule l’angle du secteur du genre « Seinen », en degrés.', '6 ÷ 24 × 360 = 90°', 90), Q('d.', 'Calcule l’angle du secteur du genre « Autre », en degrés.', '2 ÷ 24 × 360 = 30°', 30), Q('e.', 'Un élève affirme : « Plus de la moitié de la classe préfère le shōnen. » A-t-il raison ? Justifie ta réponse.', 'Non : 12 élèves sur 24, c’est exactement la moitié (50 %), pas plus.', null, { lines: 3 })],
+      hints: ['Additionne les quatre effectifs.', 'Fréquence = effectif ÷ effectif total.', 'Angle = effectif ÷ effectif total × 360.', 'Même méthode avec 2 élèves.', 'Compare la fréquence à 50 %.'],
+      det: ['12 + 6 + 4 + 2 = 24 élèves.', '12 ÷ 24 = 0,5, soit 50 %.', '6 ÷ 24 × 360 = 90°.', '2 ÷ 24 × 360 = 30°.', '12 élèves sur 24, c’est exactement la moitié : la fréquence est 50 %, elle n’est pas plus grande que 50 %. L’élève a tort.'], corr: 'a. 24. b. 50 %. c. 90°. d. 30°. e. Non.' }),
+    PB({ id: 'q3', etape: 3, lc: 4, comps: ['app', 'rea', 'val', 'com'], titre: 'Le temps d’écran de Lina', autravail: { comp: 'val', txt: 'comparer une moyenne mesurée à un objectif (temps de fabrication, consommation, ventes).' },
+      intro: `<p>Lina relève son temps d’écran chaque jour pendant une semaine. Elle s’était fixé une limite : ${H('2 heures par jour en moyenne')}, soit 120 minutes. Ces valeurs ont été inventées pour l’exercice.</p>${tab(['Jour', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'], [['Temps d’écran (en min)', '95', '125', '80', '150', '110', '205', '180']])}`,
+      qs: [Q('a.', 'Calcule le temps d’écran total de la semaine, en minutes.', '95 + 125 + 80 + 150 + 110 + 205 + 180 = 945 min', 945), Q('b.', 'Calcule le temps d’écran moyen par jour, en minutes.', '945 ÷ 7 = 135 min', 135), Q('c.', 'Combien de jours dépassent cette moyenne ?', '3 jours : jeudi, samedi et dimanche', 3), Q('d.', 'Calcule le temps d’écran moyen des six jours autres que le samedi, en minutes, arrondi au dixième.', '740 ÷ 6 ≈ 123,3 min', 123.3, { tol: .06 }), Q('e.', 'Lina a-t-elle respecté sa limite sur la semaine entière ? Justifie ta réponse et rédige une phrase.', 'Non : sa moyenne est 135 min, et 135 min > 120 min.', null, { lines: 3 })],
+      hints: ['Additionne les sept valeurs.', 'Moyenne = total ÷ nombre de jours.', 'Compare chaque jour à la moyenne.', 'Retire 205 du total, puis divise par 6.', 'Compare la moyenne à 120 minutes.'],
+      det: ['95 + 125 + 80 + 150 + 110 + 205 + 180 = 945 min.', '945 ÷ 7 = 135 min par jour.', 'Jeudi (150), samedi (205) et dimanche (180) dépassent 135 : 3 jours.', '945 − 205 = 740 ; 740 ÷ 6 ≈ 123,3 min.', 'La moyenne de la semaine est 135 min. Comme 135 min > 120 min, Lina n’a pas respecté sa limite.'], corr: 'a. 945 min. b. 135 min. c. 3 jours. d. 123,3 min. e. Non.' }));
+  chk(12 + 6 + 4 + 2 === 24 && 12 / 24 === .5 && 6 / 24 * 360 === 90 && 2 / 24 * 360 === 30 && 95 + 125 + 80 + 150 + 110 + 205 + 180 === 945 && 945 / 7 === 135 && [95, 125, 80, 150, 110, 205, 180].filter(x => x > 135).length === 3 && f1(740 / 6) === '123,3', 'c1 problèmes du manuel (standard 2026-11)');
+  c.probsManuel = ['p1', 'q2', 'q3'];
   c.bilan = [['Je sais calculer un effectif total et regrouper en classes.', ['e1', 'p2']], ['Je sais calculer une fréquence et l’écrire de plusieurs façons.', ['e1', 'p1', 'p3']], ['Je sais lire et construire un diagramme en bâtons ou circulaire.', ['e2', 'p2']], ['Je sais calculer une moyenne, avec ou sans effectifs.', ['e3', 'p3', 'pd']]];
   c.fiche = {
     essentiel: ['<b>Effectif</b> : nombre de fois où une valeur apparaît. <b>Effectif total</b> : somme des effectifs.', '<b>Fréquence</b> = effectif ÷ effectif total (entre 0 et 1). × 100 pour un pourcentage.', '<b>Classe</b> : groupe de valeurs, noté [a ; b]. Pas de chevauchement.', '<b>Moyenne</b> = somme des valeurs ÷ nombre de valeurs. Avec effectifs : Σ(valeur × effectif) ÷ effectif total.', '<b>Diagramme circulaire</b> : angle = fréquence × 360°.'],

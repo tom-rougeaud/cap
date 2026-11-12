@@ -36,7 +36,7 @@
       const m = rnd(7.5 * n1, 2), items = [num('a', m, 2, eu(m), [{ v: n1, m: 'C’est le nombre de places. Multiplie-le par 7,5.' }]), num('b', P1, 2, eu(P1), [{ v: m, m: 'C’est 7,5 × n. N’oublie pas d’ajouter 2.' }]), qcm('c', ['la multiplication', 'l’addition'], 0, 'la multiplication')];
       xs(items, { a: `7,5 × ${n1} = ${eu(m)}`, b: `${eu(m)} + 2 = ${eu(P1)} €`, c: 'on fait la multiplication avant l’addition' });
       return { titre: 'Une formule, pas à pas', consigne: `Un cinéma calcule le prix de n places avec P = 7,5 × n + 2. On calcule le prix de ${n1} places en deux étapes.`,
-        support: tabXY('n', 'P (€)', [String(n1)], ['?']) + `<p class="tr-l">Début du calcul : P = 7,5 × ${n1} + 2</p>` + ln('a', `7,5 × ${n1}`, eu(m), 14) + ln('b', 'Prix P, en euros', eu(P1), 14, '€') + `<p class="tr-l">c. Quelle opération fait-on en premier ? (voir la case en dessous)</p>`, items,
+        support: tabXY('n', 'P (€)', [String(n1)], ['?']) + `<p class="tr-l">Début du calcul : P = 7,5 × ${n1} + 2</p>` + ln('a', `7,5 × ${n1}`, eu(m), 14) + ln('b', 'Prix P, en euros', eu(P1), 14, '€') + `<p class="tr-l">c. Quelle opération fait-on en premier ?</p>`, items,
         hints: ['On remplace n par la valeur donnée.', 'On multiplie 7,5 par n.', 'Puis on ajoute 2.'] };
     }
     const a = pick(R, [2.5, 3, 4, 4.5]), b = pick(R, [3, 5, 8, 12]), nA = pick(R, [4, 6, 8]), nB = nA + pick(R, [2, 3]), fA = rnd(a * nA + b, 2), fB = rnd(a * nB + b, 2), ec = rnd(fB - fA, 2), nn = pick(R, [5, 7, 9, 10]), tgt = rnd(a * nn + b, 2);
@@ -49,6 +49,16 @@
 
   /* e2 · équations x + a = b, a × x = b, a × x + b = c */
   lv('c5e2', (R, niv) => {
+    if (niv === 0) { /* standard 2026-11 : trois équations a × x + b = c, sans tableau de méthode */
+      const mk = () => { const a = pick(R, [2, 3, 4, 5, 6]), x = int(R, 3, 12), b = pick(R, [4, 7, 9, 11, 15]); return [a, b, a * x + b, x]; };
+      let E, n0 = 0; do { E = [mk(), mk()]; } while ((E[0][3] === E[1][3] || E[0][0] === E[1][0] || E[0][1] === E[1][1] || E[0][3] === E[0][1] || E[1][3] === E[1][1]) && ++n0 < 80);
+      let a3, x3, b3, c3, n1 = 0; do { a3 = pick(R, [1.5, 2.5, 4.5]); x3 = pick(R, [4, 6, 8, 10, 12, 14]); b3 = pick(R, [3, 6, 8, 12]); c3 = rnd(a3 * x3 - b3, 2); } while (([E[0][3], E[1][3]].includes(x3) || x3 === b3 || [E[0][3], E[1][3], E[0][0], E[1][0]].includes(c3)) && ++n1 < 80);
+      const items = [num('a', E[0][3], 0, String(E[0][3])), num('b', E[1][3], 0, String(E[1][3])), num('c', x3, 0, String(x3), [{ v: rnd((c3 - b3) / a3, 2), m: 'Attention au signe : pour défaire « − ' + b3 + ' », on ajoute ' + b3 + ' des deux côtés.' }])];
+      xs(items, { a: `${E[0][0]}x = ${E[0][2]} − ${E[0][1]} = ${E[0][2] - E[0][1]}, donc x = ${E[0][2] - E[0][1]} ÷ ${E[0][0]} = ${E[0][3]}`, b: `${E[1][0]}x = ${E[1][2]} − ${E[1][1]} = ${E[1][2] - E[1][1]}, donc x = ${E[1][2] - E[1][1]} ÷ ${E[1][0]} = ${E[1][3]}`, c: `${fr(a3)}x = ${fr(c3)} + ${b3} = ${fr(rnd(c3 + b3, 2))}, donc x = ${fr(rnd(c3 + b3, 2))} ÷ ${fr(a3)} = ${x3}` });
+      return { titre: 'Résoudre des équations', consigne: 'Résous chaque équation. Écris les étapes, puis vérifie ta solution dans l’équation de départ.',
+        support: ln('a', `Solution de l’équation ${E[0][0]}x + ${E[0][1]} = ${E[0][2]}`, String(E[0][3]), 14) + ln('b', `Solution de l’équation ${E[1][0]}x + ${E[1][1]} = ${E[1][2]}`, String(E[1][3]), 14) + ln('c', `Solution de l’équation ${fr(a3)}x − ${b3} = ${fr(c3)}`, String(x3), 14), items,
+        hints: ['Retire le nombre seul des deux côtés.', 'Divise ensuite par le nombre qui multiplie x.', 'Pour défaire une soustraction, on ajoute.'] };
+    }
     if (niv === 0) {
       const x1 = int(R, 5, 30), p = int(R, 4, 25), q = x1 + p, m = pick(R, [2, 3, 4, 5, 6, 8]), x2 = int(R, 3, 15), r = m * x2, a = pick(R, [2, 3, 4, 5, 2.5]), x3 = pick(R, [3, 4, 5, 6, 8, 10, 12]), b = pick(R, [3, 5, 6, 8, 12]), c = rnd(a * x3 + b, 2);
       const items = [num('a', x1, 0, String(x1), [{ v: q + p, m: 'Tu as additionné. Pour défaire « + ' + p + ' », on soustrait ' + p + '.' }]), num('b', x2, 0, String(x2), [{ v: r * m, m: 'Tu as multiplié. Pour défaire « × ' + m + ' », on divise par ' + m + '.' }]), num('c', x3, 0, String(x3), [{ v: rnd(c / a, 2), m: 'Tu as divisé avant de retirer ' + b + '. Retire d’abord ' + b + ', puis divise par ' + eu(a) + '.' }, { v: rnd((c + b) / a, 2), m: 'Tu as ajouté ' + b + '. Dans l’équation, ' + b + ' est ajouté à a × x : on le retire.' }])];
@@ -68,13 +78,13 @@
     const items = [num('a', x, 0, String(x), [{ v: (c - b) / a, m: 'Ici on soustrait b dans l’équation : pour le défaire, on ajoute ' + b + ' des deux côtés.' }]), num('b', nmax, 0, String(nmax), [{ v: Math.ceil((B - f) / pr), m: 'Une séance incomplète ne se paie pas : garde seulement les séances complètes.' }, { v: rnd((B - f) / pr, 2), m: 'Le nombre de séances est entier : arrondis à l’entier inférieur.' }]), num('c', rnd(B1 - A1, 2), 0, eu(B1 - A1)), qcm('d', ['la formule B', 'la formule A'], 1, 'la formule A')];
     xs(items, { a: `${a}x = ${c} + ${b} = ${c + b} ; x = ${c + b} ÷ ${a} = ${x}`, b: `(${eu(B)} − ${f}) ÷ ${eu(pr)} = ${fr(rnd((B - f) / pr, 2))} : ${nmax} séances complètes`, c: `A : 9 × 4 = ${A1} € ; B : 7 × 4 + 12 = ${B1} € ; écart ${B1} − ${A1} = ${eu(B1 - A1)} €`, d: `${A1} < ${B1} : la formule A est moins chère pour 4 séances` });
     return { titre: 'Équations et choix d’une formule', consigne: 'Attention : dans la première équation, on soustrait un nombre. Dans la deuxième question, on ne paie que des séances entières.',
-      support: table(['Formule', 'Prix de x séances'], [['A', '9 × x'], ['B', '7 × x + 12']]) + `<p class="tr-l">a. Résous ${a}x − ${b} = ${c}.</p>` + ln('a', 'x', String(x), 14) + `<p class="tr-l">Un club demande ${f} € d’inscription puis ${eu(pr)} € par séance. Un joueur dispose de ${eu(B)} €.</p>` + ln('b', 'Nombre de séances complètes qu’il peut payer', String(nmax), 14) + `<p class="tr-l">Formule A : 9 € la séance. Formule B : 12 € de carte puis 7 € la séance. On prend 4 séances.</p>` + ln('c', 'Écart entre les deux prix (le plus grand moins le plus petit)', eu(B1 - A1), 14, '€') + `<p class="tr-l">d. Quelle formule est la moins chère pour 4 séances ? (voir la case en dessous)</p>`, items,
+      support: table(['Formule', 'Prix de x séances'], [['A', '9 × x'], ['B', '7 × x + 12']]) + `<p class="tr-l">a. Résous ${a}x − ${b} = ${c}.</p>` + ln('a', 'x', String(x), 14) + `<p class="tr-l">Un club demande ${f} € d’inscription puis ${eu(pr)} € par séance. Un joueur dispose de ${eu(B)} €.</p>` + ln('b', 'Nombre de séances complètes qu’il peut payer', String(nmax), 14) + `<p class="tr-l">Formule A : 9 € la séance. Formule B : 12 € de carte puis 7 € la séance. On prend 4 séances.</p>` + ln('c', 'Écart entre les deux prix (le plus grand moins le plus petit)', eu(B1 - A1), 14, '€') + `<p class="tr-l">d. Quelle formule est la moins chère pour 4 séances ?</p>`, items,
       hints: ['Pour défaire une soustraction, on ajoute le même nombre des deux côtés.', 'Retire l’inscription, puis divise par le prix d’une séance et garde l’entier inférieur.', 'Calcule les deux prix pour 4 séances.', 'La formule la moins chère a le prix le plus petit.'] };
   });
 
   /* e3 · isoler une grandeur dans une formule */
   lv('c5e3', (R, niv) => {
-    const IU = pick(R, [[2, 460], [5, 1150], [6, 1380], [8, 1840], [10, 2300], [15, 3450]]), v = pick(R, [60, 80, 90, 120]), tt = pick(R, [1.5, 2.5, 3]), d = rnd(v * tt, 2), Ll = pick(R, [4, 5, 6, 8]), ll = pick(R, [3, 5, 7]), A = Ll * ll;
+    const IU = pick(R, [[2, 460], [5, 1150], [6, 1380], [8, 1840], [15, 3450]]) /* sans 2 300 W : c’est l’exemple du cours */, v = pick(R, [60, 80, 90, 120]), tt = pick(R, [1.5, 2.5, 3]), d = rnd(v * tt, 2), Ll = pick(R, [4, 5, 6, 8]), ll = pick(R, [3, 5, 7]), A = Ll * ll;
     if (niv === 0) {
       const items = [num('a', IU[0], 0, String(IU[0]), [{ v: IU[1] * 230, m: 'Tu as multiplié. Pour trouver I dans P = U × I, divise P par U.' }]), num('b', tt, 2, fr(tt), [{ v: d * v, m: 'Tu as multiplié. Pour trouver t dans d = v × t, divise d par v.' }]), num('c', ll, 0, String(ll), [{ v: A * Ll, m: 'Tu as multiplié. Pour trouver l dans A = L × l, divise A par L.' }])];
       xs(items, { a: `${IU[1]} = 230 × I ; I = ${IU[1]} ÷ 230 = ${IU[0]} A`, b: `${eu(d)} = ${v} × t ; t = ${eu(d)} ÷ ${v} = ${fr(tt)} h`, c: `${A} = ${Ll} × l ; l = ${A} ÷ ${Ll} = ${ll} cm` });
@@ -86,14 +96,14 @@
       const items = [num('a', IU[1], 0, fr(IU[1], 0), [{ v: 230, m: 'C’est la tension. Dans l’équation, P est le nombre connu : 230 × I = ' + fr(IU[1], 0) + '.' }]), num('b', IU[0], 0, String(IU[0]), [{ v: IU[1] * 230, m: 'Tu as multiplié. Pour trouver I, divise P par U.' }]), qcm('c', ['des ampères (A)', 'des volts (V)', 'des watts (W)'], 0, 'des ampères (A)')];
       xs(items, { a: `P = ${fr(IU[1], 0)} W, donc ${fr(IU[1], 0)} = 230 × I`, b: `I = ${fr(IU[1], 0)} ÷ 230 = ${IU[0]}`, c: 'l’intensité se mesure en ampères' });
       return { titre: 'Une formule, pas à pas', consigne: `Un appareil de ${fr(IU[1], 0)} W fonctionne sous 230 V. On cherche l’intensité I avec P = U × I.`,
-        support: table(['P (W)', 'U (V)', 'I (A)'], [[fr(IU[1], 0), '230', '?']]) + `<p class="tr-l">Début du calcul : ${fr(IU[1], 0)} = 230 × I</p>` + ln('a', 'Quelle valeur est égale à 230 × I ?', fr(IU[1], 0), 14) + ln('b', 'Intensité I, en ampères', String(IU[0]), 14, 'A') + `<p class="tr-l">c. L’intensité s’exprime en quelle unité ? (voir la case en dessous)</p>`, items,
+        support: table(['P (W)', 'U (V)', 'I (A)'], [[fr(IU[1], 0), '230', '?']]) + `<p class="tr-l">Début du calcul : ${fr(IU[1], 0)} = 230 × I</p>` + ln('a', 'Quelle valeur est égale à 230 × I ?', fr(IU[1], 0), 14) + ln('b', 'Intensité I, en ampères', String(IU[0]), 14, 'A') + `<p class="tr-l">c. L’intensité s’exprime en quelle unité ?</p>`, items,
         hints: ['On remplace P et U par leurs valeurs.', 'Pour trouver I, on divise P par U.', 'L’intensité se mesure en ampères.'] };
     }
     const I1 = pick(R, [4, 5, 8, 10]), I2 = pick(R, [3, 5, 6]), U = 230, T1 = rnd(I1 * U, 0), T2 = I2 * U, tot = I1 + I2, lim = pick(R, [10, 16, 20]), [vv, dd] = pick(R, [[80, 60], [80, 120], [80, 200], [90, 45], [90, 135], [90, 180], [120, 60], [120, 180], [120, 300]]), th = dd / vv, mn = rnd(th * 60, 0);
     const items = [num('a', tot, 0, String(tot), [{ v: rnd((T1 + T2) / U / 2, 1), m: 'Calcule chaque intensité avec P ÷ U, puis additionne-les.' }]), qcm('b', ['non', 'oui'], tot > lim ? 0 : 1, tot > lim ? 'non' : 'oui'), num('c', th, 2, fr(th), [{ v: dd * vv, m: 'Tu as multiplié. Pour trouver t, divise d par v.' }]), num('d', mn, 0, String(mn), [{ v: th, m: 'C’est la durée en heures. Multiplie par 60 pour avoir des minutes.' }])];
     xs(items, { a: `${fr(T1, 0)} ÷ 230 = ${I1} A ; ${fr(T2, 0)} ÷ 230 = ${I2} A ; ${I1} + ${I2} = ${tot} A`, b: `${tot} A ${tot > lim ? 'dépasse' : 'ne dépasse pas'} ${lim} A`, c: `${dd} ÷ ${vv} = ${fr(th)} h`, d: `${fr(th)} × 60 = ${mn} min` });
     return { titre: 'Électricité et trajet', consigne: 'Deux appareils sont branchés sur la même prise sous 230 V (P = U × I). Puis un trajet à vitesse constante (d = v × t).',
-      support: table(['Appareil', 'Puissance (W)', 'Tension (V)'], [['Appareil 1', fr(T1, 0), '230'], ['Appareil 2', fr(T2, 0), '230']]) + `<p class="tr-l">La prise supporte ${lim} A au maximum.</p>` + ln('a', 'Intensité totale', String(tot), 14, 'A') + `<p class="tr-l">b. Peut-on brancher les deux appareils en même temps ? (voir la case en dessous)</p><p class="tr-l">Un trajet de ${dd} km est parcouru à ${vv} km/h.</p>` + ln('c', 'Durée, en heures', fr(th), 14, 'h') + ln('d', 'Durée, en minutes', String(mn), 14, 'min'), items,
+      support: table(['Appareil', 'Puissance (W)', 'Tension (V)'], [['Appareil 1', fr(T1, 0), '230'], ['Appareil 2', fr(T2, 0), '230']]) + `<p class="tr-l">La prise supporte ${lim} A au maximum.</p>` + ln('a', 'Intensité totale', String(tot), 14, 'A') + `<p class="tr-l">b. Peut-on brancher les deux appareils en même temps ?</p><p class="tr-l">Un trajet de ${dd} km est parcouru à ${vv} km/h.</p>` + ln('c', 'Durée, en heures', fr(th), 14, 'h') + ln('d', 'Durée, en minutes', String(mn), 14, 'min'), items,
       hints: ['I = P ÷ U pour chaque appareil, puis on additionne.', 'Compare l’intensité totale à la limite.', 't = d ÷ v.', '1 h = 60 min.'] };
   });
   if (typeof module !== 'undefined') module.exports = { CLUB };
@@ -106,6 +116,14 @@
       return { titre, consigne, support: pre + (aide ? `<p class="tr-l">Aide : ${aide}</p>` : '') + rows.map((r, i) => r.qcm ? `<p class="tr-l">${L[i]}. ${r.lab}</p>` : ln(L[i], r.lab, items[i].a, r.w || 14, r.un || '')).join(''), items, hints };
     };
     lv('c5e4', (R, niv) => {
+      if (niv === 0) { /* standard 2026-11 : aucune question ne donne la réponse d’une autre */
+        let A, x1, K, x2, F, x3; do { A = pick(R, [2.5, 3.5, 7, 12]); x1 = int(R, 8, 25); K = pick(R, [2.5, 4, 6, 8]); x2 = int(R, 4, 12); F = pick(R, [10, 15, 20]); x3 = pick(R, [60, 85, 120, 145]); } while (new Set([A, x1, A + x1, K, x2, K * x2, F, x3, F + x3]).size < 9);
+        return QC('Résoudre x + a = b et a × x = b', 'Résous chaque équation. Vérifie ta solution dans l’équation de départ.', [
+          { lab: `Solution de l’équation x + ${fr(A)} = ${fr(A + x1)}`, v: x1, d: 0, w: 12, x: `x = ${fr(A + x1)} − ${fr(A)} = ${x1}` },
+          { lab: `Solution de l’équation ${fr(K)} × x = ${fr(K * x2)}`, v: x2, d: 0, w: 12, x: `x = ${fr(K * x2)} ÷ ${fr(K)} = ${x2}` },
+          { lab: `Une facture de ${F + x3} € comprend ${F} € de frais de port. Le prix x des articles vérifie x + ${F} = ${F + x3}. Prix des articles`, v: x3, d: 0, w: 12, un: '€', x: `x = ${F + x3} − ${F} = ${x3} €` }],
+          ['Pour défaire une addition, on soustrait.', 'Pour défaire une multiplication, on divise.', 'Vérifie en remplaçant x.'], '');
+      }
       const eqt = t => table(['Équation'], t.map(x => [x]));
       if (niv < 0) {
         const a = int(R, 3, 12), b = a + int(R, 4, 20), c = pick(R, [2, 3, 4, 5]), x = int(R, 3, 9), p = c * x, u3 = pick(R, [4.5, 6, 7.5, 12]), t3 = 3 * u3;

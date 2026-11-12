@@ -72,6 +72,6 @@ module.exports = chk => {
           { t: 'Un employé en a acheté 6. Est-ce suffisant ? Justifier.', comp: 'val', pts: 1, a: 'Non : 6 × 80 = 480 m², et 480 m² est inférieur à 540 m².', v: null, lines: 2, x: '6 seaux couvrent 6 × 80 = 480 m². 480 est inférieur à 540 : il manque de la peinture.' }] }] });
   }
 
-  SJ.slice(0, 2).forEach(sj => require('./tolfix').all(sj, chk, 'CCF ' + sj.id));
-  return SJ.slice(0, 2); /* deux CCF blancs */
+  SJ.slice(0, 3).forEach(sj => require('./tolfix').all(sj, chk, 'CCF ' + sj.id));
+  return SJ.slice(0, 3); /* trois CCF blancs */
 };

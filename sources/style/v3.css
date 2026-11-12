@@ -426,3 +426,44 @@ table.dt.oeuvres tbody th{font-style:italic;font-weight:600}
 /* polices de titres : Outfit penchée, en capitales */
 h2.fit,.nt3-t,.exh .ext,.pg-t,.sec-h,.mt3-h,.dep3-h{font-family:'Outfit','Nunito Sans',sans-serif!important;font-style:italic;font-weight:800;letter-spacing:.025em}
 h2.fit{font-size:1em}.nt3-t{font-size:13.5pt}.exh .ext{font-size:12pt}.sec-h{font-size:14pt}.pg-t{font-size:22pt}
+
+/* ===== Standard 2026-11 (voir STANDARD.md) : figure de méthode en pleine largeur, sous les étapes ===== */
+.nt4-m{grid-template-columns:1fr}
+.nt4-s{grid-template-columns:1fr 1fr;gap:1mm 5mm}
+.nt4-v{margin-top:1.4mm}.nt4-v svg.vis{max-width:170mm;width:100%;background:#fff;border:1.2px solid #DCEBC8}
+/* zones de réponse longues : une ligne qui va jusqu’au bord, plus de petite case */
+.tr-l{display:flex;align-items:flex-end;gap:1.6mm;margin:3mm 0}
+.tr-l>.tb{flex:1 1 30mm;height:8.4mm;border:0;border-bottom:1.4px solid #6B7592;border-radius:0;background:none;margin:0}
+.tr-l>.tb i{display:none}
+.auto0{margin-top:2mm}
+/* exercice résolu : deux colonnes, calcul à gauche, explication à droite */
+.rsv-t{width:100%;border-collapse:separate;border-spacing:0 1.2mm;margin:1.6mm 0;font-size:10.8pt}
+.rsv-t th{text-align:left;font:800 9pt 'Nunito Sans';text-transform:uppercase;letter-spacing:.04em;color:#4F5870;padding:0 3mm}
+.rsv-t td{padding:2mm 3mm;vertical-align:middle;line-height:1.34}
+.rsv-t td:first-child{width:46%;background:#fff;border:1.4px solid var(--cc);border-radius:2.6mm 0 0 2.6mm;font-weight:700}
+.rsv-t td:last-child{background:color-mix(in srgb,var(--cc) 9%,#fff);border-radius:0 2.6mm 2.6mm 0}
+.rsv-n{display:inline-flex;align-items:center;justify-content:center;width:5.6mm;height:5.6mm;border-radius:50%;background:var(--cc);color:#fff;font-size:9.4pt;margin-right:2mm}
+.rsv-v{margin:1mm 0;font-size:10.8pt}
+.fig26 text{font-family:'Nunito Sans'}
+.nt4-img:empty{display:none}.nt4-d:has(.nt4-img:empty){grid-template-columns:1fr}
+.pq .lines i,.qq .lines i{height:8mm}
+/* aucun texte sous 8 pt (standard 2026-11) */
+.dt.dt-sm th,.dt.dt-sm td,.dt th,.dt td{font-size:9.6pt}
+.lcref,.outil,.nt3-ch{font-size:8pt!important}.t3,.lc-t{font-size:8.2pt!important}
+.tbl.evg th,.tbl.evg td{font-size:8.2pt!important}
+.sais-in{margin-top:3mm;border:0!important;padding:0!important;background:none!important}
+
+/* fiches de révision : une page A4 par chapitre */
+.fiche{border:1.8px solid color-mix(in srgb,var(--cc) 45%,#fff);border-radius:4mm;padding:4mm 5mm;min-height:0;display:flex;flex-direction:column;gap:3mm;font-size:10pt}
+.fiche .fi-h{display:flex;align-items:center;gap:3mm;border-bottom:1.6px solid color-mix(in srgb,var(--cc) 45%,#fff);padding-bottom:2.5mm}
+.fiche .fi-n{width:11mm;height:11mm;border-radius:50%;background:var(--cc);color:#fff;display:flex;align-items:center;justify-content:center;font:800 15pt 'Outfit'}
+.fiche .fi-h small{display:block;font:700 8.5pt 'Nunito Sans';color:#555}
+.fiche .fi-h h3{margin:0;font:800 15pt 'Outfit';color:var(--cc)}
+.fiche .fi-g{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.fiche .fi-b{border:1.4px solid color-mix(in srgb,var(--cc) 30%,#fff);border-radius:3mm;padding:2.4mm 3.2mm;background:color-mix(in srgb,var(--cc) 7%,#fff)}
+.fiche .fi-p{background:#FFF6E8}
+.fiche h4{margin:0 0 1.2mm;font:800 10.5pt 'Nunito Sans'}
+.fiche ul,.fiche ol{margin:0;padding-left:4.4mm}.fiche li{margin:.9mm 0;line-height:1.3}
+.fiche .fi-b p{margin:.8mm 0;line-height:1.3}
+.fiche .fi-f .tbl{width:100%}
+.fiche .fi-n2{display:flex;flex-direction:column}.fiche .fi-l{height:48mm;background:repeating-linear-gradient(transparent 0 7mm,#B9C2D0 7mm calc(7mm + .3mm))}
