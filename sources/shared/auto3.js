@@ -122,7 +122,7 @@
   const genPrev = (cid, seed, n = 10) => { const R = rng(seed), num = +cid.slice(1), pool = POOLN.filter(([f, c]) => c < num).map(x => x[0]); for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; } const q = [], seen = new Set(); for (let i = 0; q.length < n && i < 6 * n; i++) { const x = pool[i % pool.length](R); if (!seen.has(x.t)) { seen.add(x.t); q.push(x); } } return q; };
   /* « Pour garder la forme » : de petits calculs sur les notions du chapitre (un sur deux) et des chapitres précédents ; pas de calcul mental sans lien avec le programme du manuel */
   const genF = (cid, seed, n = 40) => { const R = rng(seed), num = +cid.slice(1), keep = f => f !== calcMental, own = A[cid].filter(keep), prev = [];
-    for (let k = 1; k < num; k++) (A['c' + k] || []).filter(keep).forEach(f => { if (!own.includes(f) && !prev.includes(f)) prev.push(f); });
+    for (let k = 1; k < num; k++) (A['c' + k] || []).filter(f => keep(f) && ![mult10, signes, fracAdd, fracDec, arrondi].includes(f)).forEach(f => { if (!own.includes(f) && !prev.includes(f)) prev.push(f); });
     for (let i = prev.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [prev[i], prev[j]] = [prev[j], prev[i]]; }
     const q = [], seen = new Set(); let io = 0, ip = 0;
     for (let i = 0; q.length < n && i < 12 * n; i++) { const f = (i % 2 === 0 || !prev.length) ? own[io++ % own.length] : prev[ip++ % prev.length], x = f(R); if (!seen.has(x.t)) { seen.add(x.t); q.push(x); } }
