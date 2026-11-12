@@ -91,9 +91,9 @@ function cover(o = {}) {
   // titre
   s += `<g font-family="Nunito Sans">`;
   s += `<rect x="70" y="420" width="700" height="300" rx="40" fill="${NAVY}" opacity=".92"/>`;
-  s += `<text x="110" y="492" style="font-family:'Outfit',sans-serif;font-style:italic" font-size="24" font-weight="800" fill="${YEL}" letter-spacing="3" textLength="660" lengthAdjust="spacingAndGlyphs">MATHÉMATIQUES · CLASSES PRÉPARANT AU CAP</text>`;
+  s += `<text x="110" y="492" style="font-family:'Outfit',sans-serif;font-style:italic" font-size="24" font-weight="800" fill="${YEL}" letter-spacing="3">MATHÉMATIQUES – EXAMEN DU CAP</text>`;
   s += `<text x="106" y="612" style="font-family:'Outfit',sans-serif;font-style:italic" font-size="124" font-weight="800" fill="${W}" letter-spacing="-2">CAP Maths</text>`;
-  s += `</g>` + `<path d="${line(110, 628, 470, 622, 2.5)}" fill="none" stroke="${YEL}" stroke-width="9" stroke-linecap="round"/>`;
+  s += `</g>` + `<path d="${line(110, 646, 440, 642, 2.5)}" fill="none" stroke="${YEL}" stroke-width="9" stroke-linecap="round"/>`;
   s += `<g font-family="Nunito Sans"><text x="110" y="690" font-size="36" font-weight="700" fill="${W}">Programme officiel 2019</text></g>`;
   // bas de page : auteur et QR code
   s += `<rect x="0" y="1040" width="840" height="148" fill="${NAVY}" opacity=".9"/>`;
